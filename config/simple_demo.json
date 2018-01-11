@@ -18,49 +18,32 @@
       }
     },
     "A Simple Example": {
-      "SimpleDemo/simple_demo": {
-        "long_name": "Simple Example of Using a Slide Show in a Book Module",
+      "My_simple/bst_simple": {
+        "long_name": "Binary Search Trees",
         "sections": {
-          "Introduction": {},
-          "A slideshow to swap array elements displayed as an inline AV": {
-            "simple_demo1": {
-              "long_name": "Simple demo slideshow",
+          "Binary Search Trees": {},
+          "Insertion of Binary Search Tree": {
+            "BSTinsertCON": {
+              "long_name": "Insert BST Slideshow",
               "required": false,
               "points": 0.0,
-              "threshold": 1.0
+              "threshold": 10.0
             }
           },
-          "Swapping array elements with user input of the array and a reset button": {
-            "simple_demo2": {
-              "long_name": "Simple Demo Standalone AV",
+          "Insertion into Binary Search Tree Practice": {
+            "BSTinsertPathPRO": {
+              "long_name": "Insert BST path Practice",
               "required": false,
-              "points": 0,
-              "showhide": "none",
-              "threshold": 1.0
+              "points": 0.0,
+              "threshold": 10.0
             }
           },
-          "A Khan Academy Exercise with JSAV object": {
-            "Simple_demo_ex1": {
-              "long_name": "KA Exercise Example with JSAV object",
-              "required": true,
-              "points": 1.0,
-              "threshold": 3.0
-            }
-          },
-          "A Khan Academy Exercise with Fill-in-the-blank Question": {
-            "Simple_demo_ex2": {
-              "long_name": "KA Exercise Example with fill in the blank question",
-              "required": true,
-              "points": 1.0,
-              "threshold": 3.0
-            }
-          },
-          "A Khan Academy Exercise with Multiple Choice Question": {
-            "Simple_demo_ex3": {
-              "long_name": "KA Exercise Example with MC question",
-              "required": true,
-              "points": 1.0,
-              "threshold": 3.0
+	  "Random Insertion of Binary Search Tree": {
+            "BSTrandinsertPRO": {
+              "long_name": "Random Insert BST Practice",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
             }
           }
         }

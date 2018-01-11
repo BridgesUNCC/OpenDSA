@@ -1,0 +1,68 @@
+/* *** ODSATag: randinsertGood *** */
+void bstInsert(int value, Tree root) {	
+   if(root == NULL) 
+     root.value = new Node(value);
+   else{
+     current = root; parent = NULL;
+     while(current != NULL){               
+       parent = current;
+       if(value < current.value){ 
+          current = current.rightChild;                				
+          if(current == NULL) 
+             parent.rightChild = new Node(value);
+       }
+       else {
+          current = current.leftChild;
+          if(current == NULL) 
+             parent.leftChild = new Node(value);
+       }
+     }
+   }
+}
+/* *** ODSAendTag: randinsertGood *** */
+
+/* *** ODSATag: randinsertLeft *** */
+void bstInsert(int value, Tree root) {	
+   if(root == NULL) 
+     root.value = new Node(value);
+   else{
+     current = root; parent = NULL;
+     while(current != NULL){               
+       parent = current;
+       if(value < current.value){ 
+          current = current.leftChild;                				
+          if(current == NULL) 
+             parent.leftChild = new Node(value);
+       }
+       else {
+          current = current.leftChild;
+          if(current == NULL) 
+             parent.leftChild = new Node(value);
+       }
+     }
+   }
+}
+/* *** ODSAendTag: randinsertLeft *** */
+
+/* *** ODSATag: randinsertRight *** */
+void bstInsert(int value, Tree root) {	
+   if(root == NULL) 
+     root.value = new Node(value);
+   else{
+     current = root; parent = NULL;
+     while(current != NULL){               
+       parent = current;
+       if(value < current.value){ 
+          current = current.rightChild;                				
+          if(current == NULL) 
+             parent.rightChild = new Node(value);
+       }
+       else {
+          current = current.rightChild;
+          if(current == NULL) 
+             parent.rightChild = new Node(value);
+       }
+     }
+   }
+}
+/* *** ODSAendTag: randinsertRight *** */

@@ -43,7 +43,7 @@ $(document).ready(function () {
 
     return binaryTree;
   }
-      
+
   function modelSolution(jsav) {
     var i;
     jsav._undo = [];

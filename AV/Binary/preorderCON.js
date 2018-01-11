@@ -36,7 +36,7 @@ $(document).ready(function () {
     node.addClass("processing");
     av.step();
     preorder(node.left());
-    
+
     //right child
     rt1.target(node, {anchor: "left top"});
     av.umsg(interpret("av_rightchild"));
@@ -76,7 +76,7 @@ $(document).ready(function () {
 
   var rt1 = av.pointer("rt", bt.root(), {anchor: "left top", top: -10});
   var btLeft =  250;
-  
+
   av.umsg(interpret("av_preorder"));
   pseudo.setCurrentLine("sig");
   av.displayInit();

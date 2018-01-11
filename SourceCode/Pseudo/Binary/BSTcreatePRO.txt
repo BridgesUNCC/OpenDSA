@@ -1,0 +1,42 @@
+/* *** ODSATag: bstcreate *** */
+void bstInsert(int value, Tree root) {	
+   if(root == NULL) 
+     root.value = new Node(value);
+   else{
+     current = root; parent = NULL;
+     while(current != NULL){               
+       parent = current;
+       if(value < current.value){ 
+          current = current.rightChild;                				
+          if(current == NULL) 
+             parent.rightChild = new Node(value);
+       }
+       else {
+          current = current.leftChild;
+          if(current == NULL) 
+             parent.leftChild = new Node(value);
+       }
+     }
+   }
+}
+/* *** ODSAendTag: bstcreate *** */
+
+/* *** ODSATag: bstcreateFlip *** */
+var count = 1;
+for (i = 0; i < array.length; i++){
+      var insertval = array[i];
+      var node = modelTree.root();
+      while(node.value() != "")
+        if(count == 1 && !node.left())
+          node.left("");
+        if(count == 2 && !node.right()){
+          node.right("");
+        if(count == 1){
+          node = node.left();
+          count++;
+         else
+          node = node.right();
+          count--;
+      node.value(insertval);
+}
+/* *** ODSAendTag: bstcreateFlip *** */

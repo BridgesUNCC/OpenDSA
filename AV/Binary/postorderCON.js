@@ -26,7 +26,7 @@ $(document).ready(function () {
     node.addClass("processing");
     av.step();
     postorder(node.left());
-    
+
     //right child
     rt1.target(node, {anchor: "left top"});
     av.umsg(interpret("av_rightchild"));
@@ -53,6 +53,7 @@ $(document).ready(function () {
   }
 
   var av_name = "postorderCON";
+  JSAV_EXERCISE_OPTIONS.code = "processing";
   var config = ODSA.UTILS.loadConfig({"av_name": av_name}),
       interpret = config.interpreter,       // get the interpreter
       code = config.code;                   // get the code object
