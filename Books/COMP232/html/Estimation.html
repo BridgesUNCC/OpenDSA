@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4.8. Estimation &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="9. Chapter Summary Questions" href="MathpreSumm.html" />
+    <link rel="prev" title="7. Mathematical Proof Techniques" href="Proofs.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 4 Mathematical Background</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/Estimation.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="Proofs.html">4.7. Mathematical Proof Techniques</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="MathpreSumm.html">4.9. Chapter Summary Questions</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "Estimation";ODSA.SETTINGS.MODULE_LONG_NAME = "Estimation";ODSA.SETTINGS.MODULE_CHAPTER = "Mathematical Background"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:57"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><div class="section" id="index-0">
+<span id="id1"></span><h1>4.8. Estimation<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>One of the most useful life skills that you can gain from your
+computer science training is the ability to perform quick estimates.
+This is sometimes known as &quot;back of the napkin&quot; or
+&quot;back of the envelope&quot; calculation.
+Both nicknames suggest that only a rough estimate is produced.
+<a class="reference internal" href="Glossary.html#term-estimation"><em class="xref std std-term ODSAterm">Estimation</em></a> techniques are a standard part of engineering
+curricula but are often neglected in computer science.
+Estimation is no substitute for rigorous, detailed analysis
+of a problem, but it can help to decide when a rigorous
+analysis is warranted:
+If the initial estimate indicates that the solution
+is unworkable, then further analysis is probably unnecessary.</p>
+<p>Estimation can be formalized by the following three-step process:</p>
+<ol class="arabic simple">
+<li>Determine the major parameters that affect the problem.</li>
+<li>Derive an equation that relates the parameters to the problem.</li>
+<li>Select values for the parameters, and apply the equation to yield an
+estimated solution.</li>
+</ol>
+<p>When doing estimations, a good way to reassure yourself that the
+estimate is reasonable is to do it in two different ways.
+In general, if you want to know what comes out of a system, you can
+either try to estimate that directly, or you can estimate what goes
+into the system (assuming that what goes in must later come out).
+If both approaches (independently) give similar answers, then this
+should build confidence in the estimate.</p>
+<p>When calculating, be sure that your units match.
+For example, do not add feet and pounds.
+Verify that the result is in the correct units.
+Always keep in mind that the output of a calculation is only
+as good as its input.
+The more uncertain your valuation for the input parameters in Step 3,
+the more uncertain the output value.
+However, back of the envelope calculations are often meant only to get
+an answer within an order of magnitude, or perhaps within a factor of
+two.
+Before doing an estimate, you should decide on acceptable error
+bounds, such as within 25%, within a factor of two, and so forth.
+Once you are confident that an estimate falls within your error
+bounds, leave it alone!
+Do not try to get a more precise estimate than necessary for your
+purpose.</p>
+<div class="topic">
+<p class="topic-title first">Example 4.8.1 </p>
+<p>How many library bookcases does it take to store books containing one
+million pages?
+I estimate that a 500-page book requires one inch on the
+library shelf (it will help to look at the size of any handy book),
+yielding about 200 feet of shelf space for one million pages.
+If a shelf is 4 feet wide, then 50 shelves are required.
+If a bookcase contains 5 shelves, this yields about 10 library
+bookcases.
+To reach this conclusion, I estimated the number of pages per
+inch, the width of a shelf, and the number of shelves in a
+bookcase.
+None of my estimates are likely to be precise, but I feel confident
+that my answer is correct to within a factor of two.
+(After writing this, I went to Virginia Tech's library and looked at
+some real bookcases.
+They were only about 3 feet wide, but typically had 7 shelves for a
+total of 21 shelf-feet.
+So I was correct to within 10% on bookcase capacity, far better than
+I expected or needed.
+One of my selected values was too high, and the other too low, which
+canceled out the errors.)</p>
+</div>
+<div class="topic">
+<p class="topic-title first">Example 4.8.2 </p>
+<p>Is it more economical
+to buy a car that gets 20 miles per gallon, or one that gets 30 miles
+per gallon but costs \$3000 more?
+The typical car is driven about 12,000 miles per year.
+If gasoline costs \$3/gallon, then the yearly gas bill is
+\$1800 for the less efficient car and \$1200 for the more
+efficient car.
+If we ignore issues such as the payback that would be received if we
+invested \$3000 in a bank, it would take 5 years to make up the
+difference in price.
+At this point, the buyer must decide if price is the only criterion and
+if a 5-year payback time is acceptable.
+Naturally, a person who drives more will make up the difference more
+quickly, and changes in gasoline prices will also greatly affect the
+outcome.</p>
+</div>
+<div class="topic">
+<p class="topic-title first">Example 4.8.3 </p>
+<p>When at the supermarket doing the week's shopping, can you estimate
+about how much you will have to pay at the checkout?
+One simple way is to round the price of each item to the nearest
+dollar, and add this value to a mental running total as you put the
+item in your shopping cart.
+This will likely give an answer within a couple of dollars of the true
+total.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="Proofs.html">4.7. Mathematical Proof Techniques</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="MathpreSumm.html">4.9. Chapter Summary Questions</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

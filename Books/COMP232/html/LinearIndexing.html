@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>14.2. Linear Indexing &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="3. ISAM" href="ISAM.html" />
+    <link rel="prev" title="1. Indexing Chapter Introduction" href="IndexIntro.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 14 Indexing</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/LinearIndexing.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="IndexIntro.html">14.1. Indexing Chapter Introduction</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="ISAM.html">14.3. ISAM</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "LinearIndexing";ODSA.SETTINGS.MODULE_LONG_NAME = "LinearIndexing";ODSA.SETTINGS.MODULE_CHAPTER = "Indexing"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:58"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><link href="../../../AV/Indexing/linearIndexingCON.css" rel="stylesheet" type="text/css" />
+<div class="section" id="linear-indexing">
+<h1>14.2. Linear Indexing<a class="headerlink" href="#linear-indexing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>14.2.1. Linear Indexing<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>A <a class="reference internal" href="Glossary.html#term-linear-index"><em class="xref std std-term ODSAterm">linear index</em></a> is an <a class="reference internal" href="Glossary.html#term-index-file"><em class="xref std std-term ODSAterm">index file</em></a> organized as a
+sequence of <a class="reference internal" href="Glossary.html#term-key-value-pair"><em class="xref std std-term ODSAterm">key-value pairs</em></a> where the
+<a class="reference internal" href="Glossary.html#term-key"><em class="xref std std-term ODSAterm">keys</em></a> are in sorted order and the pointers either
+(1) point to the position of the complete record on disk,
+(2) point to the position of the <a class="reference internal" href="Glossary.html#term-primary-key"><em class="xref std std-term ODSAterm">primary key</em></a> in the primary
+index, or
+(3) are actually the value of the primary key.
+Depending on its size, a linear index might be stored in main
+memory or on disk.
+A linear index provides a number of advantages.
+It provides convenient access to variable-length database records,
+because each entry in the index file contains a fixed-length key field
+and a fixed-length pointer to the beginning of a (variable-length)
+record as shown in the following slideshow
+A linear index also allows for efficient search and random access to
+database records, because it is amenable to
+<a class="reference internal" href="Glossary.html#term-binary-search"><em class="xref std std-term ODSAterm">binary search</em></a>.</p>
+<div id="varindexCON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Simple linear index Slideshow">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="varindexCON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="varindexCON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="varindexCON_cm_error_msg" class="cm_error_msg">
+   <img id="varindexCON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>If the database contains enough records, the linear index might
+be too large to store in <a class="reference internal" href="Glossary.html#term-main-memory"><em class="xref std std-term ODSAterm">main memory</em></a>.
+This makes binary search of the index more expensive because many
+<a class="reference internal" href="Glossary.html#term-disk-access"><em class="xref std std-term ODSAterm">disk accesses</em></a> would typically be required by the
+search process.
+One solution to this problem is to store a second-level linear index
+in main memory that indicates which disk block in the index file
+stores a desired key.
+For example, the linear index on disk might reside in a series of
+1024-byte blocks.
+If each key/pointer pair in the linear index requires 8~bytes
+(a 4-byte key and a 4-byte pointer), then
+128 key/pointer pairs are stored per block.
+The second-level index, stored in main memory, consists of a simple
+table storing the value of the key in the first position of each block
+in the linear index file.
+This arrangement is shown in the next slideshow.
+If the linear index requires 1024 disk blocks (1MB), the second-level
+index contains only 1024 entries, one per disk block.</p>
+<p>To find which disk block contains a desired search key value,
+first search through the 1024-entry table to
+find the greatest value less than or equal to the search key.
+This directs the search to the proper block in the index file, which
+is then read into memory.
+At this point, a binary search within this block
+will produce a pointer to the actual record in the database.
+Because the second-level index is stored in main memory,
+accessing a record by this method requires two disk reads:
+one from the index file and one from the database file for the actual
+record.</p>
+<div>
+<div id="linindexCON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Two-level linear index Slideshow">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="linindexCON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="linindexCON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="linindexCON_cm_error_msg" class="cm_error_msg">
+   <img id="linindexCON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p class="caption" style="text-align: justify">A simple two-level linear index.
+The linear index is stored on disk.
+The smaller, second-level index is stored in main memory.
+Each element in the second-level index stores the first key value in
+the corresponding disk block of the index file.
+In this example, the first disk block of the linear index stores keys
+in the range 1 to 2001, and the second disk block stores keys in the
+range 2003 to 5688.
+Thus, the first entry of the second-level index is key value 1
+(the first key in the first block of the linear index), while the
+second entry of the second-level index is key value 2003.</p>
+</div>
+<div
+    id="linearIndexingPRO"
+    class="embedContainer"
+    data-exer-name="linearIndexingPRO"
+    data-long-name="Linear Indexing Proficiency Exercise"
+    data-frame-src="../../../AV/Indexing/linearIndexingPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=LinearIndexing&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="2.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="0.9"
+    data-type="pe">
+  
+  <div class="center">
+    <div id="linearIndexingPRO_iframe"></div>
+  </div>
+</div>
+<p>Every time a record is inserted to or deleted from the database,
+all associated secondary indices must be updated.
+Updates to a linear index are expensive, because the
+entire contents of the array might be shifted.
+Another problem is that multiple records with
+the same secondary key each duplicate that key value within the
+index.
+When the secondary key field has many duplicates, such as when it has
+a limited range (e.g., a field to indicate job category from among a
+small number of possible job categories),
+this duplication might waste considerable space.</p>
+<p>One improvement on the simple sorted array is a two-dimensional
+array where each row corresponds to a secondary key value.
+A row contains the primary keys whose records have the indicated
+secondary key value.
+Figure <a href="LinearIndexing.html#twodarray">14.2.1</a> illustrates this approach.
+Now there is no duplication of secondary key values,
+possibly yielding a considerable space savings.
+The cost of insertion and deletion is reduced, because only one row
+of the table need be adjusted.
+Note that a new row is added to the array when a new secondary key
+value is added.
+This might lead to moving many records, but this will happen
+infrequently in applications suited to using this arrangement.</p>
+<div class="figure align-center" id="twodarray" style="width: 90%">
+<a class="reference internal image-reference" href="_images/TwoDArr.png"><img alt="Two-dimensional linear index" src="_images/TwoDArr.png" style="width: 250px;" /></a>
+<p class="caption" style="text-align: justify"> Figure 14.2.1: A two-dimensional linear index.
+Each row lists the primary keys associated with a particular
+secondary key value.
+In this example, the secondary key is a name.
+The primary key is a unique four-character code.</p>
+</div>
+<p>A drawback to this approach is that the array must be of fixed
+size, which imposes an upper limit on the number of primary keys
+that might be associated with a particular secondary key.
+Furthermore, those secondary keys with fewer records than the width
+of the array will waste the remainder of their row.
+A better approach is to have a one-dimensional array of secondary key
+values, where each secondary key is associated with a linked
+list.
+This works well if the index is stored in main memory, but not so
+well when it is stored on disk because the linked list for a given key
+might be scattered across several disk blocks.</p>
+<p>Consider a large database of employee records.
+If the primary key is the employee's ID number and the secondary key
+is the employee's name, then each record in the name index associates a
+name with one or more ID numbers.
+The ID number index in turn associates an ID number with a unique
+pointer to the full record on disk.
+The secondary key index in such an organization is also known as an
+<a class="reference internal" href="Glossary.html#term-inverted-list"><em class="xref std std-term ODSAterm">inverted list</em></a> or <a class="reference internal" href="Glossary.html#term-inverted-file"><em class="xref std std-term ODSAterm">inverted file</em></a>.
+It is inverted in that searches work backwards from the
+secondary key to the primary key to the actual data record.
+It is called a list because each secondary key value
+has (conceptually) a list of primary keys associated with it.
+Figure <a href="LinearIndexing.html#inverted">14.2.2</a> illustrates this arrangement.
+Here, we have last names as the secondary key.
+The primary key is a four-character unique identifier.</p>
+<div class="figure align-center" id="inverted" style="width: 90%">
+<a class="reference internal image-reference" href="_images/Inverted.png"><img alt="Illustration of an inverted list" src="_images/Inverted.png" style="width: 200px;" /></a>
+<p class="caption" style="text-align: justify"> Figure 14.2.2: Illustration of an inverted list.
+Each secondary key value is stored in the secondary key list.
+Each secondary key value on the list has a pointer to a list of the
+primary keys whose associated records have that secondary key
+value.</p>
+</div>
+<p>Figure <a href="LinearIndexing.html#invlist">14.2.3</a> shows a better approach to storing inverted
+lists.
+An array of secondary key values is shown as before.
+Associated with each secondary key is a pointer to an array of primary
+keys.
+The primary key array uses a linked-list implementation.
+This approach combines the storage for all of the secondary key lists
+into a single array, probably saving space.
+Each record in this array consists of a primary key value and a
+pointer to the next element on the list.
+It is easy to insert and delete secondary keys from this array, making
+this a good implementation for disk-based inverted files.</p>
+<div class="figure align-center" id="invlist" style="width: 90%">
+<a class="reference internal image-reference" href="_images/InvList.png"><img alt="Inverted list: sorted array of secondary keys and combined lists of primary keys" src="_images/InvList.png" style="width: 250px;" /></a>
+<p class="caption" style="text-align: justify"> Figure 14.2.3: An inverted list implemented as an array of secondary keys and
+combined lists of primary keys.
+Each record in the secondary key array contains a pointer to a record
+in the primary key array.
+The <code class="docutils literal"><span class="pre">next</span></code> field of the primary key array indicates the next
+record with that secondary key value.</p>
+</div>
+<script type="text/javascript" src="../../../AV/Indexing/varindexCON.js"></script>
+<script type="text/javascript" src="../../../AV/Indexing/linindexCON.js"></script>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="IndexIntro.html">14.1. Indexing Chapter Introduction</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="ISAM.html">14.3. ISAM</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

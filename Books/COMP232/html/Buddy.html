@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.9. Other Memory Allocation Methods &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="10. Failure Policies and Garbage Collection" href="Garbage.html" />
+    <link rel="prev" title="8. Sequential Fit Peformance" href="MMPerformance.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 13 Memory Management</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/Buddy.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="MMPerformance.html">13.8. Sequential Fit Peformance</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="Garbage.html">13.10. Failure Policies and Garbage Collection</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "Buddy";ODSA.SETTINGS.MODULE_LONG_NAME = "Other Memory Allocation Methods";ODSA.SETTINGS.MODULE_CHAPTER = "Memory Management"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:58"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><div class="section" id="other-memory-allocation-methods">
+<h1>13.9. Other Memory Allocation Methods<a class="headerlink" href="#other-memory-allocation-methods" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>13.9.1. Other Memory Allocation Methods<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="buddy-methods">
+<h3>13.9.1.1. Buddy Methods<a class="headerlink" href="#buddy-methods" title="Permalink to this headline">¶</a></h3>
+<p>Sequential-fit methods rely on a linked list of free blocks, which
+must be searched for a suitable block at each memory request.
+Thus, the time to find a suitable free block would be
+<span class="math">\(\Theta(n)\)</span> in the worst case for a freelist containing
+<span class="math">\(n\)</span> blocks.
+Merging adjacent free blocks is somewhat complicated.
+Finally, we must either use additional space for the linked list, or
+use space within the memory pool to support the memory manager
+operations.
+In the second option,
+both free and reserved blocks require tag and size fields.
+Fields in free blocks do not cost any space (because they are stored
+in memory that is not otherwise being used), but fields in reserved
+blocks create additional overhead.</p>
+<p>The buddy system solves most of these problems.
+Searching for a block of the proper size is efficient,
+merging adjacent free blocks is simple,
+and no tag or other information fields need be stored within reserved
+blocks.
+The buddy system assumes that memory is of size <span class="math">\(2^N\)</span> for some
+integer <span class="math">\(N\)</span>.
+Both free and reserved blocks will always be of size <span class="math">\(2^k\)</span> for
+<span class="math">\(k &lt; N\)</span>.
+At any given time, there might be both free and reserved blocks of
+various sizes.
+The buddy system keeps a separate list for free blocks of each size.
+There can be at most <span class="math">\(N\)</span> such lists, because there can only be
+<span class="math">\(N\)</span> distinct block sizes.
+&lt;/p&gt;</p>
+<p>&lt;p&gt;
+When a request comes in for <span class="math">\(m\)</span> words, we first determine the
+smallest value of <span class="math">\(k\)</span> such that <span class="math">\(2^k &gt; m\)</span>.
+A block of size <span class="math">\(2^k\)</span> is selected from the free list for
+that block size if one exists.
+The buddy system does not worry about internal fragmentation:
+The entire block of size <span class="math">\(2^k\)</span> is allocated.</p>
+<p>If no block of size <span class="math">\(2^k\)</span> exists,
+the next larger block is located.
+This block is split in half (repeatedly if necessary) until the
+desired block of size <span class="math">\(2^k\)</span> is created.
+Any other blocks generated as a by-product of this splitting process
+are placed on the appropriate freelists.</p>
+<p>The disadvantage of the buddy system is that it allows internal
+fragmentation.
+For example, a request for 257 words will require a block of size 512.
+The primary advantages of the buddy system are:</p>
+<ol class="arabic simple">
+<li>There is less external fragmentation.</li>
+<li>Search for a block of the right size is
+cheaper than, say, best fit because we need only find the first
+available block on the block list for blocks of size <span class="math">\(2^k\)</span>.</li>
+<li>Merging adjacent free blocks is easy.</li>
+</ol>
+<p>The reason why this method is called the buddy system is because
+of the way that merging takes place.
+The <span class="math">\(buddy\)</span> for any block of size <span class="math">\(2^k\)</span> is another
+block of the same size, and with the same address
+(i.e., the byte position in memory, read as a binary value)
+except that the <span class="math">\(k\)</span> th bit is reversed.
+For example, the block of size 8 with beginning address 0000
+in the figure below, has buddy with address 1000.
+Likewise the block of size 4 with
+address 0000 has buddy 0100.
+If free blocks are sorted by address value, the buddy can be found by
+searching the correct block size list.
+Merging simply requires that the address for the combined buddies be
+moved to the freelist for the next larger
+block size.</p>
+</div>
+<div class="section" id="other-methods">
+<h3>13.9.1.2. Other Methods<a class="headerlink" href="#other-methods" title="Permalink to this headline">¶</a></h3>
+<p>In addition to sequential-fit and buddy methods, there are many
+ad hoc approaches to memory management.
+If the application is sufficiently complex, it might be
+desirable to break available memory into several memory
+<a class="reference internal" href="Glossary.html#term-zone"><em class="xref std std-term ODSAterm">zones</em></a>, each with a different memory management scheme.
+For example, some zones might have a simple memory access pattern of
+first-in, first-out.
+This zone can therefore be managed efficiently by using a simple
+stack.
+Another zone might allocate only records of fixed size, and so can be
+managed with a simple freelist.
+Other zones might need one of the general-purpose memory allocation
+methods discussed in this section.
+The advantage of zones is that some portions of memory can be managed
+more efficiently.
+The disadvantage is that one zone might fill up while other zones have
+excess memory if the zone sizes are chosen poorly.</p>
+<p>Another approach to memory management is to impose a standard size on
+all memory requests.
+We have seen an example of this concept already in disk file
+management, where all files are allocated in multiples of the
+cluster size.
+This approach leads to internal fragmentation,
+but managing files composed of clusters is easier than managing
+arbitrarily sized files.
+The cluster scheme also allows us to relax the restriction that the
+memory request be serviced by a contiguous block of memory.
+Most disk file managers and
+operating system main memory managers
+work on a cluster or page system.
+Block management is usually done with a buffer pool
+to allocate available blocks in main memory efficiently.</p>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="MMPerformance.html">13.8. Sequential Fit Peformance</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="Garbage.html">13.10. Failure Policies and Garbage Collection</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

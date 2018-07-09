@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.10. Failure Policies and Garbage Collection &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="1. Indexing Chapter Introduction" href="IndexIntro.html" />
+    <link rel="prev" title="9. Other Memory Allocation Methods" href="Buddy.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 13 Memory Management</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/Garbage.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="Buddy.html">13.9. Other Memory Allocation Methods</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="IndexIntro.html">14.1. Indexing Chapter Introduction</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "Garbage";ODSA.SETTINGS.MODULE_LONG_NAME = "Failure Policies and Garbage Collection";ODSA.SETTINGS.MODULE_CHAPTER = "Memory Management"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:58"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><div class="section" id="failure-policies-and-garbage-collection">
+<h1>13.10. Failure Policies and Garbage Collection<a class="headerlink" href="#failure-policies-and-garbage-collection" title="Permalink to this headline">¶</a></h1>
+<p>At some point during processing, a memory manager could encounter a
+request for memory that it cannot satisfy.
+In some situations, there might be nothing that can be done:
+There simply might not be enough free memory to service the request,
+and the application may require that the request be serviced
+immediately.
+In this case, the memory manager has no option but to return an
+error, which could in turn lead to a failure of the application
+program.
+However, in many cases there are alternatives to simply returning an
+error.
+The possible options are referred to collectively as
+<a class="reference internal" href="Glossary.html#term-failure-policy"><em class="xref std std-term ODSAterm">failure policies</em></a>.</p>
+<p>In some cases, there might be sufficient free memory to satisfy the
+request, but it is scattered among small blocks.
+This can happen when using a sequential-fit memory allocation method,
+where external fragmentation
+has led to a series of small blocks
+that collectively could service the request.
+In this case, it might be possible to compact memory by moving
+the reserved blocks around so that the free space is collected into a
+single block.
+A problem with this approach is that the application must somehow be
+able to deal with the fact that all of its data have now been moved
+to different locations.
+If the application program relies on the absolute positions of the
+data in any way, this would be disastrous.
+One approach for dealing with this problem is the use of
+<a class="reference internal" href="Glossary.html#term-handle"><em class="xref std std-term ODSAterm">handles</em></a>.
+A handle is a second level of indirection to a memory location.
+The memory allocation routine does not return a pointer to the block
+of storage, but rather a pointer to a variable that in turn points to
+the storage.
+This variable is the handle.
+The handle never moves its position, but the position of the block
+might be moved and the value of the handle updated.
+This figure illustrates the concept.</p>
+<div class="figure align-center" id="handle" style="width: 90%">
+<a class="reference internal image-reference" href="_images/Handle.png"><img alt="Using handles for dynamic memory management." src="_images/Handle.png" style="width: 300px;" /></a>
+<p class="caption" style="text-align: justify"> Figure 13.10.1: Using handles for dynamic memory management.
+The memory manager returns the address of the handle in response to
+a memory request.
+The handle stores the address of the actual memory block.
+In this way, the memory block might be moved (with its address
+updated in the handle) without disrupting the application program.</p>
+</div>
+<p>Another failure policy that might work in some applications is to defer
+the memory request until sufficient memory becomes available.
+For example, a multitasking operating system
+could adopt the strategy of not allowing a process to run until there
+is sufficient memory available.
+While such a delay might be annoying to the user, it is better than
+halting the entire system.
+The assumption here is that other processes will eventually
+terminate, freeing memory.</p>
+<p>Another option might be to allocate more memory to the memory
+manager.
+In a <a class="reference internal" href="Glossary.html#term-zone"><em class="xref std std-term ODSAterm">zoned</em></a> memory allocation system where the memory
+manager is part of a larger system, this might be a viable option.
+In a C++ program that implements its own memory manager, it might be
+possible to get more memory from the system-level <code class="docutils literal"><span class="pre">new</span></code> operator,
+such as is done by a freelist.</p>
+<p>The last failure policy that we will consider is
+<a class="reference internal" href="Glossary.html#term-garbage-collection"><em class="xref std std-term ODSAterm">garbage collection</em></a>.
+Consider the following series of statements.:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span></span>Integer p = new Integer[5];
+Integer q = new Integer[10];
+p = q;
+</pre></div>
+</div>
+<p>In some languages, such as C++, this would be considered
+bad form because the original space allocated to <code class="docutils literal"><span class="pre">p</span></code>
+is lost as a  result of the third assignment.
+This space cannot be used again by the program.
+Such lost memory is referred to as <a class="reference internal" href="Glossary.html#term-garbage"><em class="xref std std-term ODSAterm">garbage</em></a>, also known as a
+<a class="reference internal" href="Glossary.html#term-memory-leak"><em class="xref std std-term ODSAterm">memory leak</em></a>.
+When no program variable points to a block of space, no
+future access to that space is possible.
+Of course, if another variable had first been assigned to point to
+<code class="docutils literal"><span class="pre">p</span></code> 's space, then reassigning <code class="docutils literal"><span class="pre">p</span></code> would not create garbage.</p>
+<p>Some programming languages take a different view towards garbage.
+In particular, the LISP programming language uses a multilist
+representation, and all storage is in the form
+either of internal nodes with two pointers or atoms.
+The figure below shows a typical collection of LISP structures,
+headed by variables named <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">B</span></code>, and <code class="docutils literal"><span class="pre">C</span></code>,
+along with a freelist.</p>
+<div class="figure align-center" id="lispex" style="width: 90%">
+<a class="reference internal image-reference" href="_images/LISPex.png"><img alt="Example of LISP list variables" src="_images/LISPex.png" style="width: 300px;" /></a>
+<p class="caption" style="text-align: justify"> Figure 13.10.2: Example of LISP list variables, including the system freelist.</p>
+</div>
+<p>In LISP, list objects are constantly being put together in
+various ways as temporary variables, and then all reference to them
+is lost when the object is no longer needed.
+Thus, garbage is normal in LISP, and in fact cannot be
+avoided during normal processing.
+When LISP runs out of memory, it resorts to a garbage collection
+process to recover the space tied up in garbage.
+Garbage collection consists of examining the managed memory
+pool to determine which parts are still being used and which parts
+are garbage.
+In particular, a list is kept of all program variables, and
+any memory locations not reachable from one of these variables are
+considered to be garbage.
+When the garbage collector executes, all unused memory locations
+are placed in free store for future access.
+This approach has the advantage that it allows for easy collection of
+garbage.
+It has the disadvantage, from a user's point of view, that every so
+often the system must halt while it performs garbage collection.
+For example, garbage collection is noticeable in the Emacs text
+editor, which is normally implemented in
+LISP.
+Occasionally the user must wait for a moment while the memory
+management system performs garbage collection.</p>
+<p>The Java programming language also makes use of garbage collection.
+As in LISP, it is common practice in Java to allocate dynamic memory
+as needed, and to later drop all references to that memory.
+The garbage collector is responsible for reclaiming such unused space
+as necessary.
+This might require extra time when running the program, but it makes
+life considerably easier for the programmer.
+In contrast, many large applications written in C++
+(even commonly used commercial software) contain memory leaks that
+will in time cause the program to fail.</p>
+<p>Several algorithms have been used for garbage collection.
+One is the <a class="reference internal" href="Glossary.html#term-reference-count-algorithm"><em class="xref std std-term ODSAterm">reference count algorithm</em></a>.
+Here, every dynamically allocated memory block includes space for a
+count field.
+Whenever a pointer is directed to a memory block, the reference count
+is increased.
+Whenever a pointer is directed away from a memory block, the reference
+count is decreased.
+If the count ever becomes zero, then the memory block is considered
+garbage and is immediately placed in free store.
+This approach has the advantage that it does not require an explicit
+garbage collection phase, because information is put in free store
+immediately when it becomes garbage.</p>
+<p>The reference count algorithm is used by the Unix file
+system.
+Files can have multiple names, called links.
+The file system keeps a count of the number of links to each file.
+Whenever a file is &quot;deleted&quot;, in actuality its link field is
+simply reduced by one.
+If there is another link to the file, then no space is
+recovered by the file system.
+Whenever the number of links goes to zero, the file's space becomes
+available for reuse.</p>
+<p>Reference counts have several major disadvantages.
+First, a reference count must be maintained for each memory object.
+This works well when the objects are large, such as a file.
+However, it will not work well in a system such as LISP where the
+memory objects typically consist of two pointers or a value (an atom).
+Another major problem occurs when garbage contains cycles.
+Consider the figure below.
+Here each memory object is pointed to once, but the collection of
+objects is still garbage because no pointer points to the collection.
+Thus, reference counts only work when the memory objects are linked
+together without cycles,
+such as the Unix file system where files can only be organized
+as a Directed Acyclic Graph.</p>
+<div class="figure align-center" id="lispdang" style="width: 90%">
+<a class="reference internal image-reference" href="_images/LISPdang.png"><img alt="Garbage cycle example." src="_images/LISPdang.png" style="width: 200px;" /></a>
+<p class="caption" style="text-align: justify"> Figure 13.10.3: Garbage cycle example.
+All memory elements in the cycle have non-zero reference counts
+because each element has one pointer to it, even
+though the entire cycle is garbage.</p>
+</div>
+<p>Another approach to garbage collection is the
+<a class="reference internal" href="Glossary.html#term-mark-sweep-algorithm"><em class="xref std std-term ODSAterm">mark/sweep algorithm</em></a>.
+Here, each memory object needs only a single mark bit rather
+than a reference counter field.
+When free store is exhausted, a separate garbage collection phase
+takes place as follows.</p>
+<ol class="arabic simple">
+<li>Clear all mark bits.</li>
+<li>Perform depth-first search (DFS) following pointers from each
+variable on the system's list of variables.
+Each memory element encountered during the DFS has its mark bit
+turned on.</li>
+</ol>
+<dl class="docutils">
+<dt>.# A &quot;sweep&quot; is made through the memory pool, visiting all elements.</dt>
+<dd>Unmarked elements are considered garbage and placed in
+free store.</dd>
+</dl>
+<p>The advantages of the mark/sweep approach are that it needs less
+space than is necessary for reference counts, and it works for cycles.
+However, there is a major disadvantage.
+This is a &quot;hidden&quot; space requirement needed to do the processing.
+DFS is a recursive algorithm:
+Either it must be implemented recursively, in which case the
+compiler's runtime system maintains a stack,
+or else the memory manager can maintain its own stack.
+What happens if all memory is contained in a single linked list?
+Then the depth of the recursion (or the size of the stack) is the
+number of memory cells!
+Unfortunately, the space for the DFS stack must be available at the
+worst conceivable time, that is, when free memory has been exhausted.</p>
+<p>Fortunately, a clever technique allows
+DFS to be performed without requiring additional space for a stack.
+Instead, the structure being traversed is used to hold the stack.
+At each step deeper into the traversal, instead of storing a pointer
+on the stack, we &quot;borrow&quot; the pointer being followed.
+This pointer is set to point back to the node we just came from in
+the previous step, as illustrated by the figure below.
+Each borrowed pointer stores an additional bit to tell us whether we
+came down the left branch or the right branch of the link node being
+pointed to.
+At any given instant we have passed down only one path from the
+root, and we can follow the trail of pointers back up.
+As we return (equivalent to popping the recursion stack), we set the
+pointer back to its original position so as to return the
+structure to its original condition.
+This is known as the Deutsch-Schorr-Waite garbage
+collection algorithm.</p>
+<div class="figure align-center" id="dsw" style="width: 90%">
+<a class="reference internal image-reference" href="_images/DSW.png"><img alt="Example of the Deutsch-Schorr-Waite garbage collection algorithm." src="_images/DSW.png" style="width: 350px;" /></a>
+<p class="caption" style="text-align: justify"> Figure 13.10.4: Example of the Deutsch-Schorr-Waite garbage collection
+algorithm.
+(a) The initial multilist structure.
+(b) The multilist structure of (a) at the instant when link node 5 is
+being processed by the garbage collection algorithm.
+A chain of pointers stretching from variable <code class="docutils literal"><span class="pre">prev</span></code> to the head
+node of the structure has been (temporarily) created by the garbage
+collection algorithm.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="Buddy.html">13.9. Other Memory Allocation Methods</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="IndexIntro.html">14.1. Indexing Chapter Introduction</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

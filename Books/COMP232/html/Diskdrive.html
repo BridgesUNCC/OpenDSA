@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>11.3. Disk Drives &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="4. Buffer Pools" href="BuffPool.html" />
+    <link rel="prev" title="2. Primary versus Secondary Storage" href="Secondary.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 11 File Processing</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/Diskdrive.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="Secondary.html">11.2. Primary versus Secondary Storage</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="BuffPool.html">11.4. Buffer Pools</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "Diskdrive";ODSA.SETTINGS.MODULE_LONG_NAME = "Disk Drives";ODSA.SETTINGS.MODULE_CHAPTER = "File Processing"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:57"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><link href="../../../AV/Development/sectorLayoutCON.css" rel="stylesheet" type="text/css" />
+<div class="section" id="disk-drives">
+<h1>11.3. Disk Drives<a class="headerlink" href="#disk-drives" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>11.3.1. Disk Drives<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>A programmer typically views a <a class="reference internal" href="Glossary.html#term-random-access"><em class="xref std std-term ODSAterm">random access</em></a> file stored on
+<a class="reference internal" href="Glossary.html#term-disk-drive"><em class="xref std std-term ODSAterm">disk</em></a> as a contiguous series of bytes, with those
+bytes possibly combining to form data records.
+This is called the <a class="reference internal" href="Glossary.html#term-logical-file"><em class="xref std std-term ODSAterm">logical file</em></a>.
+The <a class="reference internal" href="Glossary.html#term-physical-file"><em class="xref std std-term ODSAterm">physical file</em></a> actually stored on disk is
+usually not a contiguous series of
+bytes.
+It could well be in pieces spread all over the disk.
+The <a class="reference internal" href="Glossary.html#term-file-manager"><em class="xref std std-term ODSAterm">file manager</em></a>, a part of the operating
+system,
+is responsible for taking requests for data from a logical
+file and mapping those requests to the physical location of the data
+on disk.
+Likewise, when writing to a particular logical byte position
+with respect to the beginning of the file, this position must be
+converted by the file manager into the corresponding physical
+location on the disk.
+To gain some appreciation for the the approximate time costs for these
+operations, you need to understand the physical structure and basic
+workings of a disk drive.</p>
+<p>Disk drives are often referred to as
+<a class="reference internal" href="Glossary.html#term-direct-access"><em class="xref std std-term ODSAterm">direct access</em></a> storage devices.
+This means that it takes roughly equal time to access any record in
+the file.
+This is in contrast to <a class="reference internal" href="Glossary.html#term-sequential-access"><em class="xref std std-term ODSAterm">sequential access</em></a> storage devices
+such as tape drives, which require the tape reader to
+process data from the beginning of the tape until the desired position
+has been reached.
+As you will see, the disk drive is only approximately direct access:
+At any given time, some records are more quickly accessible than
+others.</p>
+<div class="section" id="disk-drive-architecture">
+<h3>11.3.1.1. Disk Drive Architecture<a class="headerlink" href="#disk-drive-architecture" title="Permalink to this headline">¶</a></h3>
+<p>A hard disk drive is composed of one or more round
+<a class="reference internal" href="Glossary.html#term-platter"><em class="xref std std-term ODSAterm">platters</em></a>,
+stacked one on top of another and attached to a central
+<a class="reference internal" href="Glossary.html#term-spindle"><em class="xref std std-term ODSAterm">spindle</em></a>.
+Platters spin continuously at a constant rate.
+Each usable surface of each platter is assigned a
+<a class="reference internal" href="Glossary.html#term-read-write-head"><em class="xref std std-term ODSAterm">read/write head</em></a> or <a class="reference internal" href="Glossary.html#term-i-o-head"><em class="xref std std-term ODSAterm">I/O head</em></a> through which data are
+read or written, somewhat like the arrangement of a phonograph
+player's arm &quot;reading&quot; sound from a phonograph record.
+Unlike a phonograph needle, the disk read/write head does not actually
+touch the surface of a hard disk.
+Instead, it remains slightly above the surface, and any contact during
+normal operation would damage the disk.
+This distance is very small, much smaller than the height of a dust
+particle.
+It can be likened to a 5000-kilometer airplane trip across the United
+States, with the plane flying at a height of one meter!</p>
+<p>A hard disk drive typically has several platters and
+several read/write heads, as shown in
+Figure <a href="Diskdrive.html#platters">11.3.1</a> (a).
+Each head is  attached to an <a class="reference internal" href="Glossary.html#term-arm"><em class="xref std std-term ODSAterm">arm</em></a>, which connects to the
+<a class="reference internal" href="Glossary.html#term-boom"><em class="xref std std-term ODSAterm">boom</em></a>. <a class="footnote-reference" href="#id3" id="id2">[1]</a>
+The boom moves all of the heads in or out together.
+When the heads are in some position over the platters, there are data
+on each platter directly accessible to each head.
+The data on a single platter that are accessible to any one position
+of the head for that platter are collectively called a <a class="reference internal" href="Glossary.html#term-track"><em class="xref std std-term ODSAterm">track</em></a>,
+that is, all data on a platter that are a fixed distance from the
+spindle, as shown in Figure <a href="Diskdrive.html#platters">11.3.1</a> (b).
+The collection of all tracks that are a fixed distance from the
+spindle is called a <a class="reference internal" href="Glossary.html#term-cylinder"><em class="xref std std-term ODSAterm">cylinder</em></a>.
+Thus, a cylinder is all of the data that can be read when the arms
+are in a particular position.</p>
+<div class="figure align-center" id="platters" style="width: 90%">
+<a class="reference internal image-reference" href="_images/Plat.png"><img alt="Disk drive platters" src="_images/Plat.png" style="width: 300px;" /></a>
+<p class="caption" style="text-align: justify"> Figure 11.3.1: Disk drive schematic.
+(a) A typical disk drive arranged as a stack of platters.
+(b) One track on a disk drive platter.</p>
+</div>
+<p>Each track is subdivided into <a class="reference internal" href="Glossary.html#term-sector"><em class="xref std std-term ODSAterm">sectors</em></a>.
+Between each sector there are
+<a class="reference internal" href="Glossary.html#term-inter-sector-gap"><em class="xref std std-term ODSAterm">inter-sector gaps</em></a>
+in which no data are stored.
+These gaps allow the read head to recognize the end of a sector.
+Note that each sector contains the same amount of data.
+Because the outer tracks have greater length, they contain fewer
+bits per inch than do the inner tracks.
+Thus, about half of the potential storage space is wasted, because
+only the innermost tracks are stored at the highest possible data
+density.
+This arrangement is illustrated by
+Figure <a href="Diskdrive.html#diskfig">11.3.2</a> (a).
+Disk drives today actually group tracks into
+<a class="reference internal" href="Glossary.html#term-zone"><em class="xref std std-term ODSAterm">zones</em></a> such that the tracks in the innermost zone adjust
+their data density going out to maintain the same radial data density,
+then the tracks of the next zone reset the data density to make better
+use of their storage ability, and so on.
+This arrangement is shown in Figure <a href="Diskdrive.html#diskfig">11.3.2</a> (b).</p>
+<div class="figure align-center" id="diskfig" style="width: 90%">
+<a class="reference internal image-reference" href="_images/Disk.png"><img alt="The organization of a disk platter" src="_images/Disk.png" style="width: 300px;" /></a>
+<p class="caption" style="text-align: justify"> Figure 11.3.2: The organization of a disk platter.
+Dots indicate density of information.
+(a) Nominal arrangement of tracks showing decreasing data density
+when moving outward from the center of the disk.
+(b) A &quot;zoned&quot; arrangement with the sector size and density
+periodically reset in tracks further away from the center.</p>
+</div>
+<p>In contrast to the physical layout of a hard disk, a CD-ROM consists
+of a single spiral track.
+Bits of information along the track are equally spaced, so the
+information density is the same at both the outer and inner portions
+of the track.
+To keep the information flow at a constant rate along the spiral, the
+drive must speed up the rate of disk spin as the I/O head moves
+toward the center of the disk.
+This makes for a more complicated and slower mechanism.</p>
+<p>Three separate steps take place when reading a particular byte or
+series of bytes of data from a hard disk.
+First, the I/O head moves so that it is positioned over the track
+containing the data.
+This movement is called a <a class="reference internal" href="Glossary.html#term-seek"><em class="xref std std-term ODSAterm">seek</em></a>.
+Second, the sector containing the data rotates to come under the
+head.
+When in use the disk is always spinning.
+At the time of this writing, typical disk spin rates are
+7200 rotations per minute (rpm).
+The time spent waiting for the desired sector to come under
+the I/O head is called <a class="reference internal" href="Glossary.html#term-rotational-delay"><em class="xref std std-term ODSAterm">rotational delay</em></a> or
+<a class="reference internal" href="Glossary.html#term-rotational-latency"><em class="xref std std-term ODSAterm">rotational latency</em></a>.
+The third step is the actual transfer (i.e., reading or writing) of
+data.
+It takes relatively little time to read information once the first
+byte is positioned under the I/O head, simply the amount of time
+required for it all to move under the head.
+In fact, disk drives are designed not to read one byte of data, but
+rather to read an entire sector of data at each request.
+Thus, a sector is the minimum amount of data that can be read or
+written at one time.</p>
+<p>In general, it is desirable to keep all sectors for a file together on
+as few tracks as possible.
+This desire stems from two assumptions:</p>
+<ol class="arabic simple">
+<li>Seek time is slow (it is typically the most expensive part of
+an I/O operation), and</li>
+</ol>
+<ol class="arabic simple">
+<li>If one sector of the file is read, the next sector will
+probably soon be read.</li>
+</ol>
+<p>Assumption (2) is called
+<a class="reference internal" href="Glossary.html#term-locality-of-reference"><em class="xref std std-term ODSAterm">locality of reference</em></a>,
+a concept that comes up frequently in computer applications.</p>
+<p>Contiguous sectors are often grouped to form a
+<a class="reference internal" href="Glossary.html#term-cluster"><em class="xref std std-term ODSAterm">cluster</em></a>.
+A cluster is the smallest unit of allocation for a file,
+so all files are a multiple of the cluster size.
+The cluster size is determined by the operating
+system.
+The file manager keeps track of which clusters make up each file.</p>
+<p>In Microsoft Windows systems, there is a
+designated portion of the disk called the
+<a class="reference internal" href="Glossary.html#term-file-allocation-table"><em class="xref std std-term ODSAterm">File Allocation Table</em></a>,
+which stores information about which sectors belong to which file.
+In contrast, Unix does not use clusters.
+The smallest unit of file allocation and the smallest unit that can be
+read/written is a sector, which in Unix terminology is called
+a <a class="reference internal" href="Glossary.html#term-block"><em class="xref std std-term ODSAterm">block</em></a>.
+Unix maintains information about file organization in certain disk
+blocks called <a class="reference internal" href="Glossary.html#term-inode"><em class="xref std std-term ODSAterm">inodes</em></a>.</p>
+<p>A group of physically contiguous clusters from the same file is called
+an <a class="reference internal" href="Glossary.html#term-extent"><em class="xref std std-term ODSAterm">extent</em></a>.
+Ideally, all clusters making up a file will be contiguous on the disk
+(i.e., the file will consist of one extent),
+so as to minimize seek time required to access different portions of
+the file.
+If the disk is nearly full when a file is created, there might not be
+an extent available that is large enough to hold the new file.
+Furthermore, if a file grows, there might not be free space physically
+adjacent.
+Thus, a file might consist of several extents widely spaced on the
+disk.
+The fuller the disk, and the more that files on the disk change, the
+worse this file fragmentation (and the resulting seek time) becomes.
+File fragmentation leads to a noticeable degradation in performance as
+additional seeks are required to access data.</p>
+<p>Another type of problem arises when the file's logical record size
+does not match the sector size.
+If the sector size is not a multiple of the record size
+(or vice versa), records will not fit evenly within a sector.
+For example, a sector might be 2048 bytes long, and a logical record
+100 bytes.
+This leaves room to store 20 records with 48 bytes left over.
+Either the extra space is wasted, or else records
+are allowed to cross sector boundaries.
+If a record crosses a sector boundary, two disk accesses might be
+required to read it.
+If the space is left empty instead, such wasted space is called
+<a class="reference internal" href="Glossary.html#term-internal-fragmentation"><em class="xref std std-term ODSAterm">internal fragmentation</em></a>.</p>
+<p>A second example of internal fragmentation occurs at cluster
+boundaries.
+Files whose size is not an even multiple of the cluster size must
+waste some space at the end of the last cluster.
+The worst case will occur when file size modulo cluster size is one
+(for example, a file of 4097 bytes and a cluster of 4096 bytes).
+Thus, cluster size is a tradeoff between large files
+processed sequentially (where a large cluster size is desirable to
+minimize seeks) and small files (where small clusters are desirable to
+minimize wasted storage).</p>
+<p>Every disk drive organization requires that some disk space be used
+to organize the sectors, clusters, and so forth.
+The layout of sectors within a track is illustrated by
+Figure <a href="Diskdrive.html#layout">11.3.3</a>.
+Typical information that must be stored on the disk itself includes
+the File Allocation Table, <a class="reference internal" href="Glossary.html#term-sector-header"><em class="xref std std-term ODSAterm">sector headers</em></a>
+that contain address
+marks and information about the condition (whether usable or not) for
+each sector, and gaps between sectors.
+The sector header also contains error detection codes to help verify
+that the data have not been corrupted.
+This is why most disk drives have a &quot;nominal&quot; size that is greater
+than the actual amount of user data that can be stored on the drive.
+The difference is the amount of space required to organize the
+information on the disk.
+Even more space will be lost due to
+fragmentation.</p>
+<div class="divdgm" id="layout">
+<div id="diskSector">
+</div>
+<p class="caption" style="text-align: center"> Figure 11.3.3: An illustration of sector gaps within a track.
+Each sector begins with a sector header containing the sector address
+and an error detection code for the contents of that sector.
+The sector header is followed by a small intra-sector gap, followed in
+turn by the sector data.
+Each sector is separated from the next sector by a larger
+inter-sector gap.</p>
+</div>
+</div>
+<div class="section" id="disk-access-costs">
+<h3>11.3.1.2. Disk Access Costs<a class="headerlink" href="#disk-access-costs" title="Permalink to this headline">¶</a></h3>
+<p>When a seek is required, it is usually
+the primary cost when accessing information on disk.
+This assumes of course that a seek is necessary.
+When reading a file in sequential order (if the sectors comprising the
+file are contiguous on disk), little seeking is necessary.
+However, when accessing a random disk sector, seek time becomes the
+dominant cost for the data access.
+While the actual seek time is highly variable, depending on the
+distance between the track where the I/O head currently is and the
+track where the head is moving to, we will consider only two numbers.
+One is the track-to-track cost, or the minimum time necessary to move
+from a track to an adjacent track.
+This is appropriate when you want to analyze access times for files
+that are well placed on the disk.
+The second number is the average seek time for a random access.
+These two numbers are often provided by disk manufacturers.
+A typical example is the Western Digital Caviar serial ATA drive.
+The manufacturer's specifications indicate that the track-to-track
+time is 2.0 ms and the average seek time is 9.0 ms.
+In 2008 a typical drive in this line might be 120GB in size.
+In 2011, that same line of drives had sizes of up to 2 or 3TB.
+In both years, the advertised track-to-track and average seek times
+were identical.</p>
+<p>For many years, typical rotation speed for disk drives was 3600 rpm,
+or one rotation every 16.7 ms.
+Most disk drives in 2011 had a rotation speed of 7200 rpm, or 8.3 ms
+per rotation.
+When reading a sector at random, you can expect that the disk will
+need to rotate halfway around to bring the desired sector
+under the I/O head, or 4.2 ms for a 7200-rpm disk drive.</p>
+<p>Once under the I/O head, a sector of data can be transferred as
+fast as that sector rotates under the head.
+If an entire track is to be read, then it will require one rotation
+(8.3 ms at 7200 rpm) to move the full track under the head.
+If only part of the track is to be read, then proportionately less
+time will be required.
+For example, if there are 16,000 sectors on the track and one sector
+is to be read, this will require a trivial amount of time
+(1/16,000 of a rotation).</p>
+<div class="topic" id="diskexamp">
+<p class="topic-title first">Example 11.3.1 </p>
+<p>Assume that an older disk drive has a total (nominal) capacity of
+16.8GB spread among 10 platters, yielding 1.68GB/platter.
+Each platter contains 13,085 tracks and each track contains (after
+formatting) 256 sectors of 512 bytes/sector.
+Track-to-track seek time is 2.2 ms and average seek time for random
+access is 9.5 ms.
+Assume the operating system maintains a cluster size
+of 8 sectors per cluster (4KB), yielding 32 clusters per track.
+The disk rotation rate is 5400 rpm (11.1 ms per rotation).
+Based on this information we can estimate
+the cost for various file processing operations.</p>
+<p>How much time is required to read the track?
+On average, it will require half a rotation to bring the first sector
+of the track under the I/O head, and then one complete rotation to
+read the track.</p>
+<p>How long will it take to read a file of 1MB divided into
+2048 sector-sized (512 byte) records?
+This file will be stored in 256 clusters, because  each cluster holds
+8 sectors.
+The answer to the question depends largely on how the file
+is stored on the disk, that is, whether it is all together or broken
+into multiple extents.
+We will calculate both cases to see how much difference this makes.</p>
+<p>If the file is stored so as to fill all of the sectors of eight
+adjacent tracks, then the cost to read the first sector will be the
+time to seek to the first track (assuming this requires a random
+seek), then a wait for the initial rotational delay,
+and then the time to read (which is the same as the time to rotate the
+disk again).
+This requires</p>
+<div class="math">
+\[9.5\mathrm{ms.} + 11.1\mathrm{ms.} \times 1.5 = 26.2 \mathrm{ms.}\]</div>
+<p>In this equation, 9.5ms. is the average seek time for a (random)
+track on the disk. 11.1ms. is the time for one rotation of a disk
+spinning at 5400RPM.
+Since we need to wait for rotational delay (one half rotation) and
+then read all of the contents of the track (one full rotation), we
+multiply 11.1ms. by 1.5.
+Thus, the total time to read a random track from the disk is 26.2ms.</p>
+<p>After reading the first track, we can then assume that the next
+seven tracks require only a track-to-track seek because they are
+adjacent.
+Therefore, each requires</p>
+<div class="math">
+\[2.2\mathrm{ms.} + 11.1\mathrm{ms.} \times 1.5 = 18.9 \mathrm{ms.}\]</div>
+<p>Here, 2.2ms. is the time to seek to an adjacent track.
+Again we must wait for rotational delay (one half rotation)
+followed by a full rotation to read the track, so we multiply the
+rotation time (11.1ms.) times 1.5 for the disk rotation.
+Thus, we get a total of 18.9ms. to read the data from an adjacent
+track.</p>
+<p>The total time required to read all 8 adjacent tracks is therefore</p>
+<div class="math">
+\[26.2 \mathrm{ms} + 7 \times 18.9 \mathrm{ms} = 158.5 \mathrm{ms}.\]</div>
+<p>In contrast, what would the time be if the file's clusters are
+spread randomly across the disk?
+Then we must perform a seek for each cluster, followed by the
+time for rotational delay.
+Once the first sector of the cluster comes under the I/O head, very
+little time is needed to read the cluster because only 8/256 of the
+track needs to rotate under the head, for a total time of about
+5.9 ms for latency and read time.
+Thus, the total time required is about</p>
+<div class="math">
+\[256 (9.5\mathrm{ms.} + 5.9\mathrm{ms.}) \approx 3942 \mathrm{ms}\]</div>
+<p>or close to 4 seconds.
+This is much longer than the time required when the file is all
+together on disk!
+That is, 256 times we must perform a seek to a random track
+(9.5ms.).
+Then we wait on average one half of a disk rotation
+followed by reading the actual data which requires a further 8/256
+of a rotation, for a total of 5.9ms.</p>
+<p>This example illustrates why it is important to keep disk files from
+becoming fragmented,
+and why so-called &quot;disk defragmenters&quot; can speed up file
+processing time.
+File fragmentation happens most commonly when the disk is nearly full
+and the file manager must search for free space
+whenever a file is created or changed.</p>
+</div>
+</div>
+<div class="section" id="notes">
+<h3>11.3.1.3. Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><p class="first">This arrangement, while typical, is not necessarily true for
+all disk drives.
+Nearly everything said here about the physical arrangement of
+disk drives represents a typical engineering compromise, not a
+fundamental design principle.
+There are many ways to design disk drives, and the engineering
+compromises change over time.
+In addition, most of the description given here for disk drives
+is a simplified version of the reality.
+But this is a useful working model to understand what is going
+on.</p>
+<p class="last">To complicate matters further, Solid State Drives (SSD) work
+rather differently.</p>
+</td></tr>
+</tbody>
+</table>
+<script type="text/javascript" src="../../../AV/Files/diskSectorCON.js"></script>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="Secondary.html">11.2. Primary versus Secondary Storage</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="BuffPool.html">11.4. Buffer Pools</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

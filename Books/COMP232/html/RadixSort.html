@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10.14. Radix Sort &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="15. An Empirical Comparison of Sorting Algorithms" href="SortingEmpirical.html" />
+    <link rel="prev" title="13. Binsort" href="BinSort.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 10 Sorting</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/RadixSort.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="BinSort.html">10.13. Binsort</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="SortingEmpirical.html">10.15. An Empirical Comparison of Sorting Algorithms</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "RadixSort";ODSA.SETTINGS.MODULE_LONG_NAME = "Radix Sort";ODSA.SETTINGS.MODULE_CHAPTER = "Sorting"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:57"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><link href="../../../AV/Development/RadixSortAnalysisCON.css" rel="stylesheet" type="text/css" />
+<div class="section" id="radix-sort">
+<h1>10.14. Radix Sort<a class="headerlink" href="#radix-sort" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>10.14.1. Radix Sort<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>The major problem with Binsort is that it does not work so well for a
+large key range.
+Fortunately, there is a way to keep the number of bins small and the
+related processing relatively cheap while still using the idea of
+binning records that have similar key values.
+Consider a sequence of records with keys in the range 0 to 99.
+If we have ten bins available, we can first assign records to bins by
+taking their key value modulo 10.
+Thus, every key will be assigned to the
+bin matching its rightmost decimal digit.
+We can then take these records from the bins <strong>in order</strong>,
+and reassign them to the bins
+on the basis of their leftmost (10's place) digit.
+We will define values in the range 0 to 9 to have a leftmost digit of
+0.
+In other words, assign the <span class="math">\(i\)</span>'th record from array <code class="docutils literal"><span class="pre">A</span></code> to
+a bin using the formula <code class="docutils literal"><span class="pre">A[i]/10</span></code>.
+If we now gather the values from
+the bins <strong>in order</strong>, the result is a sorted list.
+We can see this process in the following visualization.</p>
+<div
+    id="radixLinkAV"
+    class="embedContainer"
+    data-exer-name="radixLinkAV"
+    data-long-name="Radix Sort Linked Visualization"
+    data-frame-src="../../../AV/Sorting/radixLinkAV.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=RadixSort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="0"
+    data-required="False"
+    data-showhide="none"
+    data-threshold="1.0"
+    data-type="ss">
+  
+  <div class="center">
+    <div id="radixLinkAV_iframe"></div>
+  </div>
+</div>
+<p>In this example, we have <span class="math">\(r=10\)</span> bins and key values in
+the range 0 to <span class="math">\(r^2-1\)</span>.
+The total computation is <span class="math">\(\Theta(n)\)</span>, because we look at each
+record and each bin a constant number of times.
+This is a great improvement over the simple Binsort where the number
+of bins must be as large as the key range.
+Note that the example uses <span class="math">\(r = 10\)</span> so as
+to make the bin computations easy to visualize:
+Records were placed into bins based on the value of first the
+rightmost and then the leftmost decimal digits.
+Any number of bins would have worked if we interpret the key values in
+terms of the corresponding base.
+This is an example of a <a class="reference internal" href="Glossary.html#term-radix-sort"><em class="xref std std-term ODSAterm">Radix Sort</em></a>, so called because the
+bin computations are based on the <a class="reference internal" href="Glossary.html#term-radix"><em class="xref std std-term ODSAterm">radix</em></a> or the
+<a class="reference internal" href="Glossary.html#term-base"><em class="xref std std-term ODSAterm">base</em></a> of the key values.
+This sorting algorithm can be extended to any number of
+keys in any key range.
+We simply assign records to bins based on the
+keys' digit values working from the rightmost digit to the leftmost.
+If there are <span class="math">\(k\)</span> digits, then this requires that we assign keys to
+bins <span class="math">\(k\)</span> times.</p>
+<p>Here is a practice exercise for placing keys into bins.</p>
+<div
+    id="RadixsortPRO"
+    class="embedContainer"
+    data-exer-name="RadixsortPRO"
+    data-long-name="Radix Sort Proficiency Exercise"
+    data-frame-src="../../../Exercises/Sorting/RadixsortPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=RadixSort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="860"
+    data-external="false"
+    data-points="2.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="4"
+    data-type="ka">
+  
+  <div class="center">
+    <div id="RadixsortPRO_iframe"></div>
+  </div>
+</div>
+</div>
+<div class="section" id="array-based-radix-sort">
+<h2>10.14.2. Array-based Radix Sort<a class="headerlink" href="#array-based-radix-sort" title="Permalink to this headline">¶</a></h2>
+<p>As with Mergesort, an efficient implementation of Radix Sort is
+somewhat difficult to achieve.
+In particular, we would prefer to sort an array of values and avoid
+processing linked lists.
+If we knew how  many values would be in each bin, then an auxiliary
+array of size <span class="math">\(r\)</span> can be used to define these lengths and guide
+us to were each one starts in the output array.
+For example, if during the first pass the 0 bin will receive three
+records and the 1 bin will receive five records, then we could simply
+reserve the first three array positions for the 0 bin and the next
+five array positions for the 1 bin.
+Exactly this approach is taken by the following implementation.
+At the end of each pass, the records are copied back to the original
+array.</p>
+<div id="Radixsort_Radixsort_code"><ul><li><a href="#Radixsort_Radixsort_code_Processing">Processing</a></li><li><a href="#Radixsort_Radixsort_code_Cpp">C++</a></li></ul><div id="Radixsort_Radixsort_code_Processing"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">static</span> <span class="kt">void</span> <span class="nf">radix</span><span class="o">(</span><span class="n">Integer</span><span class="o">[]</span> <span class="n">A</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">,</span> <span class="kt">int</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">Integer</span><span class="o">[]</span> <span class="n">B</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">[</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+  <span class="kt">int</span><span class="o">[]</span> <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">r</span><span class="o">];</span>     <span class="c1">// Count[i] stores number of records with digit value i</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">,</span> <span class="n">rtok</span><span class="o">;</span>
+
+  <span class="k">for</span> <span class="o">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span> <span class="n">rtok</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">k</span><span class="o">;</span> <span class="n">i</span><span class="o">++,</span> <span class="n">rtok</span><span class="o">*=</span><span class="n">r</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// For k digits</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">r</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="n">count</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>    <span class="c1">// Initialize count</span>
+
+    <span class="c1">// Count the number of records for each bin on this pass</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="n">count</span><span class="o">[(</span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">]/</span><span class="n">rtok</span><span class="o">)%</span><span class="n">r</span><span class="o">]++;</span>
+
+    <span class="c1">// count[j] will be index in B for last slot of bin j.</span>
+    <span class="c1">// First, reduce count[0] because indexing starts at 0, not 1</span>
+    <span class="n">count</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">count</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">r</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="n">count</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">count</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">count</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+
+    <span class="c1">// Put records into bins, working from bottom of bin</span>
+    <span class="c1">// Since bins fill from bottom, j counts downwards</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">j</span><span class="o">=</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">&gt;=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">--)</span> <span class="o">{</span>
+      <span class="n">B</span><span class="o">[</span><span class="n">count</span><span class="o">[(</span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">]/</span><span class="n">rtok</span><span class="o">)%</span><span class="n">r</span><span class="o">]]</span> <span class="o">=</span> <span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+      <span class="n">count</span><span class="o">[(</span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">]/</span><span class="n">rtok</span><span class="o">)%</span><span class="n">r</span><span class="o">]</span> <span class="o">=</span> <span class="n">count</span><span class="o">[(</span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">]/</span><span class="n">rtok</span><span class="o">)%</span><span class="n">r</span><span class="o">]</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">B</span><span class="o">[</span><span class="n">j</span><span class="o">];</span> <span class="c1">// Copy B back</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div><div id="Radixsort_Radixsort_code_Cpp"><div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">radixsort</span><span class="p">(</span><span class="kt">int</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">B</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+  <span class="kt">int</span> <span class="n">count</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">rtok</span><span class="p">;</span>
+  
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">rtok</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">,</span> <span class="n">rtok</span> <span class="o">*=</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// For k digits</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="n">count</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// Initialize count</span>
+    
+    <span class="c1">// Count the number of records for each bin on this pass</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="n">count</span><span class="p">[(</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">/</span><span class="n">rtok</span><span class="p">)</span><span class="o">%</span><span class="n">r</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+    
+    <span class="c1">// count[j] will be index in B for last slot of bin j.</span>
+    <span class="c1">// First, reduce count[0] because indexing starts at 0, not 1</span>
+    <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="n">count</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">count</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+    
+    <span class="c1">// Put records into bins, working from bottom of bin</span>
+    <span class="c1">// Since bins fill from bottom, j counts downwards</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span>  <span class="o">=</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">B</span><span class="p">[</span><span class="n">count</span><span class="p">[(</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">/</span><span class="n">rtok</span><span class="p">)</span><span class="o">%</span><span class="n">r</span><span class="p">]]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+      <span class="n">count</span><span class="p">[(</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">/</span><span class="n">rtok</span><span class="p">)</span><span class="o">%</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span><span class="p">[(</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">/</span><span class="n">rtok</span><span class="p">)</span><span class="o">%</span><span class="n">r</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>  <span class="c1">// Copy B back</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div><script>$(function() {$( "#Radixsort_Radixsort_code" ).tabs();});</script><p>The first inner <code class="docutils literal"><span class="pre">for</span></code> loop initializes array <code class="docutils literal"><span class="pre">cnt</span></code>.
+The second loop counts the number of records to be assigned to each
+bin.
+The third loop sets the values in <code class="docutils literal"><span class="pre">cnt</span></code> to their proper
+indices within array <code class="docutils literal"><span class="pre">B</span></code>.
+Note that the index stored in <code class="docutils literal"><span class="pre">cnt[j]</span></code>
+is the <em>last</em> index for bin <code class="docutils literal"><span class="pre">j</span></code>; bins are filled
+from high index to low index.
+The fourth loop assigns the records to the bins (within
+array <code class="docutils literal"><span class="pre">B</span></code>).
+The final loop simply copies the records back to
+array <code class="docutils literal"><span class="pre">A</span></code> to be ready for the next pass.
+Variable <code class="docutils literal"><span class="pre">rtoi</span></code> stores <span class="math">\(r^i\)</span> for use in bin computation
+on the <span class="math">\(i\)</span>'th iteration.</p>
+<div
+    id="radixArrayAV"
+    class="embedContainer"
+    data-exer-name="radixArrayAV"
+    data-long-name="Radix Sort Array Visualization"
+    data-frame-src="../../../AV/Sorting/radixArrayAV.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=RadixSort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="0"
+    data-required="False"
+    data-showhide="none"
+    data-threshold="1.0"
+    data-type="ss">
+  
+  <div class="center">
+    <div id="radixArrayAV_iframe"></div>
+  </div>
+</div>
+<div class="section" id="radix-sort-analysis">
+<h3>10.14.2.1. Radix Sort Analysis<a class="headerlink" href="#radix-sort-analysis" title="Permalink to this headline">¶</a></h3>
+<div id="RadixSortAnalysisCON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Radix Sort Analysis Slideshow">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="RadixSortAnalysisCON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="RadixSortAnalysisCON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="RadixSortAnalysisCON_cm_error_msg" class="cm_error_msg">
+   <img id="RadixSortAnalysisCON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p><strong>Is it really a reasonable assumption to treat</strong> <span class="math">\(k\)</span> <strong>as a
+constant?</strong>
+Or is there some relationship between <span class="math">\(k\)</span> and <span class="math">\(n\)</span>?
+If the key range is limited and duplicate key values are common,
+there might be no relationship between <span class="math">\(k\)</span> and <span class="math">\(n\)</span>.
+To make this distinction more clear, use <span class="math">\(N\)</span> to denote the
+number of distinct key values used by the <span class="math">\(n\)</span> records.
+Thus, <span class="math">\(N \leq n\)</span>.
+Because it takes a minimum of <span class="math">\(\log_r N\)</span> base <span class="math">\(r\)</span> digits
+to represent <span class="math">\(N\)</span> distinct key values, we know that
+<span class="math">\(k \geq \log_r N\)</span>.</p>
+<p>Now, consider the situation in which no keys are duplicated.
+If there are <span class="math">\(n\)</span> unique keys then <span class="math">\(n = N\)</span>.
+It would require <span class="math">\(n\)</span> distinct values to represent them.
+So now it takes a minimum of <span class="math">\(\log_r n\)</span> base <span class="math">\(r\)</span> digits to
+represent the <span class="math">\(n\)</span> distinct key values.
+This means that <span class="math">\(k \geq \log_r n\)</span>.
+Because it requires <em>at least</em> <span class="math">\(\log n\)</span> digits
+to distinguish between the <span class="math">\(n\)</span> distinct keys
+(within a constant factor—meaning, the number of digits is
+<span class="math">\(\Omega(\log n)\)</span>),
+<span class="math">\(k\)</span> is in <span class="math">\(\Omega(\log n)\)</span>.
+<strong>This means that Radix Sort requires</strong>
+<span class="math">\(\Omega(n \log n)\)</span>
+<strong>time to process</strong> <span class="math">\(n\)</span> <strong>distinct key values.</strong></p>
+<p>Of course the key range could be much bigger
+<span class="math">\(\log_r n\)</span> bits is merely the best case possible for <span class="math">\(n\)</span>
+distinct values.
+Thus, the <span class="math">\(\log_r n\)</span> estimate for <span class="math">\(k\)</span> could be overly
+optimistic.
+The bottom line of this analysis is that, for the general case of
+<span class="math">\(n\)</span> distinct key values, Radix Sort is at best a
+<span class="math">\(\Omega(n \log n)\)</span> sorting algorithm.</p>
+<p>Radix Sort's running time can be much improved (by a constant factor)
+if we make base <span class="math">\(r\)</span> be as large as possible.
+This is simplest if we think about integer key values.
+Set <span class="math">\(r = 2^i\)</span> for some <span class="math">\(i\)</span>.
+In other words, the value of <span class="math">\(r\)</span> is related to the
+number of bits of the key processed on each pass.
+Each time the number of bits is doubled, the number of passes is cut
+in half.
+When processing an integer key value, setting <span class="math">\(r = 256\)</span> allows
+the key to be processed one byte at a time.
+Processing a 32-bit integer key requires only four passes.
+It is not unreasonable on most computers to use
+<span class="math">\(r = 2^{16} = 64\mbox{K}\)</span>, resulting in only two passes for a
+32-bit key.
+Of course, this requires a <code class="docutils literal"><span class="pre">cnt</span></code> array of size 64K.
+Performance will be good
+only if the number of records is about 64K or greater.
+In other words, the number of records must be large compared to the
+key size for Radix Sort to be efficient.
+In many sorting applications, Radix Sort can be tuned in this way to
+give better performance.</p>
+<p>Radix Sort depends on the ability to make a fixed number of multiway
+choices based on a digit value, as well as random access to the bins.
+Thus, Radix Sort might be difficult to implement for certain key
+types.
+For example, if the keys are real numbers or arbitrary length strings,
+then some care will be necessary in implementation.
+In particular, Radix Sort will need to be careful about deciding when
+the &quot;last digit&quot; has been found to distinguish among real numbers,
+or the last character in variable length strings.
+Implementing the concept of Radix Sort with the
+<a class="reference internal" href="Glossary.html#term-alphabet-trie"><em class="xref std std-term ODSAterm">alphabet trie</em></a> data structure is most
+appropriate for these situations.</p>
+<div
+    id="RadixSortSumm"
+    class="embedContainer"
+    data-exer-name="RadixSortSumm"
+    data-long-name="Radix Sort Summary Exercise"
+    data-frame-src="../../../Exercises/Sorting/RadixSortSumm.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=RadixSort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="1.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="5"
+    data-type="ka">
+  
+  <div class="center">
+    <div id="RadixSortSumm_iframe"></div>
+  </div>
+</div>
+<script type="text/javascript" src="../../../AV/Development/RadixSortAnalysisCON.js"></script>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="BinSort.html">10.13. Binsort</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="SortingEmpirical.html">10.15. An Empirical Comparison of Sorting Algorithms</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.6. Doubly Linked Lists &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="7. List Element Implementations" href="ListElement.html" />
+    <link rel="prev" title="5. Comparison of List Implementations" href="ListAnalysis.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 6 Linear Structures</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/ListDouble.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="ListAnalysis.html">6.5. Comparison of List Implementations</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="ListElement.html">6.7. List Element Implementations</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "ListDouble";ODSA.SETTINGS.MODULE_LONG_NAME = "Doubly Linked Lists";ODSA.SETTINGS.MODULE_CHAPTER = "Linear Structures"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:57"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><link href="../../../DataStructures/DoubleLinkList.css" rel="stylesheet" type="text/css" />
+<link href="../../../AV/List/dlistCON.css" rel="stylesheet" type="text/css" />
+<div class="section" id="doubly-linked-lists">
+<h1>6.6. Doubly Linked Lists<a class="headerlink" href="#doubly-linked-lists" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>6.6.1. Doubly Linked Lists<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="ListLinked.html#listlinked"><em>singly linked list</em></a> allows
+for direct access from a list node only to the next node in the list.
+A <a class="reference internal" href="Glossary.html#term-doubly-linked-list"><em class="xref std std-term ODSAterm">doubly linked list</em></a> allows convenient access from a list node
+to the next node and also to the preceding node on the list.
+The doubly linked list node accomplishes this in the obvious way by
+storing two pointers: one to the node following it (as in the singly
+linked list), and a second pointer to the node preceding it.</p>
+<div class="divdgm" id="dbllistfig">
+<div id="dlistDiagramCON">
+</div>
+<p class="caption" style="text-align: center"> Figure 6.6.1: A doubly linked list.</p>
+</div>
+<p>The most common reason to use a doubly linked list is
+because it is easier to implement than a singly linked list.
+While the code for the doubly linked implementation is a little longer
+than for the singly linked version, it tends to be a bit more
+&quot;obvious&quot; in its intention, and so easier to implement and debug.
+Whether a list implementation is doubly or singly linked should
+be hidden from the <code class="docutils literal"><span class="pre">List</span></code> class user.</p>
+<p>Like our singly linked list implementation, the doubly linked list
+implementation makes use of a <a class="reference internal" href="Glossary.html#term-header-node"><em class="xref std std-term ODSAterm">header node</em></a>.
+We also add a tailer node to the end of the list.
+The tailer is similar to the header, in that it is a node that
+contains no value, and it always exists.
+When the doubly linked list is initialized, the header and tailer
+nodes are created.
+Data member <code class="docutils literal"><span class="pre">head</span></code> points to the header node, and <code class="docutils literal"><span class="pre">tail</span></code>
+points to the tailer node.
+The purpose of these nodes is to simplify the <code class="docutils literal"><span class="pre">insert</span></code>,
+<code class="docutils literal"><span class="pre">append</span></code>, and <code class="docutils literal"><span class="pre">remove</span></code> methods by eliminating all need for
+special-case code when the list is empty, or when we insert at the
+head or tail of the list.</p>
+<p>In our implementation, <code class="docutils literal"><span class="pre">curr</span></code> will point to the
+<a class="reference internal" href="Glossary.html#term-current-position"><em class="xref std std-term ODSAterm">current position</em></a> (or to the <a class="reference internal" href="Glossary.html#term-trailer-node"><em class="xref std std-term ODSAterm">trailer node</em></a> if the
+current position is at the end of the list).</p>
+<p>Here is the complete implementation for a
+<code class="docutils literal"><span class="pre">Link</span></code> class to be used with doubly linked lists.
+This code is a little longer than that for the singly linked list node
+implementation since
+the doubly linked list nodes have an extra data member.</p>
+<div id="DLink_DLink_code"><ul><li><a href="#DLink_DLink_code_Java_Generic">Java (Generic)</a></li><li><a href="#DLink_DLink_code_Java">Java</a></li><li><a href="#DLink_DLink_code_Processing">Processing</a></li></ul><div id="DLink_DLink_code_Java_Generic"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="o">{</span>         <span class="c1">// Doubly linked list node</span>
+  <span class="kd">private</span> <span class="n">E</span> <span class="n">e</span><span class="o">;</span>          <span class="c1">// Value for this node</span>
+  <span class="kd">private</span> <span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">n</span><span class="o">;</span>    <span class="c1">// Pointer to next node in list</span>
+  <span class="kd">private</span> <span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">;</span>    <span class="c1">// Pointer to previous node</span>
+
+  <span class="c1">// Constructors</span>
+  <span class="n">Link</span><span class="o">(</span><span class="n">E</span> <span class="n">it</span><span class="o">,</span> <span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">inp</span><span class="o">,</span> <span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">inn</span><span class="o">)</span> <span class="o">{</span> <span class="n">e</span> <span class="o">=</span> <span class="n">it</span><span class="o">;</span>  <span class="n">p</span> <span class="o">=</span> <span class="n">inp</span><span class="o">;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">inn</span><span class="o">;</span> <span class="o">}</span>
+  <span class="n">Link</span><span class="o">(</span><span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">inp</span><span class="o">,</span> <span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">inn</span><span class="o">)</span> <span class="o">{</span> <span class="n">p</span> <span class="o">=</span> <span class="n">inp</span><span class="o">;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">inn</span><span class="o">;</span> <span class="o">}</span>
+
+  <span class="c1">// Get and set methods for the data members</span>
+  <span class="kd">public</span> <span class="n">E</span> <span class="nf">element</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">e</span><span class="o">;</span> <span class="o">}</span>                                <span class="c1">// Return the value</span>
+  <span class="kd">public</span> <span class="n">E</span> <span class="nf">setElement</span><span class="o">(</span><span class="n">E</span> <span class="n">it</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">e</span> <span class="o">=</span> <span class="n">it</span><span class="o">;</span> <span class="o">}</span>                    <span class="c1">// Set element value</span>
+  <span class="kd">public</span> <span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">n</span><span class="o">;</span> <span class="o">}</span>                             <span class="c1">// Return next link</span>
+  <span class="kd">public</span> <span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nf">setNext</span><span class="o">(</span><span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">nextval</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nextval</span><span class="o">;</span> <span class="o">}</span> <span class="c1">// Set next link</span>
+  <span class="kd">public</span> <span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nf">prev</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">p</span><span class="o">;</span> <span class="o">}</span>                             <span class="c1">// Return prev link</span>
+  <span class="kd">public</span> <span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nf">setPrev</span><span class="o">(</span><span class="n">Link</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">prevval</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">p</span> <span class="o">=</span> <span class="n">prevval</span><span class="o">;</span> <span class="o">}</span> <span class="c1">// Set prev link</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div><div id="DLink_DLink_code_Java"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Link</span> <span class="o">{</span>            <span class="c1">// Doubly linked list node</span>
+  <span class="kd">private</span> <span class="n">Object</span> <span class="n">e</span><span class="o">;</span>     <span class="c1">// Value for this node</span>
+  <span class="kd">private</span> <span class="n">Link</span> <span class="n">n</span><span class="o">;</span>       <span class="c1">// Pointer to next node in list</span>
+  <span class="kd">private</span> <span class="n">Link</span> <span class="n">p</span><span class="o">;</span>       <span class="c1">// Pointer to previous node</span>
+
+  <span class="c1">// Constructors</span>
+  <span class="n">Link</span><span class="o">(</span><span class="n">Object</span> <span class="n">it</span><span class="o">,</span> <span class="n">Link</span> <span class="n">inp</span><span class="o">,</span> <span class="n">Link</span> <span class="n">inn</span><span class="o">)</span> <span class="o">{</span> <span class="n">e</span> <span class="o">=</span> <span class="n">it</span><span class="o">;</span>  <span class="n">p</span> <span class="o">=</span> <span class="n">inp</span><span class="o">;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">inn</span><span class="o">;</span> <span class="o">}</span>
+  <span class="n">Link</span><span class="o">(</span><span class="n">Link</span> <span class="n">inp</span><span class="o">,</span> <span class="n">Link</span> <span class="n">inn</span><span class="o">)</span> <span class="o">{</span> <span class="n">p</span> <span class="o">=</span> <span class="n">inp</span><span class="o">;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">inn</span><span class="o">;</span> <span class="o">}</span>
+
+  <span class="c1">// Get and set methods for the data members</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">element</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">e</span><span class="o">;</span> <span class="o">}</span>                     <span class="c1">// Return the value</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">setElement</span><span class="o">(</span><span class="n">Object</span> <span class="n">it</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">e</span> <span class="o">=</span> <span class="n">it</span><span class="o">;</span> <span class="o">}</span>    <span class="c1">// Set element value</span>
+  <span class="kd">public</span> <span class="n">Link</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">n</span><span class="o">;</span> <span class="o">}</span>                          <span class="c1">// Return next link</span>
+  <span class="kd">public</span> <span class="n">Link</span> <span class="nf">setNext</span><span class="o">(</span><span class="n">Link</span> <span class="n">nextval</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nextval</span><span class="o">;</span> <span class="o">}</span> <span class="c1">// Set next link</span>
+  <span class="kd">public</span> <span class="n">Link</span> <span class="nf">prev</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">p</span><span class="o">;</span> <span class="o">}</span>                          <span class="c1">// Return prev link</span>
+  <span class="kd">public</span> <span class="n">Link</span> <span class="nf">setPrev</span><span class="o">(</span><span class="n">Link</span> <span class="n">prevval</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">p</span> <span class="o">=</span> <span class="n">prevval</span><span class="o">;</span> <span class="o">}</span> <span class="c1">// Set prev link</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div><div id="DLink_DLink_code_Processing"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Link</span> <span class="o">{</span>            <span class="c1">// Doubly linked list node</span>
+  <span class="kd">private</span> <span class="n">Object</span> <span class="n">e</span><span class="o">;</span>     <span class="c1">// Value for this node</span>
+  <span class="kd">private</span> <span class="n">Link</span> <span class="n">n</span><span class="o">;</span>       <span class="c1">// Pointer to next node in list</span>
+  <span class="kd">private</span> <span class="n">Link</span> <span class="n">p</span><span class="o">;</span>       <span class="c1">// Pointer to previous node</span>
+
+  <span class="c1">// Constructors</span>
+  <span class="n">Link</span><span class="o">(</span><span class="n">Object</span> <span class="n">it</span><span class="o">,</span> <span class="n">Link</span> <span class="n">inp</span><span class="o">,</span> <span class="n">Link</span> <span class="n">inn</span><span class="o">)</span> <span class="o">{</span> <span class="n">e</span> <span class="o">=</span> <span class="n">it</span><span class="o">;</span>  <span class="n">p</span> <span class="o">=</span> <span class="n">inp</span><span class="o">;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">inn</span><span class="o">;</span> <span class="o">}</span>
+  <span class="n">Link</span><span class="o">(</span><span class="n">Link</span> <span class="n">inp</span><span class="o">,</span> <span class="n">Link</span> <span class="n">inn</span><span class="o">)</span> <span class="o">{</span> <span class="n">p</span> <span class="o">=</span> <span class="n">inp</span><span class="o">;</span> <span class="n">n</span> <span class="o">=</span> <span class="n">inn</span><span class="o">;</span> <span class="o">}</span>
+
+  <span class="c1">// Get and set methods for the data members</span>
+  <span class="n">Object</span> <span class="nf">element</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">e</span><span class="o">;</span> <span class="o">}</span>                     <span class="c1">// Return the value</span>
+  <span class="n">Object</span> <span class="nf">setElement</span><span class="o">(</span><span class="n">Object</span> <span class="n">it</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">e</span> <span class="o">=</span> <span class="n">it</span><span class="o">;</span> <span class="o">}</span>    <span class="c1">// Set element value</span>
+  <span class="n">Link</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">n</span><span class="o">;</span> <span class="o">}</span>                          <span class="c1">// Return next link</span>
+  <span class="n">Link</span> <span class="nf">setNext</span><span class="o">(</span><span class="n">Link</span> <span class="n">nextval</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nextval</span><span class="o">;</span> <span class="o">}</span> <span class="c1">// Set next link</span>
+  <span class="n">Link</span> <span class="nf">prev</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">p</span><span class="o">;</span> <span class="o">}</span>                          <span class="c1">// Return prev link</span>
+  <span class="n">Link</span> <span class="nf">setPrev</span><span class="o">(</span><span class="n">Link</span> <span class="n">prevval</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">p</span> <span class="o">=</span> <span class="n">prevval</span><span class="o">;</span> <span class="o">}</span> <span class="c1">// Set prev link</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div></div><script>$(function() {$( "#DLink_DLink_code" ).tabs();});</script><div class="section" id="insert">
+<h3>6.6.1.1. Insert<a class="headerlink" href="#insert" title="Permalink to this headline">¶</a></h3>
+<p>The following slideshows illustrate the <code class="docutils literal"><span class="pre">insert</span></code> and <code class="docutils literal"><span class="pre">append</span></code>
+doubly linked list methods.
+The class declaration and the remaining member functions for the
+doubly linked list class are nearly identical to the singly linked
+list version.
+While the code for these methods might be a little longer than their
+singly linked list counterparts (since there is an extra pointer in
+each node to deal with), they tend to be easier to understand.</p>
+<div id="dlistInsertCON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Doubly Linked List Insert">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="dlistInsertCON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="dlistInsertCON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="dlistInsertCON_cm_error_msg" class="cm_error_msg">
+   <img id="dlistInsertCON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+</div>
+<div class="section" id="append">
+<h3>6.6.1.2. Append<a class="headerlink" href="#append" title="Permalink to this headline">¶</a></h3>
+<div id="dlistAppendCON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Doubly Linked List Append">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="dlistAppendCON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="dlistAppendCON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="dlistAppendCON_cm_error_msg" class="cm_error_msg">
+   <img id="dlistAppendCON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+</div>
+<div class="section" id="remove">
+<h3>6.6.1.3. Remove<a class="headerlink" href="#remove" title="Permalink to this headline">¶</a></h3>
+<div id="dlistRemoveCON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Doubly Linked List Remove">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="dlistRemoveCON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="dlistRemoveCON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="dlistRemoveCON_cm_error_msg" class="cm_error_msg">
+   <img id="dlistRemoveCON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+</div>
+<div class="section" id="prev">
+<h3>6.6.1.4. Prev<a class="headerlink" href="#prev" title="Permalink to this headline">¶</a></h3>
+<div id="dlistPrevCON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Doubly Linked List Prev">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="dlistPrevCON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="dlistPrevCON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="dlistPrevCON_cm_error_msg" class="cm_error_msg">
+   <img id="dlistPrevCON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>The only disadvantage of the doubly linked list as compared to the
+singly linked list is the additional space used.
+The doubly linked list requires two pointers per node, and so in the
+implementation presented it requires twice as much overhead as
+the singly linked list.</p>
+</div>
+<div class="section" id="mangling-pointers">
+<h3>6.6.1.5. Mangling Pointers<a class="headerlink" href="#mangling-pointers" title="Permalink to this headline">¶</a></h3>
+<p>There is a space-saving technique that can be employed to eliminate
+the additional space requirement, though it will complicate the
+implementation and be somewhat slower.
+Thus, this is an example of a
+space/time tradeoff.
+It is based on observing that, if we store the sum of two values,
+then we can get either value back by subtracting the other.
+That is, if we store <span class="math">\(a + b\)</span> in variable <span class="math">\(c\)</span>, then
+<span class="math">\(b = c - a\)</span> and <span class="math">\(a = c - b\)</span>.
+Of course, to recover one of the values out of the stored summation,
+the other value must be supplied.
+A pointer to the first node in the list, along with the value of one
+of its two link fields, will allow access to all of the remaining
+nodes of the list in order.
+This is because the pointer to the node must be the same as the value
+of the following node's <code class="docutils literal"><span class="pre">prev</span></code> pointer, as well as the previous
+node's <code class="docutils literal"><span class="pre">next</span></code> pointer.
+It is possible to move down the list breaking apart the
+summed link fields as though you were opening a zipper.</p>
+<p>The principle behind this technique is worth remembering, as it
+has many applications.
+The following code fragment will
+swap the contents of two variables without using a temporary variable
+(at the cost of three arithmetic operations).</p>
+<div id="DList_XOR_code"><ul><li><a href="#DList_XOR_code_Java_Generic">Java (Generic)</a></li><li><a href="#DList_XOR_code_Java">Java</a></li><li><a href="#DList_XOR_code_Processing">Processing</a></li></ul><div id="DList_XOR_code_Java_Generic"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">;</span> <span class="c1">// Now b contains original value of a</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">;</span> <span class="c1">// Now a contains original value of b</span>
+</pre></div>
+</div>
+</div><div id="DList_XOR_code_Java"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">;</span> <span class="c1">// Now b contains original value of a</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">;</span> <span class="c1">// Now a contains original value of b</span>
+</pre></div>
+</div>
+</div><div id="DList_XOR_code_Processing"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">;</span> <span class="c1">// Now b contains original value of a</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">;</span> <span class="c1">// Now a contains original value of b</span>
+</pre></div>
+</div>
+</div></div><script>$(function() {$( "#DList_XOR_code" ).tabs();});</script><p>A similar effect can be had by using the exclusive-or operator.
+This fact is widely used in computer graphics.
+A region of the computer screen can be highlighted by
+XORing the outline of a box around it.
+XORing the box outline a second time restores the original
+contents of the screen.</p>
+<script type="text/javascript" src="../../../DataStructures/DoubleLinkList.js"></script>
+<script type="text/javascript" src="../../../AV/List/dlist.js"></script>
+<script type="text/javascript" src="../../../AV/List/dlistDiagramCON.js"></script>
+<script type="text/javascript" src="../../../AV/List/dlistInsertCON.js"></script>
+<script type="text/javascript" src="../../../AV/List/dlistAppendCON.js"></script>
+<script type="text/javascript" src="../../../AV/List/dlistRemoveCON.js"></script>
+<script type="text/javascript" src="../../../AV/List/dlistPrevCON.js"></script>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="ListAnalysis.html">6.5. Comparison of List Implementations</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="ListElement.html">6.7. List Element Implementations</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

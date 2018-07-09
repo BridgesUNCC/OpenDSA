@@ -1,0 +1,690 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.3. Software Development Processes &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="1. Command Line Basics" href="cmdline.html" />
+    <link rel="prev" title="2. The Unified Modeling Language" href="IntroUML.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 2 Object-Oriented Programming</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/IntroProcess.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="IntroUML.html">2.2. The Unified Modeling Language</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="cmdline.html">3.1. Command Line Basics</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "IntroProcess";ODSA.SETTINGS.MODULE_LONG_NAME = "Software Development Processes";ODSA.SETTINGS.MODULE_CHAPTER = "Object-Oriented Programming"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:57"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><div class="section" id="software-development-processes">
+<h1>2.3. Software Development Processes<a class="headerlink" href="#software-development-processes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>2.3.1. Software Development Processes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="index-0"></span><p id="index-1">A <strong>software development process</strong> is simply the division of a software project into
+distinct stages or phases of work.
+Each stage is characterized by specific activities which are used to help plan and
+manage progress.
+A software development process is implemented to improve quality, cost or schedule
+performance, or all of these things.
+While there as many software development processes as there are software practitioners,
+a few have gained notoriety.
+These more commonly encountered processes are the ones discussed in this section.</p>
+<p>All software development processes are essentially variations on the <em>Plan-Do-Check-Act</em>
+first described by Francis Bacon in 1620 [Bacon].  Yes, that’s right.
+There are many software development processes, describing the  <em>Plan-Do-Check-Act</em> loop
+in varying levels of detail.  Today, most of these processes are lumped into either
+of two very broad categories: <em>Agile</em> or <em>Plan Driven</em>.</p>
+<p>Plan Driven processes emerged in the 1960's.
+As the size of software projects grew, several worrying trends emerged:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Software projects routinely went over budget, or failed to deliver anything</li>
+<li>Major defects and failures became more common</li>
+<li>Software maintenance costs began increasing</li>
+</ul>
+</div></blockquote>
+<p>At the time, there was no professional class of programmers.
+Engineers, mathematicians, and physicists wrote programs to support their work.
+The first software development processes were adapted from manufacturing and engineering
+processes.
+Among the earliest was the systems development life cycle (SLDC).
+The goals of the SDLC were
+&quot;to pursue the development of information systems in a very deliberate,
+structured and methodical way, requiring each stage of the life cycle from
+inception of the idea to delivery of the final system,
+to be carried out rigidly and sequentially&quot; <a class="footnote-reference" href="#id5" id="id2">[1]</a>.
+Plan-driven methods continue to be the 'traditional' way most software
+continues to be developed today.</p>
+<p>Agile methods grew out frustration with the rigidity of the plan-driven processes commonly used
+in the 1990's just as the tech boom was heating up.
+Technology was changing faster than projects could keep up and many projects failed because
+by the time they were ready to deliver, the playing field had changed enough to make the product,
+if not obsolete, at least a less compelling commercial success.</p>
+<p>The practitioners of Agile methods tend to be a diverse and fraction group, but have, as a group
+drafted a single statement that nearly all agile process models embrace.
+It is known as the <em>Agile Manifesto</em> <a class="footnote-reference" href="#id6" id="id3">[2]</a>.  Here it is in it's entirety:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">We are uncovering better ways of developing
+software by doing it and helping others do it.</div>
+<div class="line"><br /></div>
+<div class="line">Through this work we have come to value:</div>
+<div class="line"><br /></div>
+<div class="line"><strong>Individuals and interactions</strong> over processes and tools</div>
+<div class="line"><strong>Working software</strong> over comprehensive documentation</div>
+<div class="line"><strong>Customer collaboration</strong> over contract negotiation</div>
+<div class="line"><strong>Responding to change</strong> over following a plan</div>
+<div class="line"><br /></div>
+<div class="line">That is, while there is value in the items on the right, we value the items on the left <strong>more</strong>.</div>
+</div>
+</div></blockquote>
+<p>Much of the documentation available today implies that choosing a process is
+an <em>either - or</em> proposition.  That a project must be either plan driven or agile.
+The reality is a bit more nuanced and there can can be bitter disagreements
+between proponents of different process models.
+One way to summarize the differences between the two groups is to examine the
+myths propagated about them.</p>
+<p>Common misunderstandings directed at Plan-driven processes include:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Can’t respond to change</dt>
+<dd><ul class="first last">
+<li>Too big and complex</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Products cost more</li>
+<li>Only for large organizations</li>
+<li>Old-Fashioned</li>
+<li>Universally Applicable
+- Software development is uncertain and the <strong>X</strong> process improves predictability therefore all software developers should use process <strong>X</strong></li>
+</ul>
+<p>Common misunderstandings directed at agile processes include:</p>
+<ul class="simple">
+<li>Agile is synonymous with Hacking</li>
+<li><dl class="first docutils">
+<dt>It’s a ‘silver bullet’</dt>
+<dd><ul class="first last">
+<li>Easy to implement, Very effective</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Do whatever you want</dt>
+<dd><ul class="first last">
+<li>No cost or schedule commitments</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Incompatible with traditional processes</dt>
+<dd><ul class="first last">
+<li>No Documentation, Architecture, or Planning</li>
+<li>Not appropriate for Firm Fixed Price Projects</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Universally Applicable</dt>
+<dd><ul class="first last">
+<li>The pace of IT change is accelerating and Agile methods adapt to change better than disciplined methods therefore Agile methods will take over the IT world.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>The truth is that many agile and plan-driven methods exist.
+All are more or less plan-driven and some have more 'agile' characteristics than others.
+Therefore, a more accurate characterisation is to think of processes
+existing along a continuum, with the axis representing the relative
+amount of willingness to embrace change (agility) at one and
+the importance of comprehensive up front planning and adhering to that plan
+at the opposite end.  No process exists at either extreme.</p>
+<div class="figure">
+<img alt="_images/BackProcess-continuum.png" src="_images/BackProcess-continuum.png" />
+</div>
+<ol class="arabic simple">
+<li>Scrum is not a complete software development process description as it covers only project management.</li>
+<li>CMMI is a process improvement model, not a software development methodology, but is often considered one.</li>
+</ol>
+<p>Each group has a sweet-spot where it outperforms the other as the following table summarizes.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="37%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Characteristics</th>
+<th class="head">Agile</th>
+<th class="head">Plan Driven</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Primary Goals</td>
+<td>Rapid Value, respond to change</td>
+<td>Predictability, stability, &amp; high assurance</td>
+</tr>
+<tr class="row-odd"><td>Size</td>
+<td>Small Teams and projects</td>
+<td>Large teams and projects</td>
+</tr>
+<tr class="row-even"><td>Environment</td>
+<td>Turbulent, project-focused</td>
+<td>Stable, organization-focused</td>
+</tr>
+<tr class="row-odd"><td>Requirements</td>
+<td>Stories.  Rapid change expected.</td>
+<td>Formal Specs for projects, capability, interfaces, quality &amp; similar.  Gradual change expected.</td>
+</tr>
+<tr class="row-even"><td>Development</td>
+<td>Simple design, short increments. Refactoring assumed inexpensive.</td>
+<td>Detailed architecture and design.  Refactoring assumed expensive.</td>
+</tr>
+<tr class="row-odd"><td>Test</td>
+<td>Executable tests validate requirements</td>
+<td>Documented test plans validate requirements</td>
+</tr>
+</tbody>
+</table>
+<p>Balancing the trade-offs between agility and discipline is a decision each
+software development project has to make on their own.</p>
+<div class="figure">
+<img alt="_images/BackProcess-radar-chart.png" src="_images/BackProcess-radar-chart.png" />
+<p class="caption"> Figure 2.3.2: Adapted from <em>Balancing Agility and Discipline: A Guide for the Perplexed</em> <a class="reference internal" href="Bibliography.html#boehm03" id="id4">[Boehm03]</a></p>
+</div>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>Geoffrey Elliott. <em>Global Business Information Technology: an integrated systems approach</em>. Pearson Education. 2004.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><a class="reference external" href="http://www.agilealliance.org/">http://www.agilealliance.org/</a></td></tr>
+</tbody>
+</table>
+<div class="section" id="waterfall-method">
+<h3>2.3.1.1. Waterfall Method<a class="headerlink" href="#waterfall-method" title="Permalink to this headline">¶</a></h3>
+<p>Initially described in 1970, the Waterfall process was another early
+software development process adapted from manufacturing and construction processes.
+The waterfall model is a sequential design process, in which progress is seen as
+flowing steadily downwards (like a waterfall) through several distinct phases.</p>
+<div class="figure">
+<img alt="_images/BackWaterfall.png" src="_images/BackWaterfall.png" />
+<p class="caption"> Figure 2.3.3: Waterfall model <a class="footnote-reference" href="#id8" id="id7">[3]</a></p>
+</div>
+<p>While many variations exist, most waterfall processes in use go through at least
+the following phases:</p>
+<ol class="arabic simple">
+<li>Requirements: System and software requirements, captured in a product requirements document.</li>
+<li>Analysis: resulting in models, schema, and business rules</li>
+<li>Design: resulting in the software architecture</li>
+<li>Implementation: the development and integration of software</li>
+<li>Verification: the systematic discovery and debugging of defects</li>
+<li>Maintenance: the installation, migration, support, and maintenance of complete systems</li>
+</ol>
+<p>The waterfall model was simple to understand and was widely used throughout the 1980's,
+but came under criticism primarily for it's lack of flexibility.
+Although officially endorsed bu the US Department of Defense in 1985, the DoD supplanted
+it with other process guidance 10 years later.</p>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[3]</a></td><td>Peter Kemp / Paul Smith, <em>Waterfall model</em>
+(Adapted from Paul Smith's work at wikipedia)
+[CC BY 3.0 (<a class="reference external" href="http://creativecommons.org/licenses/by/3.0">http://creativecommons.org/licenses/by/3.0</a>)], via Wikimedia Commons</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rational-unified-process">
+<h3>2.3.1.2. Rational Unified Process<a class="headerlink" href="#rational-unified-process" title="Permalink to this headline">¶</a></h3>
+<p>The Unified Software Development Process or Unified Process is a popular iterative
+and incremental software development process framework.
+The best-known and extensively documented refinement of the Unified Process is the
+Rational Unified Process (RUP).
+Other examples are OpenUP and Agile Unified Process.</p>
+<p>The Rational Unified Process (RUP) was created by the Rational Software Corporation in 1996.
+RUP is not a single concrete prescriptive process, but rather an adaptable process framework,
+intended to be tailored by the development organizations and software project teams that
+will select the elements of the process that are appropriate for their needs.</p>
+<p>RUP is based on a set of building blocks and content elements,
+describing what is to be produced, the necessary skills required and
+the step-by-step explanation describing how specific development goals are to be achieved.
+The main building blocks, or content elements, are the following:</p>
+<dl class="docutils">
+<dt><strong>Roles (who)</strong></dt>
+<dd>A role defines a set of related skills, competencies and responsibilities.</dd>
+<dt><strong>Work products (what)</strong></dt>
+<dd>A work product represents something resulting from a task,
+including all the documents and models produced while working through the process.</dd>
+<dt><strong>Tasks (how)</strong></dt>
+<dd>A task describes a unit of work assigned to a Role that provides a meaningful result.</dd>
+</dl>
+<div class="figure">
+<img alt="_images/BackRUPIterations.png" src="_images/BackRUPIterations.png" />
+<p class="caption"> Figure 2.3.4: RUP disciplines and iterations</p>
+</div>
+<p>The RUP defines a project as a series of <em>iterations</em>.
+An iteration is a period of time in which project tasks are performed.
+Within each iteration, the tasks are categorized into nine disciplines:</p>
+<ul>
+<li><p class="first">Six &quot;engineering&quot; disciplines</p>
+<blockquote>
+<div><ul class="simple">
+<li>Business modelling</li>
+<li>Requirements</li>
+<li>Analysis and design</li>
+<li>Implementation</li>
+<li>Test</li>
+<li>Deployment</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">And three &quot;supporting&quot; disciplines</p>
+<blockquote>
+<div><ul class="simple">
+<li>Configuration and change management</li>
+<li>Project management</li>
+<li>Environment</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>Other Plan-Driven Approaches</p>
+<dl class="docutils">
+<dt>Military Methods (DoD)</dt>
+<dd><dl class="first last docutils">
+<dt>DoD-STD-2167</dt>
+<dd>A document-driven approach that specified a large number of
+&quot;Data Item Descriptions&quot; for deliverables.
+Tailoring was encouraged, but infrequently done.</dd>
+<dt>MIL-STD-1521</dt>
+<dd>details a set of sequential reviews and audits required.</dd>
+<dt>MIL-STD-498</dt>
+<dd>revised 2167 to allow more flexibility in systems engineering, planning,
+development, and integration.</dd>
+<dt>MIL-STD-499B</dt>
+<dd>defines the contents of a systems engineering management plan.</dd>
+</dl>
+</dd>
+<dt>General Process Standards (ISO, EIA, IEEE)</dt>
+<dd><dl class="first last docutils">
+<dt>EIA/IEEE J-STD-016</dt>
+<dd>a generalization of MIL-STD-498 to include commercial software processes.</dd>
+<dt>ISO 9000</dt>
+<dd>a quality management standard that includes software.</dd>
+<dt>ISO 12207 and 15504</dt>
+<dd>address the software life cycle and ways to appraise software processes.</dd>
+</dl>
+</dd>
+<dt>Cleanroom (Harlan Mills, IBM)</dt>
+<dd><p class="first">Uses statistical process control and mathematically based verification to develop software
+with certified reliability.</p>
+<p class="last">The name comes from physical clean rooms that prevent defects in precision electronics.</p>
+</dd>
+<dt>Capability Maturity Model for Software (SEI, Air Force, others)</dt>
+<dd><p class="first">A process improvement framework, SW-CMM grew out of the need for the Air Force to
+select qualified software system developers.</p>
+<p class="last">Collects best practices into Key Practice Areas that are organized into
+five levels of increasing process maturity.</p>
+</dd>
+<dt>Software Factories (Hitachi, GE, others)</dt>
+<dd><p class="first">A long-term, integrated effort to improve software quality, software reuse, and software
+development productivity.</p>
+<p class="last">Highly process-driven, emphasizing early defect reduction.</p>
+</dd>
+<dt>CMM Integration (SEI, DoD, NDIA, others)</dt>
+<dd><p class="first">CMMI was established to integrate software and systems engineering CMMs, and improve
+or extend the CMM concept to other disciplines.</p>
+<p class="last">Its a suite of models and appraisal methods that address a variety of disciplines using
+a common architecture, vocabulary, and a core of process areas.</p>
+</dd>
+<dt>Personal Software Process (PSP)/Team Software Process (TSP) (Watts Humphrey, SEI)</dt>
+<dd><dl class="first last docutils">
+<dt>PSP</dt>
+<dd>A structured framework of forms, guidelines, and procedures for developing software.
+Directed toward the use of self-measurement to improve individual programming skills.</dd>
+<dt>TSP</dt>
+<dd>Builds on PSP and supports the development of industrial-strength software through
+the use of team planning and control.</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="extreme-programming-xp">
+<h3>2.3.1.3. eXtreme Programming (XP)<a class="headerlink" href="#extreme-programming-xp" title="Permalink to this headline">¶</a></h3>
+<p>Established in the late 1990's by Kent Beck, XP is
+regarded as perhaps the most famous agile method.
+XP was certainly among the first to gain attention from mainstream
+software development projects.
+XP was refined from experience gained developing an information system for Daimler Chrysler
+corporation.
+As agile practices go, it is quite proscriptive, fairly rigorous and
+initially expects all practices to be followed.
+Kent Beck has been quoted as saying</p>
+<blockquote>
+<div>If you're not performing all 12 practices, then you're not doing XP.</div></blockquote>
+<p>In <em>Extreme Programming Explained</em>, Kent Beck describes extreme programming as a
+software development discipline that organizes people to produce higher quality
+software more productively.
+XP attempts to reduce the cost of changes in requirements by having multiple
+short development cycles, rather than a long one.
+Rather than a burden, changes are considered a natural, inescapable and desirable aspect of
+software projects, and should be planned for, instead of attempting
+to define a stable set of requirements.</p>
+<div class="figure">
+<img alt="_images/Extreme_Programming.png" src="_images/Extreme_Programming.png" />
+<p class="caption"> Figure 2.3.5: Planning and feedback loops in extreme programming. <a class="footnote-reference" href="#id10" id="id9">[4]</a></p>
+</div>
+<p>XP is characterised by several core practices including
+stories, pair programming, simple design,
+test first, unit tests, and continuous integration.</p>
+<p>The XP process describes four basic activities that are performed
+within the software development process:
+coding, testing, listening, and designing.</p>
+<dl class="docutils">
+<dt>Coding</dt>
+<dd><p class="first">XP argues that the only truly important product of the software
+development process is code – software instructions that a computer can interpret.
+Without code, there is no working product.</p>
+<p class="last">Coding can also be used to figure out the most suitable solution.
+Coding can also help to communicate thoughts about programming problems.
+Programmers dealing with a complex programming problem, or finding it hard to
+explain the solution to fellow programmers, might code it in a simplified manner
+and use the code to demonstrate what they mean.
+Code, say the proponents of this position, is always clear and concise
+and cannot be interpreted in more than one way.
+Other programmers can give feedback on this code by also coding their thoughts.</p>
+</dd>
+<dt>Testing</dt>
+<dd><p class="first">Unit tests determine whether a given feature works as intended.
+A programmer writes as many automated tests as they can think of that might &quot;break&quot; the code;
+if all tests run successfully, then the coding is complete.
+Every piece of code that is written is tested before moving on to the next feature.</p>
+<p>Acceptance tests verify that the requirements as understood by the programmers
+satisfy the customer's actual requirements.</p>
+<p class="last">System-wide integration testing was encouraged, initially,
+as a daily end-of-day activity, for early detection of incompatible interfaces,
+to reconnect before the separate sections diverged widely from coherent functionality.</p>
+</dd>
+<dt>Listening</dt>
+<dd>Programmers must listen to what the customers need the system to do,
+what &quot;business logic&quot; is needed.
+They must understand these needs well enough to give the customer feedback
+about the technical aspects of how the problem might be solved, or cannot be solved.
+Communication between the customer and programmer is further addressed in the planning game.</dd>
+<dt>Designing</dt>
+<dd>As software systems grow, the importance of design increases.
+Small programs can be constructed with comparatively little design,
+however as software size grows, the more design is required.
+Often more upfront design is required as well as checking and revisiting
+designs throughout the lifetime of the project.</dd>
+</dl>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[4]</a></td><td>Don Wells, <em>Planning / Feedback Loops</em>
+(<a class="reference external" href="https://en.wikipedia.org/wiki/File:XP-feedback.gif">https://en.wikipedia.org/wiki/File:XP-feedback.gif</a>)
+[CC BY-SA 3.0 (<a class="reference external" href="http://creativecommons.org/licenses/by-sa/3.0">http://creativecommons.org/licenses/by-sa/3.0</a>)], via Wikimedia Commons</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="crystal">
+<h3>2.3.1.4. Crystal<a class="headerlink" href="#crystal" title="Permalink to this headline">¶</a></h3>
+<p>Established in the late 1990's by Alistair Cockburn, Crystal is
+conceived as a family of software development processes organized by color,
+clear, yellow, orange, red.
+To date, only Crystal Clear, the most light-weight in the family, has been completely documented.</p>
+<p>Crystal provides different levels of “ceremony” depending on the size of the team and the
+criticality of the project.
+Crystal practices draw from agile and plan-driven methods as well as psychology
+and organizational development research.</p>
+</div>
+<div class="section" id="scrum">
+<h3>2.3.1.5. Scrum<a class="headerlink" href="#scrum" title="Permalink to this headline">¶</a></h3>
+<p>Scrum is an agile software management process.
+That is, it describes how software development teams should be organised and
+let's each team determine what technical software development activities they
+should perform.</p>
+<p>Projects are divided into 30-day work intervals (“sprints”) in which a
+specific number of requirements from a prioritized list (“backlog”) are implemented.
+Short (10-15 minute) “Scrum meetings”, held daily, maintain coordination within the team and with
+project stakeholders (pigs and chickens).</p>
+</div>
+<div class="section" id="feature-driven-development-fdd">
+<h3>2.3.1.6. Feature-Driven Development (FDD)<a class="headerlink" href="#feature-driven-development-fdd" title="Permalink to this headline">¶</a></h3>
+<p>FDD is a lightweight, architecturally based process that initially establishes
+an overall object architecture and features list.
+Projects then proceed to design-by-feature and build-by-feature activities.
+Both design-by-feature and build-by-feature are incremental software
+construction methodologies.
+In FDD, the use of UML or other object-oriented design methods is strongly implied,
+if not explicitly required.</p>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="IntroUML.html">2.2. The Unified Modeling Language</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="cmdline.html">3.1. Command Line Basics</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

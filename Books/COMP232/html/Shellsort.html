@@ -1,0 +1,665 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10.8. Shellsort &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="9. Mergesort Concepts" href="Mergesort.html" />
+    <link rel="prev" title="7. Optimizing Sort Algorithms with Code Tuning" href="SortOpt.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 10 Sorting</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/Shellsort.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="SortOpt.html">10.7. Optimizing Sort Algorithms with Code Tuning</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="Mergesort.html">10.9. Mergesort Concepts</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "Shellsort";ODSA.SETTINGS.MODULE_LONG_NAME = "Shellsort";ODSA.SETTINGS.MODULE_CHAPTER = "Sorting"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:57"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><span class="target" id="index-0"></span><div class="section" id="index-1">
+<span id="id1"></span><h1>10.8. Shellsort<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>10.8.1. Shellsort<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Shellsort was named for its inventor, D.L. Shell, who first published
+it in 1959.
+It is also sometimes called the <a class="reference internal" href="Glossary.html#term-diminishing-increment-sort"><em class="xref std std-term ODSAterm">diminishing increment sort</em></a>.
+When properly implemented, <a class="reference internal" href="Glossary.html#term-shellsort"><em class="xref std std-term ODSAterm">Shellsort</em></a> will give
+substantially better performance than any of the <span class="math">\(\theta(n^2)\)</span>
+sorts like Insertion Sort or Selection Sort.
+But it is also a bit more complicated than those simple
+<span class="math">\(\theta(n^2)\)</span> sorts.
+Unlike Insertion Sort and Selection Sort, there is no real-life
+intuition to inspire Shellsort -- nobody will use Shellsort to
+sort their Bridge hand or organize their bills.
+The key idea behind Shellsort is to exploit the best-case performance
+of Insertion Sort.
+Recall that when a list is sorted or nearly sorted, Insertion Sort
+runs in linear time.
+So Shellsort's strategy is to quickly make the list &quot;mostly sorted&quot;,
+so that a final Insertion Sort can finish the job.</p>
+<p>Shellsort does what most good sorts do:
+Break the input into pieces, sort the pieces, then recombine them.
+But Shellsort does this in an unusual way, breaking its input
+into &quot;virtual&quot; sublists that are often not contiguous.
+Each such sublist is sorted using an Insertion Sort.
+Another group of sublists is then chosen and sorted, and so on.</p>
+<p>Shellsort works by performing its Insertion Sorts on carefully
+selected sublists, first on small sublists and then on increasingly
+large sublists.
+So at each stage, any Insertion Sort is either working on a small list
+(and so is fast) or is working on a nearly sorted list (and again is
+fast).</p>
+<p id="index-2">Shellsort breaks the list into disjoint sublists, where a sublist
+is defined by an &quot;increment&quot;, <span class="math">\(I\)</span>.
+Each record in a given sublist is <span class="math">\(I\)</span> positions apart.
+For example, if the increment were 4, then each record in the sublist
+would be 4 positions apart.</p>
+<p>One possible implementation for Shellsort is to use increments that
+are all powers of two.
+We start by picking as <span class="math">\(I\)</span> the largest power of two less than
+<span class="math">\(n\)</span>.
+This will generate <span class="math">\(I\)</span> sublists of 2 records each.
+If there were 16 records in the array indexed from 0
+to 15, there would initially be 8 sublists of 2 records each,
+with each record in the sublist being 8 positions apart.
+The first sublist would be the records in positions 0 and 8.
+The second is in positions 1 and 9, and so on.</p>
+<p>Actually, the increment size does not need to start at exactly
+<span class="math">\(n/2\)</span>.
+In the following example, we will use an array of 12 records
+(since 16 records makes the example a bit long).
+We will still begin with an increment size of 8.
+As you click through the following slideshow, you will see each of the
+sublists of length 2.
+If we reach a point where the remaining sublists have only one
+record (as will be the case for each of the sublists beginning with
+records 4 through 7), then we can skip processing them.</p>
+<div id="shellsortCON1" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Shellsort Slideshow 1">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="shellsortCON1_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="shellsortCON1_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="shellsortCON1_cm_error_msg" class="cm_error_msg">
+   <img id="shellsortCON1_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>Shellsort will sort each of these sublists of length 2 using Insertion
+Sort.
+As you click through the next slideshow, you will first see the current
+sublist highlighted in yellow.
+Then a pair of records to be compared will be shown in blue.
+They are swapped if necessary to put them in sort order.
+(Of course, since these first sublists are each of length 2 when
+the two items are being compared you won't see anything yellow anymore!)</p>
+<div id="shellsortCON2" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Shellsort Slideshow 2">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="shellsortCON2_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="shellsortCON2_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="shellsortCON2_cm_error_msg" class="cm_error_msg">
+   <img id="shellsortCON2_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>At the end of the first pass, the resulting array is &quot;a little better
+sorted&quot;.</p>
+<div class="divdgm">
+<div id="shellsortCON3">
+</div>
+</div>
+<p>The second pass of Shellsort looks at fewer, bigger sublists.
+In our example, the second pass will have an increment of size 4,
+resulting in <span class="math">\(n/4\)</span> sublists.
+Since the array in our example has <span class="math">\(n=12\)</span> records, we have
+4 sublists that each have <span class="math">\(12/4 = 3\)</span> records.
+Thus, the second pass would have as its first
+sublist the 3 records in positions 0, 4, and 8.
+The second sublist would have records in positions 1, 5, and 9,
+and so on.</p>
+<p>As you click through the slides, you will see the sublists for
+increment size 4.</p>
+<div id="shellsortCON4" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Shellsort Slideshow 3">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="shellsortCON4_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="shellsortCON4_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="shellsortCON4_cm_error_msg" class="cm_error_msg">
+   <img id="shellsortCON4_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>Each sublist of 3 records would also be sorted using an Insertion
+Sort, as shown next.</p>
+<div id="shellsortCON5" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Shellsort Slideshow 4">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="shellsortCON5_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="shellsortCON5_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="shellsortCON5_cm_error_msg" class="cm_error_msg">
+   <img id="shellsortCON5_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>At the end of processing sublists with increment 4, the array is
+&quot;even more sorted&quot;.</p>
+<div class="divdgm">
+<div id="shellsortCON6">
+</div>
+</div>
+<p>The third pass will be made on sublists with increment 2.
+The effect is that we process 2 lists, one consisting of the odd
+positions and the other consisting of the even positions.
+As usual, we sort the sublists using Insertion Sort.</p>
+<div id="shellsortCON7" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Shellsort Slideshow 5">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="shellsortCON7_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="shellsortCON7_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="shellsortCON7_cm_error_msg" class="cm_error_msg">
+   <img id="shellsortCON7_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>At this point, we are getting close to sorted.</p>
+<div class="divdgm">
+<div id="shellsortCON8">
+</div>
+</div>
+<p>Shellsort's final pass will always use an increment of 1,
+which means a &quot;regular&quot; Insertion Sort of all records.
+But the list is far closer to sorted than it was at the start,
+so this final call to Insertion Sort runs far faster than if we had
+run Insertion Sort on the original array.</p>
+<div id="shellsortCON9" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Shellsort Slideshow 6">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="shellsortCON9_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="shellsortCON9_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="shellsortCON9_cm_error_msg" class="cm_error_msg">
+   <img id="shellsortCON9_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>Finally, the array is sorted.</p>
+<p>Here is a code implementation for Shellsort.</p>
+<div id="Shellsort_Shellsort_code"><ul><li><a href="#Shellsort_Shellsort_code_Processing">Processing</a></li><li><a href="#Shellsort_Shellsort_code_Cpp">C++</a></li></ul><div id="Shellsort_Shellsort_code_Processing"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">shellsort</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">A</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">/</span><span class="mi">2</span><span class="o">;</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">2</span><span class="o">;</span> <span class="n">i</span><span class="o">/=</span><span class="mi">2</span><span class="o">)</span> <span class="c1">// For each increment</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span>         <span class="c1">// Sort each sublist</span>
+      <span class="n">inssort2</span><span class="o">(</span><span class="n">A</span><span class="o">,</span> <span class="n">j</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+  <span class="n">inssort2</span><span class="o">(</span><span class="n">A</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>     <span class="c1">// Could call regular inssort here</span>
+<span class="o">}</span>
+
+<span class="cm">/** Modified Insertion Sort for varying increments */</span>
+<span class="kt">void</span> <span class="nf">inssort2</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">A</span><span class="o">,</span> <span class="kt">int</span> <span class="n">start</span><span class="o">,</span> <span class="kt">int</span> <span class="n">incr</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">start</span><span class="o">+</span><span class="n">incr</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">+=</span><span class="n">incr</span><span class="o">)</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">;</span> <span class="o">(</span><span class="n">j</span><span class="o">&gt;=</span><span class="n">incr</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">].</span><span class="na">compareTo</span><span class="o">(</span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="n">incr</span><span class="o">])</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">);</span> <span class="n">j</span><span class="o">-=</span><span class="n">incr</span><span class="o">)</span>
+      <span class="n">swap</span><span class="o">(</span><span class="n">A</span><span class="o">,</span> <span class="n">j</span><span class="o">,</span> <span class="n">j</span><span class="o">-</span><span class="n">incr</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div><div id="Shellsort_Shellsort_code_Cpp"><div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">shellsort</span><span class="p">(</span><span class="n">Comparable</span><span class="o">*</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1">//For each increment</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>  <span class="c1">//Sort each sublist</span>
+      <span class="n">inssort2</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+    <span class="n">inssort2</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Modified Insertion Sort for varying increments</span>
+<span class="kt">void</span> <span class="nf">inssort2</span><span class="p">(</span><span class="n">Comparable</span><span class="o">*</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">incr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">start</span><span class="o">+</span><span class="n">incr</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">incr</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span> <span class="p">((</span><span class="n">j</span> <span class="o">&gt;=</span> <span class="n">incr</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">*</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">*</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="n">incr</span><span class="p">]));</span> <span class="n">j</span> <span class="o">-=</span> <span class="n">incr</span><span class="p">)</span> 
+      <span class="n">swap</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="n">incr</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div><script>$(function() {$( "#Shellsort_Shellsort_code" ).tabs();});</script><p>Now, test your understanding of the sublist concept.</p>
+<div
+    id="ShellsortSublistSumm"
+    class="embedContainer"
+    data-exer-name="ShellsortSublistSumm"
+    data-long-name="Shellsort Sublist Proficency Exercise"
+    data-frame-src="../../../Exercises/Sorting/ShellsortSublistSumm.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Shellsort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="1.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="5"
+    data-type="ka">
+  
+  <div class="center">
+    <div id="ShellsortSublistSumm_iframe"></div>
+  </div>
+</div>
+</div>
+<div class="section" id="putting-it-together">
+<h2>10.8.2. Putting It Together<a class="headerlink" href="#putting-it-together" title="Permalink to this headline">¶</a></h2>
+<p>There is a lot of flexibility to picking the increment series.
+It does not need to start with the greatest power of less than
+<span class="math">\(n\)</span> and cut in half each time.
+In fact that is not even a good choice for the increment series.
+We will come back to this later.
+For now, just realize that so long as each increment is smaller than the
+last, and the last increment is 1, Shellsort will work.</p>
+<p>At this point try running Shellsort on an array of your chosen size,
+with either random values or values that you select.
+You can also set the increment series.
+Use this visualization to make sure that you understand how Shellsort
+works.</p>
+<div
+    id="shellsortAV"
+    class="embedContainer"
+    data-exer-name="shellsortAV"
+    data-long-name="Shellsort Visualization"
+    data-frame-src="../../../AV/Sorting/shellsortAV.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Shellsort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="0"
+    data-required="False"
+    data-showhide="none"
+    data-threshold="1.0"
+    data-type="ss">
+  
+  <div class="center">
+    <div id="shellsortAV_iframe"></div>
+  </div>
+</div>
+<p>Next, let's review what makes for a legal increment series.</p>
+<div
+    id="ShellsortSeries"
+    class="embedContainer"
+    data-exer-name="ShellsortSeries"
+    data-long-name="Shellsort Series Exercise"
+    data-frame-src="../../../Exercises/Sorting/ShellsortSeries.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Shellsort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="1.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="5"
+    data-type="ka">
+  
+  <div class="center">
+    <div id="ShellsortSeries_iframe"></div>
+  </div>
+</div>
+</div>
+<div class="section" id="shellsort-practice-exercise">
+<h2>10.8.3. Shellsort Practice Exercise<a class="headerlink" href="#shellsort-practice-exercise" title="Permalink to this headline">¶</a></h2>
+<p>Now test yourself to see how well you understand Shellsort.
+Can you reproduce its behavior?</p>
+<div
+    id="shellsortPRO"
+    class="embedContainer"
+    data-exer-name="shellsortPRO"
+    data-long-name="Shellsort Proficiency Exercise"
+    data-frame-src="../../../AV/Sorting/shellsortPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Shellsort&amp;JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=fix&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="2.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="0.9"
+    data-type="pe">
+  
+  <div class="center">
+    <div id="shellsortPRO_iframe"></div>
+  </div>
+</div>
+</div>
+<div class="section" id="optimizing-shellsort">
+<h2>10.8.4. Optimizing Shellsort<a class="headerlink" href="#optimizing-shellsort" title="Permalink to this headline">¶</a></h2>
+<p>Some choices for the series of increments will make Shellsort
+run more efficiently than others.
+In particular, the choice of increments described above
+<span class="math">\((2^k, 2^{k-1}, \ldots, 4, 2, 1)\)</span> turns out to be relatively inefficient.
+You should notice for example that all records in a given 8 increment
+sublist are also part of some 4 increment sublist, which are all in turn
+records of the same 2 increment sublist.
+So there is no &quot;crossover&quot; between sublists as the increments
+reduce.
+A better choice is the following series based on &quot;<span class="math">\(3n+1\)</span>&quot;:
+(..., 121, 40, 13, 4, 1).
+Another approach is to make sure that the various increments are
+relatively prime.
+The series (..., 11, 7, 3, 1) would be an example.
+In this case, there is a lot of &quot;crossover&quot; between the lists at the
+various increment sizes.</p>
+<p>Now you are ready to try out some different increment series to see
+how they affect the cost of Shellsort.</p>
+<div
+    id="shellsortPerf"
+    class="embedContainer"
+    data-exer-name="shellsortPerf"
+    data-long-name="Shellsort Performance Activity"
+    data-frame-src="../../../AV/Sorting/shellsortPerf.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Shellsort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="2.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="1.0"
+    data-type="pe">
+  
+  <div class="center">
+    <div id="shellsortPerf_iframe"></div>
+  </div>
+</div>
+<p>A theoretical analysis of Shellsort is difficult, so we must accept
+without proof that the average-case performance of Shellsort
+(for a reasonable increment series)
+is <span class="math">\(\Theta(n\sqrt{n}) = \Theta(n^{1.5})\)</span>.
+Thus, Shellsort is substantially better than Insertion Sort,
+or any of the other <span class="math">\(\theta(n^2)\)</span> sorts presented earlier.
+In fact, Shellsort is not so much worse than the
+asymptotically better sorts to be presented later,
+whenever <span class="math">\(n\)</span> is of medium size (though it tends to be a little
+slower than these other algorithms if they are well implemented).
+Shellsort illustrates how we can sometimes exploit the special properties
+of an algorithm (in this case Insertion Sort) even if in general that
+algorithm is unacceptably slow.</p>
+</div>
+<div class="section" id="shellsort-summary-questions">
+<h2>10.8.5. Shellsort Summary Questions<a class="headerlink" href="#shellsort-summary-questions" title="Permalink to this headline">¶</a></h2>
+<p>Here are some review questions to check that you understand Shellsort.</p>
+<div
+    id="ShellsortSumm"
+    class="embedContainer"
+    data-exer-name="ShellsortSumm"
+    data-long-name="Shellsort Summary Exercise"
+    data-frame-src="../../../Exercises/Sorting/ShellsortSumm.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Shellsort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="685"
+    data-external="false"
+    data-points="1.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="5"
+    data-type="ka">
+  
+  <div class="center">
+    <div id="ShellsortSumm_iframe"></div>
+  </div>
+</div>
+<p>If you want to know more about Shellsort, you can find a lot of
+details about its analysis along with ideas on how to pick a good
+increment series in <a class="reference internal" href="Bibliography.html#knuthv3" id="id3">[KnuthV3]</a>.</p>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCODE.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCON1.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCON2.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCON3.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCON4.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCON5.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCON6.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCON7.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCON8.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/shellsortCON9.js"></script>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="SortOpt.html">10.7. Optimizing Sort Algorithms with Code Tuning</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="Mergesort.html">10.9. Mergesort Concepts</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

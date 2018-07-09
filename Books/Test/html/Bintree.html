@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>0.4. The Bintree &mdash; Test</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="Test" href="index.html" />
+    <link rel="next" title="5. Other Spatial Data Structures" href="OtherSpatial.html" />
+    <link rel="prev" title="3. KD Trees" href="KDtree.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>Test</span></a></h1>
+              <h2 class="heading" ><span>Chapter 0 Spatial Data Structures</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/Bintree.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="KDtree.html">0.3. KD Trees</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="OtherSpatial.html">0.5. Other Spatial Data Structures</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "Bintree";ODSA.SETTINGS.MODULE_LONG_NAME = "Bintrees";ODSA.SETTINGS.MODULE_CHAPTER = "Spatial Data Structures"; ODSA.SETTINGS.BUILD_DATE = "2017-10-25 15:09:37"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><link href="../../../AV/Spatial/bintreeCON.css" rel="stylesheet" type="text/css" />
+<link href="../../../DataStructures/PrQuadAv.css" rel="stylesheet" type="text/css" />
+<link href="../../../DataStructures/PrQuadAvC.css" rel="stylesheet" type="text/css" />
+<div class="section" id="the-bintree">
+<h1>0.4. The Bintree<a class="headerlink" href="#the-bintree" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>0.4.1. The Bintree<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>This module presents a spatial data structure for storing
+point data in two or more dimensions, called the Bintree.
+The Bintree is a natural extension of the BST to
+multiple dimensions.
+The Bintree differs from the BST in two important ways.
+First, being a data structure for multiple dimensions, at each level
+of the tree the Bintree
+makes branching decisions based on a particular search key associated
+with that level, called the <a class="reference internal" href="Glossary.html#term-discriminator"><em class="xref std std-term ODSAterm">discriminator</em></a>.
+Its splitting decisions alternate among the key dimensions.
+Another difference from the BST is that the Bintree uses what is known
+as <em class="xref std std-term ODSAterm">key-space decomposition</em>, and so is a form of <a class="reference internal" href="Glossary.html#term-trie"><em class="xref std std-term ODSAterm">trie</em></a>.
+A key-space decomposition splits the key space into equal halves,
+rather than splitting at the key value of the object being stored.</p>
+<p>In theory, the Bintree could be used to unify search across any
+arbitrary set of keys such as name and zipcode.
+But in practice, it is nearly always used to support search on
+multidimensional coordinates, such as locations in 2D or 3D space.</p>
+<div class="divdgm" id="bintreefig">
+<div id="bintreeCON">
+</div>
+<p class="caption" style="text-align: justify"> Figure 0.4.1: Example of a Bintree.</p>
+</div>
+<p>We define the discriminator at level <span class="math">\(i\)</span> to be <span class="math">\(i \bmod k\)</span>
+for <span class="math">\(k\)</span> dimensions.
+For example, assume that we store data organized by <span class="math">\(xy\)</span>
+coordinates.
+In this case, <span class="math">\(k\)</span> is 2 (there are two dimensions), with the
+<span class="math">\(x\)</span> coordinate field arbitrarily designated key 0, and the
+<span class="math">\(y\)</span> coordinate field designated key 1.
+At each level, the discriminator alternates between <span class="math">\(x\)</span> and <span class="math">\(y\)</span>.
+Thus, a node <span class="math">\(N\)</span> at level 0 (the root) would split
+the world in half with a vertical split.
+Records with <span class="math">\(x\)</span> coordinates in the lower half would be on the
+left side of the dividing line, and thus in the left subtree.
+Records with <span class="math">\(x\)</span> coordinates in the upper half would be on the
+right side of the dividing line, and thus in the right subtree.
+At this stage, the <span class="math">\(y\)</span> coordinate value would play no role.</p>
+<p>At level 1, the <span class="math">\(y\)</span> coordinate becomes the descriminator.
+In other words, the left half of the world will be split horizontally
+in half if necessary.</p>
+<p>A leaf node in the Bintree can either be empty, or it can contain one
+data point (in which case it is referred to as being full).
+Splitting takes place whenever a point is to be inserted into a leaf
+node that already contains a point.</p>
+<p>Searching a Bintree for the record with a specified <span class="math">\(xy\)</span>
+coordinate is like searching a BST, except that each level of the
+Bintree is associated with a particular discriminator.
+If the search process reaches a <code class="docutils literal"><span class="pre">null</span></code> pointer, then
+that point is not contained in the tree.</p>
+<p>Here is a visualization of the Bintree, that shows how inserting a
+point and removing a point works.</p>
+<div
+    id="BintreeAV"
+    class="embedContainer"
+    data-exer-name="BintreeAV"
+    data-long-name="BintreeAV"
+    data-frame-src="../../../AV/Spatial/BintreeAV.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Bintree"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="0"
+    data-required="False"
+    data-showhide="show"
+    data-threshold="1.0"
+    data-type="ss">
+  
+  <div class="center">
+    <div id="BintreeAV_iframe"></div>
+  </div>
+</div>
+<p>Below is an interactive visualization of the Bintree for practice.</p>
+<div
+    id="BintreeInter"
+    class="embedContainer"
+    data-exer-name="BintreeInter"
+    data-long-name="BintreeInter"
+    data-frame-src="../../../AV/Spatial/BintreeInter.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Bintree"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="0"
+    data-required="False"
+    data-showhide="show"
+    data-threshold="1.0"
+    data-type="ss">
+  
+  <div class="center">
+    <div id="BintreeInter_iframe"></div>
+  </div>
+</div>
+<p>Assume that we want to print out a list of all records that are within
+a certain distance <span class="math">\(d\)</span> of a given point <span class="math">\(P\)</span>.
+We will use Euclidean distance, that is, point <span class="math">\(P\)</span> is defined to
+be within distance <span class="math">\(d\)</span> of point <span class="math">\(N\)</span> if
+<span class="math">\(\sqrt{(P_x - N_x)^2 + (P_y - N_y)^2} \leq d\)</span>. <a class="footnote-reference" href="#id5" id="id2">[1]</a></p>
+<p>Search proceeds by means of a &quot;directed&quot; traversal.
+When we visit a node of the tree, we only proceed if
+the bounding box for the search circle intersects the bounding box for
+the node.
+If it does not, we stop and return.
+If it does intersect an internal node, we visit the node's children.
+If it is a leaf node, then we ask whether the data point it contains
+is within distance <span class="math">\(d\)</span> of the search point.
+In the average case, the number of nodes that must be visited during a
+range query is linear on the number of data records that fall within
+the query circle.</p>
+<div class="section" id="implementation-concerns">
+<h3>0.4.1.1. Implementation Concerns<a class="headerlink" href="#implementation-concerns" title="Permalink to this headline">¶</a></h3>
+<p>Let us now consider how the structure of the Bintree affects the
+design of its node representation.
+The Bintree is actually a <a class="reference internal" href="Glossary.html#term-trie"><em class="xref std std-term ODSAterm">trie</em></a>.
+This means that decomposition takes place at the mid-points for
+internal nodes,
+regardless of where the data points actually fall.
+The placement of the data points does determine <cite>whether</cite> a
+decomposition for a node takes place, but not <cite>where</cite> the
+decomposition for the node takes place.
+Internal nodes of the Bintree are quite different from leaf nodes, in
+that internal nodes have children (leaf nodes do not) and leaf nodes
+have data fields (internal nodes do not).
+Thus, it is likely to be beneficial to represent internal nodes
+differently from leaf nodes.
+Finally, there is the fact that approximately half of the leaf nodes
+will contain no data field.</p>
+<p>Another issue to consider is: How does a routine traversing the
+Bintree get the coordinates for the rectangle represented by the current
+Bintree node?
+One possibility is to store with each node its spatial description
+(such as upper-left corner and width).
+However, this will take a lot of space—perhaps as much as the
+space needed for the data records, depending on what information is
+being stored.</p>
+<p>Another possibility is to pass in the coordinates when the recursive
+call is made.
+For example, consider the search process.
+Initially, the search visits the root node of the tree, which has
+upper left corner defined to be (0, 0) and whose width and height is
+the full size of the space being  covered.
+When the appropriate child is visited, it is a simple matter for the
+search routine to determine the origin for the child, and the length
+of the descriminator dimention simply becomes
+half that of the parent.
+Not only does passing in the size and position information for a node
+save considerable space, but avoiding storing such information
+in the nodes enables a good design choice for
+empty leaf nodes, as discussed next.</p>
+<p>How should we represent empty leaf nodes?
+On average, half of the leaf nodes in a Bintree are empty
+(i.e., do not store a data point).
+One implementation option is to use a <code class="docutils literal"><span class="pre">null</span></code> pointer in internal
+nodes to represent empty nodes.
+This will solve the problem of excessive space requirements.
+There is an unfortunate side effect that using a <code class="docutils literal"><span class="pre">null</span></code> pointer
+requires the Bintree processing methods to understand this convention.
+In other words, you are breaking encapsulation on the node
+representation because the tree now must know things about how the
+nodes are implemented.
+This is not too horrible for this particular application, because the
+node class can be considered private to the tree class, in which case
+the node implementation is completely invisible to the outside world.
+However, it is undesirable if there is another reasonable alternative.</p>
+<p>Fortunately, there is a good alternative.
+It is called the Flyweight design pattern.
+In the Bintree, a flyweight is a single empty leaf node that
+is reused in all places where an empty leaf node is needed.
+You simply have <cite>all</cite> of the internal nodes with empty leaf
+children point to the same node object.
+This node object is created once at the beginning of the program,
+and is never removed.
+The node class recognizes from the pointer value that the flyweight is
+being accessed, and acts accordingly.</p>
+<p>Note that when using the Flyweight design pattern, you <cite>cannot</cite>
+store coordinates for the node in the node.
+This is an example of the concept of intrinsic versus extrinsic state.
+Intrinsic state for an object is state information stored in the object.
+If you stored the coordinates for a node in the node object, those
+coordinates would be intrinsic state.
+Extrinsic state is state information about an object stored elsewhere
+in the environment, such as in global variables or passed to the
+method.
+If your recursive calls that process the tree pass in the coordinates
+for the current node, then the coordinates will be extrinsic state.
+A flyweight can have in its intrinsic state <cite>only</cite>
+information that is accurate for <cite>all</cite> instances of the flyweight.
+Clearly coordinates do not qualify, because each empty
+leaf node has its own location.
+So, if you want to use a flyweight, you must pass in coordinates.</p>
+<p>Another design choice is: Who controls the work, the node
+class or the tree class?
+For example, on an insert operation, you could have the tree class
+control the flow down the tree, looking at (querying) the nodes to see
+their type and reacting accordingly.
+This is the approach used by the BST implementation in
+Module :numref`BST`.
+An alternate approach is to have the node class do the work.
+That is, you have an insert method for the nodes.
+If the node is internal, it passes the city record to the appropriate
+child (recursively).
+If the node is a flyweight, it replaces itself with a new leaf node.
+If the node is a full node, it replaces itself with a subtree.
+This is an example of the <a class="reference internal" href="Glossary.html#term-composite-design-pattern"><em class="xref std std-term ODSAterm">composite design pattern</em></a>,
+discussed in Module <a href="#id3"><span class="problematic" id="id4">:numref:`Composite`</span></a>.
+Use of the composite design would be difficult if null pointers are
+used to represent empty leaf nodes.
+It turns out that the Bintree insert and delete methods are easier to
+implement when using the composite design.</p>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>A more efficient computation is
+<span class="math">\((P_x - N_x)^2 + (P_y - N_y)^2 \leq d^2\)</span>.
+This avoids performing a square root function.</td></tr>
+</tbody>
+</table>
+<script type="text/javascript" src="../../../AV/Spatial/bintreeCON.js"></script>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="KDtree.html">0.3. KD Trees</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="OtherSpatial.html">0.5. Other Spatial Data Structures</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Oct 25, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.3. Graph Traversals &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="4. Topological Sort" href="GraphTopsort.html" />
+    <link rel="prev" title="2. Graph Implementations" href="GraphImpl.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 16 Graphs</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/GraphTraversal.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="GraphImpl.html">16.2. Graph Implementations</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="GraphTopsort.html">16.4. Topological Sort</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "GraphTraversal";ODSA.SETTINGS.MODULE_LONG_NAME = "Graph Traversal";ODSA.SETTINGS.MODULE_CHAPTER = "Graphs"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:58"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><div class="section" id="graph-traversals">
+<h1>16.3. Graph Traversals<a class="headerlink" href="#graph-traversals" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>16.3.1. Graph Traversals<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Many graph applications need to visit the vertices of a graph in some
+specific order based on the graph's topology.
+This is known as a graph <a class="reference internal" href="Glossary.html#term-traversal"><em class="xref std std-term ODSAterm">traversal</em></a> and is similar in concept
+to a <a class="reference internal" href="BinaryTreeTraversal.html#binarytreetraversal"><em>tree traversal</em></a>.
+Recall that tree traversals visit every node exactly once, in some
+specified order such as preorder, inorder, or postorder.
+Multiple tree traversals exist because various applications require
+the nodes to be visited in a particular order.
+For example, to print a BST's nodes in ascending order requires an
+inorder traversal as opposed to some other
+traversal.
+Standard graph traversal orders also exist.
+Each is appropriate for solving certain problems.
+For example, many problems in artificial intelligence programming
+are modeled using graphs.
+The problem domain might consist of a large collection of states,
+with connections between various pairs of states.
+Solving this sort of problem requires getting from a specified start
+state to a specified goal state by moving between states only
+through the connections.
+Typically, the start and goal states are not directly connected.
+To solve this problem, the vertices of the graph must be searched in
+some organized manner.</p>
+<p>Graph traversal algorithms typically begin with a start vertex and
+attempt to visit the remaining vertices from there.
+Graph traversals must deal with a number of troublesome cases.
+First, it might not be possible to reach all vertices from the start
+vertex.
+This occurs when the graph is not connected.
+Second, the graph might contain cycles, and we must make sure that
+cycles do not cause the algorithm to go into an infinite loop.</p>
+<p>Graph traversal algorithms can solve both of these problems
+by flagging vertices as <code class="docutils literal"><span class="pre">VISITED</span></code> when appropriate.
+At the beginning of the algorithm, no vertex is flagged as <code class="docutils literal"><span class="pre">VISITED</span></code>.
+The flag for a vertex is set when the vertex is first visited
+during the traversal.
+If a flagged vertex is encountered during traversal, it is not visited
+a second time.
+This keeps the program from going into an infinite loop when it
+encounters a cycle.</p>
+<p>Once the traversal algorithm completes, we can check to see if all
+vertices have been processed by checking whether they have the
+<code class="docutils literal"><span class="pre">VISITED</span></code> flag set.
+If not all vertices are flagged,
+we can continue the traversal from another unvisited vertex.
+Note that this process works regardless of whether the graph is
+directed or undirected.
+To ensure visiting all vertices, <code class="docutils literal"><span class="pre">graphTraverse</span></code> could be called
+as follows on a graph <span class="math">\(\mathbf{G}\)</span>:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">graphTraverse</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kt">int</span> <span class="n">v</span><span class="o">;</span>
+  <span class="k">for</span> <span class="o">(</span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">v</span><span class="o">&lt;</span><span class="n">G</span><span class="o">.</span><span class="na">nodeCount</span><span class="o">();</span> <span class="n">v</span><span class="o">++)</span>
+    <span class="n">G</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span> <span class="c1">// Initialize</span>
+  <span class="k">for</span> <span class="o">(</span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">v</span><span class="o">&lt;</span><span class="n">G</span><span class="o">.</span><span class="na">nodeCount</span><span class="o">();</span> <span class="n">v</span><span class="o">++)</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">G</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="n">v</span><span class="o">)</span> <span class="o">!=</span> <span class="n">VISITED</span><span class="o">)</span>
+      <span class="n">doTraversal</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Function <code class="docutils literal"><span class="pre">doTraversal</span></code> might be implemented by using
+one of the graph traversals described next.</p>
+<div class="section" id="depth-first-search">
+<h3>16.3.1.1. Depth-First Search<a class="headerlink" href="#depth-first-search" title="Permalink to this headline">¶</a></h3>
+<p>The first method of organized graph traversal is called
+<a class="reference internal" href="Glossary.html#term-depth-first-search"><em class="xref std std-term ODSAterm">depth-first search</em></a> (DFS).
+Whenever a vertex <span class="math">\(v\)</span> is visited during the search,
+DFS will recursively visit all of <span class="math">\(v\)</span> 's unvisited neighbors.
+Equivalently, DFS will add all edges leading out of <span class="math">\(v\)</span> to a
+stack.
+The next vertex to be visited is determined by popping the stack and
+following that edge.
+The effect is to follow one branch through the graph to its
+conclusion, then it will back up and follow another branch, and so on.
+The DFS process can be used to define a
+<a class="reference internal" href="Glossary.html#term-depth-first-search-tree"><em class="xref std std-term ODSAterm">depth-first search tree</em></a>.
+This tree is composed of the edges that were followed to any new
+(unvisited) vertex during the traversal, and leaves out the edges that
+lead to already visited vertices.
+DFS can be applied to directed or undirected graphs.</p>
+<p>Here is an implementation for the DFS algorithm.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">DFS</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">PreVisit</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+  <span class="n">G</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="n">VISITED</span><span class="o">);</span>
+  <span class="kt">int</span><span class="o">[]</span> <span class="n">nList</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="na">neighbors</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">nList</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">G</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="n">nList</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">!=</span> <span class="n">VISITED</span><span class="o">)</span>
+      <span class="n">DFS</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">nList</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+  <span class="n">PostVisit</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>This implementation contains calls to functions <code class="docutils literal"><span class="pre">PreVisit</span></code> and
+<code class="docutils literal"><span class="pre">PostVisit</span></code>.
+These functions specify what activity should take place during the
+search.
+Just as a preorder tree traversal requires action before the subtrees
+are visited, some graph traversals require that a vertex be processed
+before ones further along in the DFS.
+Alternatively, some applications require activity <em>after</em> the
+remaining vertices are processed; hence the call to function
+<code class="docutils literal"><span class="pre">PostVisit</span></code>.
+This would be a natural opportunity to make use of the
+<a class="reference internal" href="DesignPatterns.html#designpatterns"><em>visitor design pattern</em></a>.</p>
+<p>This visualization shows a graph and the result of performing a DFS on
+it, resulting in a depth-first search tree.</p>
+<div
+    id="graphDFS"
+    class="embedContainer"
+    data-exer-name="graphDFS"
+    data-long-name="Depth First Search Visualization"
+    data-frame-src="../../../AV/Graph/graphDFS.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=GraphTraversal&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="0"
+    data-required="False"
+    data-showhide="none"
+    data-threshold="1.0"
+    data-type="ss">
+  
+  <div class="center">
+    <div id="graphDFS_iframe"></div>
+  </div>
+</div>
+<p>DFS processes each edge once in a directed graph.
+In an undirected graph, DFS processes each edge from both
+directions.
+Each vertex must be visited, but only once, so the total cost is
+<span class="math">\(\Theta(|\mathbf{V}| + |\mathbf{E}|)\)</span>.</p>
+<p>Here is an exercise to practice DFS.</p>
+<div
+    id="graphDFSPE"
+    class="embedContainer"
+    data-exer-name="graphDFSPE"
+    data-long-name="DFS Proficiency Exercise"
+    data-frame-src="../../../AV/Graph/graphDFSPE.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=GraphTraversal&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="2.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="0.9"
+    data-type="pe">
+  
+  <div class="center">
+    <div id="graphDFSPE_iframe"></div>
+  </div>
+</div>
+</div>
+</div>
+<div class="section" id="breadth-first-search">
+<h2>16.3.2. Breadth-First Search<a class="headerlink" href="#breadth-first-search" title="Permalink to this headline">¶</a></h2>
+<p>Our second graph traversal algorithm is known as a
+<a class="reference internal" href="Glossary.html#term-breadth-first-search"><em class="xref std std-term ODSAterm">breadth-first search</em></a> (BFS).
+BFS examines all vertices connected to the start vertex
+before visiting vertices further away.
+BFS is implemented similarly to DFS, except that a queue
+replaces the recursion stack.
+Note that if the graph is a tree and the start vertex is at the root,
+BFS is equivalent to visiting vertices level by level from top to
+bottom.</p>
+<p>Here is an implementation for BFS.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">BFS</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">LQueue</span> <span class="n">Q</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LQueue</span><span class="o">(</span><span class="n">G</span><span class="o">.</span><span class="na">nodeCount</span><span class="o">());</span>
+  <span class="n">Q</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+  <span class="n">G</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="n">VISITED</span><span class="o">);</span>
+  <span class="k">while</span> <span class="o">(</span><span class="n">Q</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// Process each vertex on Q</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="o">(</span><span class="n">Integer</span><span class="o">)</span><span class="n">Q</span><span class="o">.</span><span class="na">dequeue</span><span class="o">();</span>
+    <span class="n">PreVisit</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">nList</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="na">neighbors</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">nList</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">G</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="n">nList</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">!=</span> <span class="n">VISITED</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// Put neighbors on Q</span>
+        <span class="n">G</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="n">nList</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">VISITED</span><span class="o">);</span>
+        <span class="n">Q</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="n">nList</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+      <span class="o">}</span>
+    <span class="n">PostVisit</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Here is an AV for you to try it on other graphs.</p>
+<div
+    id="graphBFS"
+    class="embedContainer"
+    data-exer-name="graphBFS"
+    data-long-name="Breadth First Search Visualization"
+    data-frame-src="../../../AV/Graph/graphBFS.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=GraphTraversal&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="0"
+    data-required="False"
+    data-showhide="none"
+    data-threshold="1.0"
+    data-type="ss">
+  
+  <div class="center">
+    <div id="graphBFS_iframe"></div>
+  </div>
+</div>
+<p>Here is an exercise to practice BFS.</p>
+<div
+    id="graphBFSPE"
+    class="embedContainer"
+    data-exer-name="graphBFSPE"
+    data-long-name="BFS Proficiency Exercise"
+    data-frame-src="../../../AV/Graph/graphBFSPE.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=GraphTraversal&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="2.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="0.9"
+    data-type="pe">
+  
+  <div class="center">
+    <div id="graphBFSPE_iframe"></div>
+  </div>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="GraphImpl.html">16.2. Graph Implementations</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="GraphTopsort.html">16.4. Topological Sort</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

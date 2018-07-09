@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10.12. Heapsort &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="13. Binsort" href="BinSort.html" />
+    <link rel="prev" title="11. Quicksort" href="Quicksort.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 10 Sorting</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/Heapsort.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="Quicksort.html">10.11. Quicksort</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="BinSort.html">10.13. Binsort</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "Heapsort";ODSA.SETTINGS.MODULE_LONG_NAME = "Heapsort";ODSA.SETTINGS.MODULE_CHAPTER = "Sorting"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:57"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><link href="../../../AV/Development/HeapSortAnalysisCON.css" rel="stylesheet" type="text/css" />
+<div class="section" id="id1">
+<h1>10.12. Heapsort<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>10.12.1. Heapsort<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Our discussion of Quicksort began by considering the practicality of
+using a BST for sorting.
+The BST requires more space than the other sorting methods and will
+be slower than Quicksort or Mergesort due to the relative expense of
+inserting values into the tree.
+There is also the possibility that the BST might be unbalanced,
+leading to a <span class="math">\(\Theta(n^2)\)</span> worst-case running time.
+Subtree balance in the BST is closely related to Quicksort's partition
+step.
+Quicksort's pivot serves roughly the same purpose as the BST root
+value in that the left partition (subtree) stores values less than
+the pivot (root) value, while the right partition (subtree) stores
+values greater than or equal to the pivot (root).</p>
+<p>A good sorting algorithm can be devised based on a tree structure more
+suited to the purpose.
+In particular, we would like the tree to be balanced, space efficient,
+and fast.
+The algorithm should take advantage of the fact that sorting is a
+special-purpose application in that all of the values to be stored are
+available at the start.
+This means that we do not necessarily need to insert one value at a
+time into the tree structure.</p>
+<p><a class="reference internal" href="Glossary.html#term-heapsort"><em class="xref std std-term ODSAterm">Heapsort</em></a> is based on the
+<a class="reference internal" href="Heaps.html#heaps"><em>heap</em></a> data structure.
+Heapsort has all of the advantages just listed.
+The complete binary tree is balanced, its array representation is
+space efficient, and we can load all values into the tree at once,
+taking advantage of the efficient <code class="docutils literal"><span class="pre">buildheap</span></code> function.
+The asymptotic performance of Heapsort when all of the records have
+unique key values is <span class="math">\(\Theta(n \log n)\)</span> in the best, average,
+and worst cases.
+It is not as fast as Quicksort in the average case (by a constant
+factor), but Heapsort has special properties that will make it
+particularly useful for
+<a class="reference internal" href="ExternalSort.html#externalsort"><em>external sorting</em></a> algorithms,
+used when sorting data sets too large to fit in main memory.</p>
+<div id="heapsortCON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Heapsort Slideshow">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="heapsortCON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="heapsortCON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="heapsortCON_cm_error_msg" class="cm_error_msg">
+   <img id="heapsortCON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>A complete implementation is as follows.</p>
+<div id="Heapsort_Heapsort_code"><ul><li><a href="#Heapsort_Heapsort_code_Processing">Processing</a></li><li><a href="#Heapsort_Heapsort_code_Cpp">C++</a></li></ul><div id="Heapsort_Heapsort_code_Processing"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">heapsort</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">A</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// The heap constructor invokes the buildheap method</span>
+  <span class="n">MaxHeap</span> <span class="n">H</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MaxHeap</span><span class="o">(</span><span class="n">A</span><span class="o">,</span> <span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">,</span> <span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>  <span class="c1">// Now sort</span>
+    <span class="n">H</span><span class="o">.</span><span class="na">removemax</span><span class="o">();</span> <span class="c1">// Removemax places max at end of heap</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div><div id="Heapsort_Heapsort_code_Cpp"><div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">heapsort</span><span class="p">(</span><span class="n">Comparable</span><span class="o">*</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Getting started with array:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &quot;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">MaxHeap</span> <span class="n">H</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Now, ready to unpack the heap&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+     <span class="n">H</span><span class="p">.</span><span class="n">removemax</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div><script>$(function() {$( "#Heapsort_Heapsort_code" ).tabs();});</script><p>Here is a warmup practice exercise for Heapsort.</p>
+<div
+    id="HeapsortStepPRO"
+    class="embedContainer"
+    data-exer-name="HeapsortStepPRO"
+    data-long-name="Heapsort RemoveMax Proficiency Exercise"
+    data-frame-src="../../../Exercises/Sorting/HeapsortStepPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Heapsort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="820"
+    data-external="false"
+    data-points="2.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="5"
+    data-type="ka">
+  
+  <div class="center">
+    <div id="HeapsortStepPRO_iframe"></div>
+  </div>
+</div>
+</div>
+<div class="section" id="heapsort-proficiency-practice">
+<h2>10.12.2. Heapsort Proficiency Practice<a class="headerlink" href="#heapsort-proficiency-practice" title="Permalink to this headline">¶</a></h2>
+<p>Now test yourself to see how well you understand Heapsort.
+Can you reproduce its behavior?</p>
+<div
+    id="heapsortPRO"
+    class="embedContainer"
+    data-exer-name="heapsortPRO"
+    data-long-name="Heapsort Proficiency Exercise"
+    data-frame-src="../../../AV/Sorting/heapsortPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Heapsort&amp;JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=fix&amp;JXOP-code=none"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="2.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="0.9"
+    data-type="pe">
+  
+  <div class="center">
+    <div id="heapsortPRO_iframe"></div>
+  </div>
+</div>
+</div>
+<div class="section" id="heapsort-analysis">
+<h2>10.12.3. Heapsort Analysis<a class="headerlink" href="#heapsort-analysis" title="Permalink to this headline">¶</a></h2>
+<p>This visualization presents the running time analysis of Heap Sort</p>
+<div id="HeapSortAnalysisCON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Heapsort Analysis Slideshow">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="HeapSortAnalysisCON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="HeapSortAnalysisCON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="HeapSortAnalysisCON_cm_error_msg" class="cm_error_msg">
+   <img id="HeapSortAnalysisCON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>While typically slower than Quicksort by a constant factor
+(because unloading the heap using <code class="docutils literal"><span class="pre">removemax</span></code> is somewhat slower
+than Quicksort's series of partitions), Heapsort
+has one special advantage over the other sorts studied so far.
+Building the heap is relatively cheap, requiring
+<span class="math">\(\Theta(n)\)</span> time.
+Removing the maximum-valued record from the heap requires
+<span class="math">\(\Theta(\log n)\)</span> time.
+Thus, if we wish to find the <span class="math">\(k\)</span> records with the largest
+key values in an array, we can do so in time
+<span class="math">\(\Theta(n + k \log n)\)</span>.
+If <span class="math">\(k\)</span> is small, this is a substantial improvement over the time
+required to find the <span class="math">\(k\)</span> largest-valued records using one of the
+other sorting methods described earlier (many of which would require
+sorting all of the array first).
+One situation where we are able to take advantage of this concept is
+in the implementation of
+<a class="reference internal" href="MCST.html#mcst"><em>Kruskal's algorithm</em></a> for
+<a class="reference internal" href="Glossary.html#term-minimal-cost-spanning-tree"><em class="xref std std-term ODSAterm">minimal-cost spanning trees</em></a>.
+That algorithm requires that edges be visited in ascending
+order (so, use a min-heap), but this process stops as soon as the MST
+is complete.
+Thus, only a relatively small fraction of the edges need be sorted.</p>
+<div
+    id="HeapsortSumm"
+    class="embedContainer"
+    data-exer-name="HeapsortSumm"
+    data-long-name="Heapsort Summary Exercise"
+    data-frame-src="../../../Exercises/Sorting/HeapsortSumm.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=Heapsort&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="1.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="5"
+    data-type="ka">
+  
+  <div class="center">
+    <div id="HeapsortSumm_iframe"></div>
+  </div>
+</div>
+<script type="text/javascript" src="../../../DataStructures/binaryheap.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/heapsortCON.js"></script>
+<script type="text/javascript" src="../../../AV/Development/HeapSortAnalysisCON.js"></script>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="Quicksort.html">10.11. Quicksort</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="BinSort.html">10.13. Binsort</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

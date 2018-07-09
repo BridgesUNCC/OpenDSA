@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.1. Graphs Chapter Introduction &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="2. Graph Implementations" href="GraphImpl.html" />
+    <link rel="prev" title="3. Sequential Tree Representations" href="SequentialRep.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 16 Graphs</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/GraphIntro.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="SequentialRep.html">15.3. Sequential Tree Representations</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="GraphImpl.html">16.2. Graph Implementations</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "GraphIntro";ODSA.SETTINGS.MODULE_LONG_NAME = "Introduction and Terminology";ODSA.SETTINGS.MODULE_CHAPTER = "Graphs"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:58"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><link href="../../../AV/Graph/GraphDefCON.css" rel="stylesheet" type="text/css" />
+<div class="section" id="graphs-chapter-introduction">
+<h1>16.1. Graphs Chapter Introduction<a class="headerlink" href="#graphs-chapter-introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="graph-terminology-and-implementation">
+<h2>16.1.1. Graph Terminology and Implementation<a class="headerlink" href="#graph-terminology-and-implementation" title="Permalink to this headline">¶</a></h2>
+<p>Graphs provide the ultimate in data structure flexibility.
+A graph consists of a set of nodes, and a set of edges where an
+edge connects two nodes.
+Trees and lists can be viewed as special cases of graphs.</p>
+<p>Graphs are used to model both real-world systems and abstract
+problems, and are the data structure of choice in many
+applications.
+Here is a small sampling of the types of problems that graphs are
+routinely used for.</p>
+<ol class="arabic simple">
+<li>Modeling connectivity in computer and communications networks.</li>
+<li>Representing an abstract map as a set of locations with distances
+between locations. This can used to compute shortest routes between
+locations such as in a GPS routefinder.</li>
+<li>Modeling flow capacities in transportation networks to find which
+links create the bottlenecks.</li>
+<li>Finding a path from a starting condition to a goal condition.
+This is a common way to model problems in artificial intelligence
+applications and computerized game players.</li>
+<li>Modeling computer algorithms, to show transitions from one program
+state to another.</li>
+<li>Finding an acceptable order for finishing subtasks in a complex
+activity, such as constructing large buildings.</li>
+<li>Modeling relationships such as family trees, business or military
+organizations, and scientific taxonomies.</li>
+</ol>
+<p>The rest of this module covers some basic graph terminology.
+The following modules will describe fundamental representations for
+graphs, provide a reference implementation, and cover
+core graph algorithms including traversal, topological sort, shortest
+paths algorithms, and algorithms to find the minimal-cost spanning tree.
+Besides being useful and interesting in their own right, these
+algorithms illustrate the use of many other data structures presented
+throughout the course.</p>
+<table class="docutils footnote" frame="void" id="id1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>Some graph applications require that a given pair of vertices
+can have multiple or parallel edges connecting them, or that a
+vertex can have an edge to itself.
+However, the applications discussed here do not require
+either of these special cases.
+To simplify our graph API, we will assume that there are no
+dupicate edges, and no edges that connect a node to itself.</td></tr>
+</tbody>
+</table>
+<p>A <a class="reference internal" href="Glossary.html#term-graph"><em class="xref std std-term ODSAterm">graph</em></a> <span class="math">\(\mathbf{G} = (\mathbf{V}, \mathbf{E})\)</span> consists
+of a set of <a class="reference internal" href="Glossary.html#term-vertex"><em class="xref std std-term ODSAterm">vertices</em></a> <span class="math">\(\mathbf{V}\)</span> and a set of
+<a class="reference internal" href="Glossary.html#term-edge"><em class="xref std std-term ODSAterm">edges</em></a> <span class="math">\(\mathbf{E}\)</span>,
+such that each edge in <span class="math">\(\mathbf{E}\)</span> is a connection between a
+pair of vertices in <span class="math">\(\mathbf{V}\)</span>. <a class="footnote-reference" href="#id1" id="id2">[1]</a>
+The number of vertices is written <span class="math">\(|\mathbf{V}|\)</span>, and the number
+of edges is written <span class="math">\(|\mathbf{E}|\)</span>.
+<span class="math">\(|\mathbf{E}|\)</span> can range from zero to a maximum of
+<span class="math">\(|\mathbf{V}|^2 - |\mathbf{V}|\)</span>.</p>
+<p>A graph whose edges are not directed is called an
+<a class="reference internal" href="Glossary.html#term-undirected-graph"><em class="xref std std-term ODSAterm">undirected graph</em></a>, as shown in part (a) of the following figure.
+A graph with edges directed from one vertex to another
+(as in (b)) is called a <a class="reference internal" href="Glossary.html#term-directed-graph"><em class="xref std std-term ODSAterm">directed graph</em></a> or <a class="reference internal" href="Glossary.html#term-digraph"><em class="xref std std-term ODSAterm">digraph</em></a>.
+A graph with labels associated with its vertices
+(as in (c)) is called a <a class="reference internal" href="Glossary.html#term-labeled-graph"><em class="xref std std-term ODSAterm">labeled graph</em></a>.
+Associated with each edge may be a cost or <a class="reference internal" href="Glossary.html#term-weight"><em class="xref std std-term ODSAterm">weight</em></a>.
+A graph whose edges have weights
+(as in (c)) is said to be a <a class="reference internal" href="Glossary.html#term-weighted-graph"><em class="xref std std-term ODSAterm">weighted graph</em></a>.</p>
+<div class="divdgm" id="graphterms">
+<div id="GdirundirCON">
+</div>
+<p class="caption" style="text-align: center"> Figure 16.1.1: Some types of graphs.</p>
+</div>
+<p>An edge connecting Vertices <span class="math">\(a\)</span> and <span class="math">\(b\)</span> is written
+<span class="math">\((a, b)\)</span>.
+Such an edge is said to be <a class="reference internal" href="Glossary.html#term-incident"><em class="xref std std-term ODSAterm">incident</em></a> with Vertices <span class="math">\(a\)</span>
+and <span class="math">\(b\)</span>.
+The two vertices are said to be <a class="reference internal" href="Glossary.html#term-adjacent"><em class="xref std std-term ODSAterm">adjacent</em></a>.
+If the edge is directed from <span class="math">\(a\)</span> to <span class="math">\(b\)</span>,
+then we say that <span class="math">\(a\)</span> is adjacent to <span class="math">\(b\)</span>,
+and <span class="math">\(b\)</span> is adjacent from <span class="math">\(a\)</span>.
+The <a class="reference internal" href="Glossary.html#term-degree"><em class="xref std std-term ODSAterm">degree</em></a> of a vertex is the number of edges it is incident
+with.
+For example, Vertex <span class="math">\(e\)</span> below has a degree of three.</p>
+<p>In a directed graph, the <a class="reference internal" href="Glossary.html#term-out-degree"><em class="xref std std-term ODSAterm">out degree</em></a> for a vertex is the number
+of neighbors adjacent from it (or the number of edges going out from
+it), while the <a class="reference internal" href="Glossary.html#term-in-degree"><em class="xref std std-term ODSAterm">in degree</em></a> is the number of neighbors adjacent
+to it (or the number of edges coming in to it).
+In (c) above, the in degree of Vertex 1 is two,
+and its out degree is one.</p>
+<div class="divdgm">
+<div id="GneighborCON">
+</div>
+</div>
+<p>A sequence of vertices <span class="math">\(v_1, v_2, ..., v_n\)</span>
+forms a <a class="reference internal" href="Glossary.html#term-path"><em class="xref std std-term ODSAterm">path</em></a> of length <span class="math">\(n-1\)</span> if there exist edges from
+<span class="math">\(v_i\)</span> to <span class="math">\(v_{i+1}\)</span> for <span class="math">\(1 \leq i &lt; n\)</span>.
+A path is a <a class="reference internal" href="Glossary.html#term-simple-path"><em class="xref std std-term ODSAterm">simple path</em></a> if all vertices on the path are
+distinct.
+The <a class="reference internal" href="Glossary.html#term-length"><em class="xref std std-term ODSAterm">length</em></a> of a path is the number of edges it contains.
+A <a class="reference internal" href="Glossary.html#term-cycle"><em class="xref std std-term ODSAterm">cycle</em></a> is a path of length three or more that connects
+some vertex <span class="math">\(v_1\)</span> to itself.
+A cycle is a <a class="reference internal" href="Glossary.html#term-simple-cycle"><em class="xref std std-term ODSAterm">simple cycle</em></a> if the path is simple, except for
+the first and last vertices being the same.</p>
+<div class="divdgm">
+<div id="GpathDefCON">
+</div>
+</div>
+<p>An undirected graph is a <a class="reference internal" href="Glossary.html#term-connected-graph"><em class="xref std std-term ODSAterm">connected graph</em></a> if there is at least
+one path from any vertex to any other.
+The maximally connected subgraphs of an undirected graph are called
+<a class="reference internal" href="Glossary.html#term-connected-component"><em class="xref std std-term ODSAterm">connected components</em></a>.
+For example, this figure shows an undirected graph
+with three connected components.</p>
+<div class="divdgm" id="concom">
+<div id="GconcomCON">
+</div>
+</div>
+<p>A graph with relatively few edges is called a <a class="reference internal" href="Glossary.html#term-sparse-graph"><em class="xref std std-term ODSAterm">sparse graph</em></a>,
+while a graph with many edges is called a <a class="reference internal" href="Glossary.html#term-dense-graph"><em class="xref std std-term ODSAterm">dense graph</em></a>.
+A graph containing all possible edges is said to be a
+<a class="reference internal" href="Glossary.html#term-complete-graph"><em class="xref std std-term ODSAterm">complete graph</em></a>.
+A <a class="reference internal" href="Glossary.html#term-subgraph"><em class="xref std std-term ODSAterm">subgraph</em></a> <span class="math">\(\mathbf{S}\)</span> is formed from graph
+<span class="math">\(\mathbf{G}\)</span> by selecting a subset <span class="math">\(\mathbf{V}_s\)</span> of
+<span class="math">\(\mathbf{G}\)</span>'s vertices and a subset
+<span class="math">\(\mathbf{E}_s\)</span> of <span class="math">\(\mathbf{G}\)</span> 's edges such that for every
+edge <span class="math">\(e  \in \mathbf{E}_s\)</span>,
+both vertices of <span class="math">\(e\)</span> are in <span class="math">\(\mathbf{V}_s\)</span>.
+Any subgraph of <span class="math">\(V\)</span> where all vertices in the graph connect to
+all other vertices in the subgraph is called a <a class="reference internal" href="Glossary.html#term-clique"><em class="xref std std-term ODSAterm">clique</em></a>.</p>
+<div class="divdgm">
+<div id="GsparseDefCON">
+</div>
+</div>
+<p>A graph without cycles is called an <a class="reference internal" href="Glossary.html#term-acyclic-graph"><em class="xref std std-term ODSAterm">acyclic graph</em></a>.
+Thus, a directed graph without cycles is called a
+<a class="reference internal" href="Glossary.html#term-directed-acyclic-graph"><em class="xref std std-term ODSAterm">directed acyclic graph</em></a> or <a class="reference internal" href="Glossary.html#term-dag"><em class="xref std std-term ODSAterm">DAG</em></a>.</p>
+<p>A <a class="reference internal" href="Glossary.html#term-free-tree"><em class="xref std std-term ODSAterm">free tree</em></a> is a connected, undirected graph with no simple
+cycles.
+An equivalent definition is that
+a free tree is connected and has <span class="math">\(|\mathbf{V}| - 1\)</span> edges.</p>
+<div class="section" id="graph-representations">
+<h3>16.1.1.1. Graph Representations<a class="headerlink" href="#graph-representations" title="Permalink to this headline">¶</a></h3>
+<p>There are two commonly used methods for representing graphs.
+The <a class="reference internal" href="Glossary.html#term-adjacency-matrix"><em class="xref std std-term ODSAterm">adjacency matrix</em></a> for a graph is a
+<span class="math">\(|\mathbf{V}| \times |\mathbf{V}|\)</span> array.
+We typically label the vertices from <span class="math">\(v_0\)</span> through
+<span class="math">\(v_{|\mathbf{V}|-1}\)</span>.
+Row <span class="math">\(i\)</span> of the adjacency matrix contains entries for
+Vertex <span class="math">\(v_i\)</span>.
+Column <span class="math">\(j\)</span> in row <span class="math">\(i\)</span> is marked if there is an edge
+from <span class="math">\(v_i\)</span> to <span class="math">\(v_j\)</span> and is not marked otherwise.
+The space requirements for the adjacency matrix are
+<span class="math">\(\Theta(|\mathbf{V}|^2)\)</span>.</p>
+<p>The second common representation for graphs is the
+<a class="reference internal" href="Glossary.html#term-adjacency-list"><em class="xref std std-term ODSAterm">adjacency list</em></a>.
+The adjacency list is an array of linked lists.
+The array is <span class="math">\(|\mathbf{V}|\)</span> items long, with position <span class="math">\(i\)</span>
+storing a pointer to the linked list of edges for Vertex <span class="math">\(v_i\)</span>.
+This linked list represents the edges by the vertices that are
+adjacent to Vertex <span class="math">\(v_i\)</span>.</p>
+<p>Here is an example of the two representations on a directed graph.
+The entry for Vertex 0 stores 1 and 4 because there are two edges
+in the graph leaving Vertex 0, with one going to Vertex 1 and one
+going to Vertex 4.
+The list for Vertex 2 stores an entry for Vertex 4 because there is
+an edge from Vertex 2 to Vertex 4, but no entry for Vertex 3
+because this edge comes into Vertex 2 rather than going out.</p>
+<div class="divdgm" id="directed">
+<div id="GdirRepCON">
+</div>
+<p class="caption" style="text-align: center"> Figure 16.1.6: Representing a directed graph.</p>
+</div>
+<p>Both the adjacency matrix and the adjacency list can be used to store
+directed or undirected graphs.
+Each edge of an undirected graph connecting Vertices <span class="math">\(u\)</span>
+and <span class="math">\(v\)</span> is represented by two directed edges: one from
+<span class="math">\(u\)</span> to <span class="math">\(v\)</span> and one from <span class="math">\(v\)</span> to <span class="math">\(u\)</span>.
+Here is an example of the two representations on an undirected graph.
+We see that there are twice as many edge entries in both the adjacency
+matrix and the adjacency list.
+For example, for the undirected graph, the list for Vertex 2 stores an
+entry for both Vertex 3 and Vertex 4.</p>
+<div class="divdgm" id="undirected">
+<div id="GundirRepCON">
+</div>
+<p class="caption" style="text-align: center"> Figure 16.1.7: Representing an undirected graph.</p>
+</div>
+<p>The storage requirements for the adjacency list depend on both the
+number of edges and the number of vertices in the graph.
+There must be an array entry for each vertex (even if the vertex is
+not adjacent to any other vertex and thus has no elements on its
+linked list), and each edge must appear on one of the lists.
+Thus, the cost is <span class="math">\(\Theta(|\mathbf{V}| + |\mathbf{E}|)\)</span>.</p>
+<p>Sometimes we want to store weights or distances with each each edge,
+such as in Figure <a href="GraphIntro.html#graphterms">16.1.1</a> (c).
+This is easy with the adjacency matrix, where we will just store
+values for the weights in the matrix.
+In Figures <a href="GraphIntro.html#directed">16.1.6</a> and <a href="GraphIntro.html#undirected">16.1.7</a> we
+store a value of &quot;1&quot; at each position just to show that the edge
+exists.
+That could have been done using a single bit, but since bit
+manipulation is typically complicated in most programming languages,
+an implementation might store a byte or an integer at each matrix
+position.
+For a weighted graph, we would need to store at each position in the
+matrix enough space to represent the weight, which might typically be
+an integer.</p>
+<p>The adjacency list needs to explicitly store a weight with each edge.
+In the adjacency list shown below, each linked list node is shown
+storing two values.
+The first is the index for the neighbor at the end of the associated
+edge.
+The second is the value for the weight.
+As with the adjacency matrix, this value requires space to represent,
+typically an integer.</p>
+<div class="divdgm">
+<div id="GweightedCON">
+</div>
+</div>
+<p>Which graph representation is more space efficient depends on the
+number of edges in the graph.
+The adjacency list stores information only for those edges that
+actually appear in the graph, while the adjacency matrix requires
+space for each potential edge, whether it exists or not.
+However, the adjacency matrix requires no overhead for pointers,
+which can be a substantial cost, especially if the only information
+stored for an edge is one bit to indicate its existence.
+As the graph becomes denser, the adjacency matrix becomes
+relatively more space efficient.
+Sparse graphs are likely to have their adjacency list representation
+be more space efficient.</p>
+<div class="topic">
+<p class="topic-title first">Example 16.1.1 </p>
+<p>Assume that a vertex index requires two bytes, a pointer requires
+four bytes, and an edge weight requires two bytes.
+Then the adjacency matrix for the directed graph above
+requires <span class="math">\(2 |\mathbf{V}^2| = 50\)</span> bytes while the adjacency list
+requires <span class="math">\(4 |\mathbf{V}| + 6 |\mathbf{E}| = 56\)</span> bytes.
+For the undirected version of the graph above, the adjacency
+matrix requires the same space as before, while the adjacency list
+requires <span class="math">\(4 |\mathbf{V}| + 6 |\mathbf{E}| = 92\)</span> bytes
+(because there are now 12 edges represented instead of 6).</p>
+</div>
+<div
+    id="GspaceCalcSumm"
+    class="embedContainer"
+    data-exer-name="GspaceCalcSumm"
+    data-long-name="Graph Space Requirements Exercise"
+    data-frame-src="../../../Exercises/Graph/GspaceCalcSumm.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=GraphIntro&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="2.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="5"
+    data-type="ka">
+  
+  <div class="center">
+    <div id="GspaceCalcSumm_iframe"></div>
+  </div>
+</div>
+<p>The adjacency matrix often requires a higher asymptotic cost for an
+algorithm than would result if the adjacency list were used.
+The reason is that it is common for a graph algorithm
+to visit each neighbor of each vertex.
+Using the adjacency list, only the actual edges connecting a vertex to
+its neighbors are examined.
+However, the adjacency matrix must look at each of its
+<span class="math">\(|\mathbf{V}|\)</span>
+potential edges, yielding a total cost of
+<span class="math">\(\Theta(|\mathbf{V}^2|)\)</span>
+time when the algorithm might otherwise require only
+<span class="math">\(\Theta(|\mathbf{V}| + |\mathbf{E}|)\)</span> time.
+This is a considerable disadvantage when the graph is sparse,
+but not when the graph is closer to full.</p>
+</div>
+</div>
+<div class="section" id="graph-terminology-questions">
+<h2>16.1.2. Graph Terminology Questions<a class="headerlink" href="#graph-terminology-questions" title="Permalink to this headline">¶</a></h2>
+<div
+    id="GraphIntroSumm"
+    class="embedContainer"
+    data-exer-name="GraphIntroSumm"
+    data-long-name="Graph Terminology Summary Exercise"
+    data-frame-src="../../../Exercises/Graph/GraphIntroSumm.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=GraphIntro&amp;JOP-lang=en&amp;JXOP-code=java_generic"
+    data-frame-width="950"
+    data-frame-height="650"
+    data-external="false"
+    data-points="3.0"
+    data-required="True"
+    data-showhide="show"
+    data-threshold="10"
+    data-type="ka">
+  
+  <div class="center">
+    <div id="GraphIntroSumm_iframe"></div>
+  </div>
+</div>
+<script type="text/javascript" src="../../../AV/Graph/GdirundirCON.js"></script>
+<script type="text/javascript" src="../../../AV/Graph/GneighborCON.js"></script>
+<script type="text/javascript" src="../../../AV/Graph/GpathDefCON.js"></script>
+<script type="text/javascript" src="../../../AV/Graph/GconcomCON.js"></script>
+<script type="text/javascript" src="../../../AV/Graph/GsparseDefCON.js"></script>
+<script type="text/javascript" src="../../../AV/Graph/GdirRepCON.js"></script>
+<script type="text/javascript" src="../../../AV/Graph/GundirRepCON.js"></script>
+<script type="text/javascript" src="../../../AV/Graph/GweightedCON.js"></script>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="SequentialRep.html">15.3. Sequential Tree Representations</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="GraphImpl.html">16.2. Graph Implementations</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10.13. Binsort &mdash; COMP232: Data Structures and Algorithms</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaMOD-min.css" type="text/css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../../../lib/odsaStyle-min.css" type="text/css" />
+    
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+      URL_ROOT:    './',
+      VERSION:     '0.4.1',
+      COLLAPSE_INDEX: false,
+      FILE_SUFFIX: '.html',
+      HAS_SOURCE:  true
+    };
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+      },
+      "HTML-CSS": {
+        scale: "80"
+      }
+    });
+  </script>
+    <link rel="index" title="COMP232: Data Structures and Algorithms" href="index.html" />
+    <link rel="next" title="14. Radix Sort" href="RadixSort.html" />
+    <link rel="prev" title="12. Heapsort" href="Heapsort.html" />
+
+  </head>
+
+  <body>
+
+
+      <div class="header">
+        
+  
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/jquery.transit.js"></script>
+    <script type="text/javascript" src="../../../JSAV/lib/raphael.js"></script>
+    <script type="text/javascript" src="../../../JSAV/build/JSAV-min.js"></script>
+    <script type="text/javascript" src="_static/config.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaUtils-min.js"></script>
+    <script type="text/javascript" src="../../../lib/odsaMOD-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="../../../lib/dataStructures.js"></script>
+    <script type="text/javascript" src="../../../lib/conceptMap.js"></script>
+
+        
+<a id="username-link" style="float:right;color:red;margin:10px 20px auto; display: none" class="username-link" href="Gradebook.html"></a>
+<a id="login-link" style="float:right;color:red;margin:10px 20px auto" class="login-link" href="#"><Macro 'login'></a>
+<div id="login-box" class="login-popup">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <label class="username">
+        <span>Username</span>
+        <input id="username" value="" type="text" autocomplete="on" placeholder="Username" tabindex="1">
+      </label>
+      <label class="password">
+        <span>Password</span>
+        <input id="password" value="" type="password" placeholder="Password" tabindex="2">
+        <span><a id="forgot" href="#">Forgot your password?</a></span>
+      </label>
+
+      <p>
+        <input type="submit" id="login-submit-button" value="Sign in" tabindex="3" />
+      </p>
+      <p>
+        <input type="button" id="register-button" value="Register" tabindex="4" />
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+        
+<a id="registration-link" style="float:right;color:red;margin:10px 20px auto" class="registration-link" href="#">Register</a>
+<div id="registration-box" class="registration-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="signin" action="https://#">
+    <fieldset class="textbox">
+      <div id="register_error" class="error"></div>
+      <label class="username">
+        <span>Username:</span>
+        <input type="text" id="user" placeholder="Username" />
+      </label>
+
+      <label class="password">
+        <span>Password</span>
+        <input id="pass" type="password" placeholder="Password" />
+      </label>
+
+      <label class="password">
+        <span>Confirm Password</span>
+        <input id="rpass" type="password" placeholder="Confirm Password" />
+      </label>
+
+      <label class="email">
+        <span>Email:</span>
+        <input type="text" id="email" placeholder="Email">
+      </label>
+
+      <p>
+        <input type="submit" id="register-submit-button" value="Register &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+<img class="leftlogo" src="_static/OpenDSALogoT64.png" alt="Logo"/><div class="title-wrapper">
+          <div class="title-inbetween" style="display: table-cell; vertical-align: middle;">
+            <div class="title-content">
+              <h1 class="heading" ><a href="index.html">
+                <span>COMP232: Data Structures and Algorithms</span></a></h1>
+              <h2 class="heading" ><span>Chapter 10 Sorting</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topnav">
+        <p>
+            <a style="float:left;color:blue;" href="../source/BinSort.rst"
+              target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
+            <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
+
+          
+        «&#160;&#160;<a id="prevmod" href="Heapsort.html">10.12. Heapsort</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod" href="RadixSort.html">10.14. Radix Sort</a>&#160;&#160;»
+
+
+        </p>
+      </div>
+       
+      <div class="content">
+        
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "BinSort";ODSA.SETTINGS.MODULE_LONG_NAME = "Binsort";ODSA.SETTINGS.MODULE_CHAPTER = "Sorting"; ODSA.SETTINGS.BUILD_DATE = "2017-11-27 23:03:57"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><div class="section" id="index-0">
+<span id="id1"></span><h1>10.13. Binsort<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>10.13.1. Binsort<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Imagine that for the past year, as you paid your various bills, you
+then simply piled all the paperwork into a corner somewhere.
+Now the year has ended and you have decided that it is time to sort
+all of these papers by what the bill was for (phone, electricity,
+rent, etc.) and date.
+A pretty natural approach is to make some space on the floor and, as
+you go through the pile of papers, put the phone bills into one pile,
+the electric bills into another pile, and so on.
+Once this initial assignment of bills to piles is done (in one pass),
+you can then sort each pile by date relatively quickly, because each
+pile is fairly small.
+This is the basic idea behind a <a class="reference internal" href="Glossary.html#term-binsort"><em class="xref std std-term ODSAterm">Binsort</em></a>.</p>
+<p>Let's start with an especially easy situation.
+Consider the following code fragment to sort a permutation of the
+numbers 0 through <span class="math">\(n-1\)</span>.</p>
+<div id="Binsort_simplebinsort_code"><ul><li><a href="#Binsort_simplebinsort_code_Java_Generic">Java (Generic)</a></li><li><a href="#Binsort_simplebinsort_code_Java">Java</a></li><li><a href="#Binsort_simplebinsort_code_Processing">Processing</a></li><li><a href="#Binsort_simplebinsort_code_Cpp">C++</a></li></ul><div id="Binsort_simplebinsort_code_Java_Generic"><div class="highlight-java"><div class="highlight"><pre><span></span>  <span class="k">for</span> <span class="o">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="n">B</span><span class="o">[</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]]</span> <span class="o">=</span> <span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</pre></div>
+</div>
+</div><div id="Binsort_simplebinsort_code_Java"><div class="highlight-java"><div class="highlight"><pre><span></span>  <span class="k">for</span> <span class="o">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="n">B</span><span class="o">[</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]]</span> <span class="o">=</span> <span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</pre></div>
+</div>
+</div><div id="Binsort_simplebinsort_code_Processing"><div class="highlight-java"><div class="highlight"><pre><span></span>  <span class="k">for</span> <span class="o">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="n">B</span><span class="o">[</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]]</span> <span class="o">=</span> <span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</pre></div>
+</div>
+</div><div id="Binsort_simplebinsort_code_Cpp"><div class="highlight-c++"><div class="highlight"><pre><span></span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="p">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">B</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</pre></div>
+</div>
+</div></div><script>$(function() {$( "#Binsort_simplebinsort_code" ).tabs();});</script><div id="binsortS1CON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Binsort Slideshow 1">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="binsortS1CON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="binsortS1CON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="binsortS1CON_cm_error_msg" class="cm_error_msg">
+   <img id="binsortS1CON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>Here the key value is used to determine the
+position for a record in the final sorted array.
+This is the most basic example of a <a class="reference internal" href="Glossary.html#term-binsort"><em class="xref std std-term ODSAterm">Binsort</em></a>,
+where key values are used to assign records to bins.
+This algorithm is extremely efficient,
+always taking <span class="math">\(\Theta(n)\)</span> time
+regardless of the initial ordering of the keys.
+This is far better than the performance of any sorting
+algorithm that we have seen so far.
+The problem is that this algorithm has limited use because it
+works only for a permutation of the numbers from 0 to <span class="math">\(n-1\)</span>.</p>
+<p>We can extend this simple version of the Binsort algorithm to be more
+useful.
+Because Binsort must perform direct computation on the key value (as
+opposed to just asking which of two records comes first as our
+previous sorting algorithms did),
+we will assume that the records use an integer key type.</p>
+<p>The simplest extension is to allow for duplicate values among the
+keys.
+This can be done by turning array slots into arbitrary-length bins by
+turning array <code class="docutils literal"><span class="pre">B</span></code> into an array of linked lists.
+In this way, all records with key value <span class="math">\(i\)</span> can be placed in bin
+<code class="docutils literal"><span class="pre">B[i]</span></code>.
+A second extension allows for a key range greater than <span class="math">\(n\)</span>.
+For example, a set of <span class="math">\(n\)</span> records might have keys in the range 1
+to <span class="math">\(2n\)</span>.
+The only requirement is that each possible key value have a
+corresponding bin in <code class="docutils literal"><span class="pre">B</span></code>.
+We assume that we know that the range of possible keys is between
+0 and <code class="docutils literal"><span class="pre">MaxKeyValue</span></code>.
+Here is the extended Binsort algorithm.</p>
+<div id="Binsort_Binsort_code"><ul><li><a href="#Binsort_Binsort_code_Java_Generic">Java (Generic)</a></li><li><a href="#Binsort_Binsort_code_Java">Java</a></li><li><a href="#Binsort_Binsort_code_Processing">Processing</a></li><li><a href="#Binsort_Binsort_code_Cpp">C++</a></li></ul><div id="Binsort_Binsort_code_Java_Generic"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">binsort</span><span class="o">(</span><span class="n">Integer</span><span class="o">[]</span> <span class="n">A</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">List</span><span class="o">[]</span> <span class="n">B</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">[</span><span class="n">MaxKeyValue</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+  <span class="n">Object</span> <span class="n">item</span><span class="o">;</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">MaxKeyValue</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">();</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="n">B</span><span class="o">[</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]].</span><span class="na">append</span><span class="o">(</span><span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]));</span>
+  <span class="kt">int</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">MaxKeyValue</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">moveToStart</span><span class="o">();</span> <span class="o">(</span><span class="n">item</span> <span class="o">=</span> <span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getValue</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">next</span><span class="o">())</span>
+      <span class="n">A</span><span class="o">[</span><span class="n">pos</span><span class="o">++]</span> <span class="o">=</span> <span class="o">(</span><span class="n">Integer</span><span class="o">)</span><span class="n">item</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div><div id="Binsort_Binsort_code_Java"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">binsort</span><span class="o">(</span><span class="n">Integer</span><span class="o">[]</span> <span class="n">A</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">List</span><span class="o">[]</span> <span class="n">B</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">[</span><span class="n">MaxKeyValue</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+  <span class="n">Object</span> <span class="n">item</span><span class="o">;</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">MaxKeyValue</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">();</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="n">B</span><span class="o">[</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]].</span><span class="na">append</span><span class="o">(</span><span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]));</span>
+  <span class="kt">int</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">MaxKeyValue</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">moveToStart</span><span class="o">();</span> <span class="o">(</span><span class="n">item</span> <span class="o">=</span> <span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getValue</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">next</span><span class="o">())</span>
+      <span class="n">A</span><span class="o">[</span><span class="n">pos</span><span class="o">++]</span> <span class="o">=</span> <span class="o">(</span><span class="n">Integer</span><span class="o">)</span><span class="n">item</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div><div id="Binsort_Binsort_code_Processing"><div class="highlight-java"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">binsort</span><span class="o">(</span><span class="n">Integer</span><span class="o">[]</span> <span class="n">A</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">List</span><span class="o">[]</span> <span class="n">B</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">[</span><span class="n">MaxKeyValue</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+  <span class="n">Object</span> <span class="n">item</span><span class="o">;</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">MaxKeyValue</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">();</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="n">B</span><span class="o">[</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]].</span><span class="na">append</span><span class="o">(</span><span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]));</span>
+  <span class="kt">int</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">MaxKeyValue</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">moveToStart</span><span class="o">();</span> <span class="o">(</span><span class="n">item</span> <span class="o">=</span> <span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getValue</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">B</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">next</span><span class="o">())</span>
+      <span class="n">A</span><span class="o">[</span><span class="n">pos</span><span class="o">++]</span> <span class="o">=</span> <span class="o">(</span><span class="n">Integer</span><span class="o">)</span><span class="n">item</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div><div id="Binsort_Binsort_code_Cpp"><div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">binsort</span><span class="p">(</span><span class="n">Integer</span><span class="p">[]</span> <span class="n">A</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">List</span><span class="p">[]</span> <span class="n">B</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="p">[</span><span class="n">MaxKeyValue</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+  <span class="n">Object</span> <span class="n">item</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">MaxKeyValue</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="p">();</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">A</span><span class="p">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">B</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]].</span><span class="n">append</span><span class="p">(</span><span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+  <span class="kt">int</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">MaxKeyValue</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">moveToStart</span><span class="p">();</span> <span class="p">(</span><span class="n">item</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">getValue</span><span class="p">())</span> <span class="o">!=</span> <span class="n">null</span><span class="p">;</span> <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">next</span><span class="p">())</span>
+      <span class="n">A</span><span class="p">[</span><span class="n">pos</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Integer</span><span class="p">)</span><span class="n">item</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div><script>$(function() {$( "#Binsort_Binsort_code" ).tabs();});</script><p>This version of Binsort can sort any collection of records whose key
+values fall in the range from 0 to <code class="docutils literal"><span class="pre">MaxKeyValue</span></code>.</p>
+<div id="binsortS2CON" class="ssAV" data-points="0.0" data-threshold="1.0" data-type="ss" data-required="False" data-long-name="Binsort Slideshow 2">
+ <span class="jsavcounter"></span>
+ <a class="jsavsettings" href="#">Settings</a>
+ <div class="jsavcontrols"></div>
+ <p class="jsavoutput jsavline"></p>
+ <div class="jsavcanvas"></div>
+ <div class="prof_indicators">
+  <img id="binsortS2CON_check_mark" class="prof_check_mark" src="_static/Images/green_check.png" alt="Proficient" />
+  <span id="binsortS2CON_cm_saving_msg" class="cm_saving_msg">Saving...</span>
+  <span id="binsortS2CON_cm_error_msg" class="cm_error_msg">
+   <img id="binsortS2CON_cm_warning_icon" class="cm_warning_icon" src="_static/Images/warning.png" alt="Error Saving" /><br />
+   Server Error<br />
+   <a href="#" class="resubmit_link">Resubmit</a>
+  </span>
+ </div>
+</div>
+<p></p>
+<p>The total work required is simply that needed to place each record
+into the appropriate bin and then take all of the records out of the
+bins.
+Thus, we need to process each record twice, for <span class="math">\(\Theta(n)\)</span>
+work.</p>
+<p>Does that cost analysis really make sense?
+Actually, that last statement is <strong>wrong</strong>,
+because it neglects a crucial observation.
+Taking all of the records out of the bins requires Binsort to look at
+every bin to see if it contains a record.
+Thus, the algorithm must process <code class="docutils literal"><span class="pre">MaxKeyValue</span></code> bins,
+regardless of how many of them actually hold records.
+If <code class="docutils literal"><span class="pre">MaxKeyValue</span></code>
+is small compared to <span class="math">\(n\)</span>, then this is not a great expense.
+Suppose that <code class="docutils literal"><span class="pre">MaxKeyValue</span></code> <span class="math">\(= n^2\)</span>.
+In this case, the total amount of work done will be
+<span class="math">\(\Theta(n + n^2) = \Theta(n^2)\)</span>.
+This results in a poor sorting algorithm.
+And the algorithm becomes even worse as the disparity between
+<span class="math">\(n\)</span> and <code class="docutils literal"><span class="pre">MaxKeyValue</span></code> increases.
+In addition, a large key range requires an unacceptably large array
+<code class="docutils literal"><span class="pre">B</span></code>.
+Thus, even the extended Binsort is useful only for a limited key
+range.</p>
+<p>A further generalization to Binsort would yield a <a class="reference internal" href="Glossary.html#term-bucket-sort"><em class="xref std std-term ODSAterm">bucket sort</em></a>.
+Here, each bin (now called a bucket) is associated with not just one
+key, but rather a range of key values.
+A bucket sort assigns records to buckets and then relies on some
+other sorting technique to sort the records within each bucket.
+The hope is that the relatively inexpensive bucketing process will put
+only a small number of records into each bucket, and that a
+&quot;cleanup sort&quot; to each bucket will then be relatively cheap.
+This is similar in spirit to the Radix Sort, which extends the
+concept of the Binsort in a practical way.</p>
+<script type="text/javascript" src="../../../AV/Sorting/binsortS1CON.js"></script>
+<script type="text/javascript" src="../../../AV/Sorting/binsortS2CON.js"></script>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
+      
+        «&#160;&#160;<a id="prevmod1" href="Heapsort.html">10.12. Heapsort</a>
+        &#160;&#160;::&#160;&#160;
+        <a  class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a  id="nextmod1" href="RadixSort.html">10.14. Radix Sort</a>&#160;&#160;»
+
+</p>
+      </div>
+      <img style="float:right;" src="_static/nsf1.gif" height="62" width="62" alt="nsf"/>
+
+
+    <div class="footer">
+      <p>
+        <span class="email_div" style="display:inline;">
+          <a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a>
+          <a id="bugreport-link" style="float:left;color:blue;" class="bugreport-link" href="#">| Report a bug</a>
+        </span>
+      </p>
+        &copy; Copyright 2016 by OpenDSA Project Contributors and distributed under an MIT license.
+      Last updated on Nov 27, 2017.
+      Created using <a target="_blank" href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.
+    </div>
+    
+<div id="bugreport-box" class="bugreport-popup ">
+  <a href="#" class="close"><img src="_static/Images/close_pop.png" class="btn_close" title="Close Window" alt="Close Window" /></a>
+  <form method="post" class="report" action="https://#">
+    <fieldset class="textbox">
+      <div id="bug_error" class="error"></div>
+      <label>
+        <span>Summary*:</span>
+        <input type="text" id="b_title" placeholder="Summary" />
+      </label>
+
+      <label class="os">
+        <span>Operating system*:</span>
+        <select id="b_os">
+          <option value="windows">Windows</option>
+          <option value="macos">Mac OS</option>
+          <option value="linux">Linux</option>
+          <option value="ios">iOS</option>
+          <option value="android">Android</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="browser">
+        <span>Browser*:</span>
+        <select id="b_browser">
+          <option value="chrome">Chrome</option>
+          <option value="safari">Safari</option>
+          <option value="internetexplorer">Internet Explorer</option>
+          <option value="opera">Opera</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label class="description">
+        <span>Description*:</span><br>
+        <textarea id="b_description" rows="5" cols="25" placeholder="***BUG** Please enter: (1) a consice description of the problem. (2) steps to reproduce bug. (3) the version of your browser and operating system."></textarea>
+      </label>
+
+      <label class="screenshot">
+        <span>Attach a screenshot (optional):</span>
+        <input type="file" id="b_screenshot" accept="image/*" placeholder="Attach a screenshot (optional)">
+      </label>
+
+      <p>
+        <input type="submit" id="bug-submit-button" value="Submit &rarr;"/>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+  </body>
+</html>
