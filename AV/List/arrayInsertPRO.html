@@ -2,57 +2,57 @@
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-  <title>BST Create Tree</title>
+  <title>Array Insert</title>
   <link rel="stylesheet" href="../../JSAV/css/JSAV.css" type="text/css" />
   <link rel="stylesheet" href="../../lib/odsaAV-min.css" type="text/css" />
   <link rel="stylesheet" href="../../lib/odsaStyle-min.css" type="text/css" />
-  <link rel="stylesheet" href="../../binary/BSTCON.css" type="text/css" />
   <style>
     #container {
-      width: 1020px;
-      height: 1000px;
+      width: 830px;
     }
     #av {
-      overflow: hidden;
+      min-height: 500px;
+    }
+
+	.insertIndex {
+	background-color: green;
+	color: white;
+	}
+
+  .wrongIndex {
+    background-color: red;
+    color: white;
+  }
+
+    .bgColor {
+      font-size: 130%;
+      background-color: yellow;
+    }
+    .bold {
+      stroke-width: 4;
+    }
+    .jsavstack {
+      min-height: 80px;
     }
     .jsavtreenode {
       cursor: pointer;
-      /*align-content: right;
-      align-content: top;*/
-      /*position: relative;*/
-      margin-right: 100px;
-      overflow:visible;
     }
-    .jsavedge.rededge{
-      stroke-width: 4;
-      stroke: red;
+    .jsavtreenode.jsavnullnode, .jsavnode.jsavindex{
+      cursor: default;
     }
-    .jsavstacknode {
-      font-size: 1.25em;
+    .jsavtree {
+      top: 20px;
     }
-    .jsavcanvas {
-      overflow: hidden
-      min-width: 1000px;
-      align-content: center;
+    .jsavcontainer {
+      min-height: 540px;
     }
-    .jsavcode {
-      width: 500px;
-      /*align-content: left;
-      margin-left: 10px;
-      margin-top: 20px;
-      margin-right: -10px;*/
-    }
-
     .blueline {
       stroke-width: 4;
       stroke: blue;
     }
-    .avcontainer {
-      width: 1000px;
-      align-content: center;
-    }
   </style>
 </head>
+
 <body>
   <div id="container">
     <table class="proHeaderTable">
@@ -60,7 +60,6 @@
         <td class="headerLeft"></td>
         <td class="headerCenter">
           <p class="jsavexercisecontrols"></p>
-
         </td>
         <td class="headerRight">
           <input id="about" type="button" name="about" />
@@ -70,11 +69,14 @@
     </table>
     <form class="avcontainer">
       <p class="instructLabel"></p>
-      <p class="instructions" style="text-align: center"></p>
-      <p class="jsavcode"></p>
-
+      <p class="instructions"></p>
 
       <div id="av" class="jsavcanvas">
+        <p style="text-align: top">
+            <input id="Insert" type="button" name="Insert" value="Insert" />
+            <input id="Next" type="button" name="Next" value="Next" />
+        </p>
+        </p>
       </div>
     </form>
   </div>
@@ -87,7 +89,8 @@
   <script src="../../lib/odsaUtils-min.js"></script>
   <script src="../../lib/odsaAV-min.js"></script>
   <script src="../../JSAV/extras/stack.js"></script>
-  <script src="BSTCODE.js"></script>
-  <script src="BSTcreatePRO.js"></script>
+  <script src="arrayUtils.js"></script>
+  <script src="arrayInsertPRO.js"></script>
+
 </body>
 </html>

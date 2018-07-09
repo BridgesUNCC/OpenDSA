@@ -19,40 +19,15 @@ $(document).ready(function () {
     }
   }
 
-  $(document).on('click', '#addnode', function() {
-    console.log("addnode")
-    var rootNode = jsavTree.root();
-    rootNode.value(nextArray[count]);
-    jsavTree.layout();
-    exercise.gradeableStep();
-    arr.value(count, "");
-    count++;
-  });
-  $(document).on('click', '#addleft', function() {
-    currentNode.left(nextArray[count]);
-    removeStyle(currentNode);
-    jsavTree.layout();
-    exercise.gradeableStep();
-    arr.value(count, "");
-    count++
-  });
-  $(document).on('click', '#addright', function() {
-    currentNode.right(nextArray[count]);
-    removeStyle(currentNode);
-    jsavTree.layout();
-    exercise.gradeableStep();
-    arr.value(count, "");
-    count++
-  });
-
   function initialize() {
     if(arrcount){
-      var arrcount = 0;
+      arrcount = 0;
     }
     av._undo = [];
     if(count){
       count = 0;
     }
+
     if(JSAV_EXERCISE_OPTIONS.code){
       av.clear();
     }
@@ -65,23 +40,29 @@ $(document).ready(function () {
       nextArray[i] = randomVal;
     }
 
-    arr = av.ds.array(nextArray, {center: true, xtransition: 5, ytransition: -3});
+    if(arr){
+      arr.clear();
+    }
 
+    arr = av.ds.array(nextArray, {visible: true, center: true, xtransition: 5, ytransition: -3});
+    arr.highlight(0);
     arr.layout();
 
-    if (jsavTree) {
+    if (jsavTree) {jsavTree = av.ds.binarytree({ visible: true, nodegap: 25, anchor: "center "});
       jsavTree.clear();
     }
     //generate random tree
-    jsavTree = av.ds.binarytree({center: true, visible: true, nodegap: 25});
+    jsavTree = av.ds.binarytree({ center: true, visible: true, nodegap: 25});
     jsavTree.click(clickHandler);
+    jsavTree.root("?")
     jsavTree.layout();
 
     av.container.find(".jsavcanvas").css("min-height", 442);
-    av.container.find(".jsavtree").css("min-width", 10);
-    av.container.find(".jsavtree").css("right", 10);
+    // av.container.find(".jsavtree").css("min-width", 10);
+    // av.container.find(".jsavtree").css("right", 20);
 
     count = 0;
+    arrcount = 0;
 
 
     return jsavTree;
@@ -197,12 +178,19 @@ $(document).ready(function () {
   }
 
 
-  var arrcount = 0;
   var clickHandler = function () {
     BST.turnAnimationOff();
     currentNode = this;
-    this.highlight();
-    arrcount++;
+    if (this.value() == "?"){
+      this.value(arr.value(arrcount));
+      arr.value(arrcount, "");
+      arr.unhighlight(arrcount);
+      arr.highlight(arrcount + 1);
+      this.left("?");
+      this.right("?");
+      jsavTree.layout();
+      arrcount++;
+    }
   };
 
 
@@ -218,6 +206,7 @@ $(document).ready(function () {
       insertArray = [],
       jsavTree,
       arr,
+      arrcount,
       count = 0,
       insertSize = 5,
       treeSize = 14,          //20 nodes

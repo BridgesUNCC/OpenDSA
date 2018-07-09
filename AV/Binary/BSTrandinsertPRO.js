@@ -227,7 +227,7 @@ $(document).ready(function () {
   }
 
   function removeEmpty(node){
-    if (node.value() == ""){
+    if (node.value() == "?"){
       node.remove();
     }
     if (node.left()){
@@ -251,20 +251,21 @@ $(document).ready(function () {
         if(this.left() || this.right()){
           this.highlight();
           this.edgeToParent().addClass("blueline");
+          jsavTree.layout();
         }
         if(!this.left()){
           this.edgeToParent().addClass("blueline");
-          this.addChild("");
+          this.addChild("?");
           this.highlight();
         }
         jsavTree.layout();
         if(!this.right()){
           this.edgeToParent().addClass("blueline");
-          this.addChild("");
+          this.addChild("?");
           this.highlight();
         }
         jsavTree.layout();
-        if(this.value() == ""){
+        if(this.value() == "?"){
           this.value(stack.first().value());
           removeStyle(this);
           removeEmpty(jsavTree.root());

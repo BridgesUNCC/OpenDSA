@@ -194,6 +194,8 @@ Tree Property if equal values appear in the left subtree.
 .. avembed:: AV/List/llistinsertPRO.html pe
 .. avembed:: AV/List/llistDeletePRO.html pe
 
+.. avembed:: AV/List/arrayInsertPRO.html pe
+
 
 
 .. odsascript:: AV/Binary/BSTsearchCON.js
