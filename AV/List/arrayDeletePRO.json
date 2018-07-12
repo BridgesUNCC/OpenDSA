@@ -1,10 +1,10 @@
 {
   "translations": {
     "en": {
-      ".avTitle": "Sorted Array Insert",
+      ".avTitle": "Sorted Array Delete",
       "av_Authors": "Anna Boekelheide",
       ".instructLabel": "Instructions:",
-      ".instructions": "Click the 'Next' button until you've reached the correct position in which to insert the value. Then click 'Insert'.",
+      ".instructions": "Click the 'Next' button until you've reached the correct value. The click 'Delete' to delete the value.",
       "#about": "About"
     }
   },

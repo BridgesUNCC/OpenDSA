@@ -1,26 +1,28 @@
 "use strict";
+
 $(document).ready(function() {
 	// Process about button: Pop up a message with an Alert
 	function about() {
 		alert(ODSA.AV.aboutstring(interpret(".avTitle"), interpret("av_Authors")));
 	}
-
 	$('#about').click(about);
+
 	// Processes the reset button
 	function initialize() {
-		clearInterval(intv);
 		if(stack)
 			stack.clear(); // clear number in the stack
 		if(userArr)
 			userArr.clear(); // clear the array
-		var num_values = arraySize - stackSize;
 		// generate the array
 		initialArray = genArrNoRepeat(89, arraySize)
-		for(var i = 0; i < stackSize; i++)
-			initialArray[num_values + i] = "";
-		stackArray = buildArrayUniqueValues(initialArray, stackSize)
-		stack = buildStackFromArr(stackArray, stackSize, createStackLayout(av))
-		// highlight the top number of the stack
+		stack = createStackLayout(av);
+		stackArray = [];
+		for(var i = 0; i < stackSize; i++) {
+			var new_val = initialArray[Math.floor(Math.random() * initialArray.length)];
+			stack.addLast(new_val);
+			stackArray[i] = new_val;
+		}
+		// highlight the stack's top number
 		stack.first().highlight();
 		stack.layout();
 		// Create the array the user will intereact with
@@ -28,14 +30,13 @@ $(document).ready(function() {
 		return userArr;
 	}
 
-	// Create the model solution used for grading the exercise
+	// Create the model solution for grading the exercise
 	function modelSolution(modelav) {
-		// Create the model stack and build it from the stack array
 		modelStack = createStackLayout(modelav);
 		modelStack = buildStackFromArr(stackArray, stackSize, modelStack)
 		modelStack.layout();
 		modelStack.first().highlight();
-		// Initialize the display or else the model answer won't show up until
+		// Initialize the display or the model answer won't show up until
 		// the second step of the slideshow
 		var modelArr = createArrayLayout(modelav, initialArray, true, arrayLayout.val())
 		modelav.displayInit();
@@ -45,30 +46,16 @@ $(document).ready(function() {
 			modelArr.highlight(0);
 			modelav.step();
 			while(modelArr.value(ind) <= modelStack.first().value()) {
-			  modelArr.unhighlight(ind - 1);
+				modelArr.unhighlight(ind - 1);
 				modelArr.highlight(ind);
 				modelav.step();
 				ind++;
 			}
-			modelArr.unhighlight(ind - 1);
+			ind--;
+			modelArr.unhighlight(ind);
 			modelArr.addClass(ind, "correctIndex");
-			modelav.gradeableStep();
-			var current = modelArr.size() - 1
-			while(current >= ind) {
-				if(modelArr.value(current) == "") {
-					modelArr.unhighlight(current)
-					current = current - 1
-				} else {
-					if(modelArr.value(current - 1) != "") {
-						modelArr.value(current + 1, modelArr.value(current))
-						modelArr.value(current, "")
-					} else
-						current = current - 1
-				}
-			}
-			modelav.step()
-			modelArr.value(ind, modelStack.first().value())
 			modelStack.removeFirst();
+			modelav.gradeableStep();
 			modelArr.removeClass(getFirstIndWithClass(modelArr, "correctIndex"), "correctIndex");
 		}
 		return modelArr;
@@ -81,57 +68,25 @@ $(document).ready(function() {
 		var modArrElems = JSAV.utils._helpers.getIndices($(modelArray.element).find("li"));
 		var userArrElems = JSAV.utils._helpers.getIndices($(userArr.element).find("li"));
 		for(var i = 0; i < modelArray.size(); i++) {
-			// Fix any incorrect values
+			// Fix incorrect values
 			userArr.value(i, modelArray.value(i));
 			// Ensure the classes of each element in the user array match those in the model solution
 			userArrElems[i].className = modArrElems[i].className;
 		}
 	}
 
-	function insertValue(hlPos, insert_val) {
-		intv = setInterval(function animateStep() {
-			var position = userArr.size() - 1
-			var insert_pos = getIndicesWithClass(userArr, "correctIndex")[0];
-			while(position > insert_pos) {
-				if(userArr.value(position) == "")
-					position = position - 1
-				else {
-					if(userArr.value(position - 1) != "") {
-						userArr.value(position + 1, userArr.value(position))
-						userArr.value(position, "")
-					} else
-						position = position - 1
-				}
-				if(position == insert_pos) {
-					userArr.value(position + 1, userArr.value(position))
-					userArr.value(position, "")
-					var val = stack.first().value()
-					stack.removeFirst();
-					userArr.value(position, val)
-					userArr.removeClass(getFirstIndWithClass(userArr, "correctIndex"),
-						"correctIndex");
-					clearInterval(intv);
-				}
-			}
-		}, 1800);
-		userArr.unhighlight(hlPos);
-	}
-
-	function insertButton() {
-		if(countIndWithClass(userArr, "correctIndex") == 0) {
+	function foundButton() {
+		if(!arrayHasClass(userArr, "correctIndex")) {
 			clearClassFromArr(userArr, "wrongIndex");
-			var insert_val = stack.first().value();
 			var hlPos = getHighlight(userArr);
 			var array_value = userArr.value(hlPos);
-			if(array_value >= insert_val && (hlPos == 0 || userArr.value(hlPos - 1) <
-					insert_val)) {
+			if(array_value == stack.first().value()) 
 				userArr.addClass(hlPos, "correctIndex");
-				userArr.unhighlight(hlPos);
-			} else
+			else
 				userArr.addClass(hlPos, "wrongIndex");
+			stack.removeFirst();
 			exercise.gradeableStep();
 			userArr.unhighlight(hlPos);
-			insertValue(hlPos, insert_val);
 		}
 	}
 
@@ -141,15 +96,14 @@ $(document).ready(function() {
 			var hlPos = getHighlight(userArr);
 			if(hlPos > -1)
         moveHighlight(hlPos, hlPos + 1, userArr)
-			// the beginning of the exercise. Highlight the first value.
-			else
+			else // the beginning of the exercise. Highlight the first value.
 				userArr.highlight(0);
 		}
 	}
-
+	
 	//attach the button handlers
 	$('#Next').click(nextStepButton);
-	$('#Insert').click(insertButton);
+	$('#Found').click(foundButton);
 	
 	//////////////////////////////////////////////////////////////////
 	// Start processing here
@@ -157,7 +111,6 @@ $(document).ready(function() {
 	var arraySize = 13,
 		stackSize = 5,
 		initialArray = [],
-		intv,
 		stack,
 		modelStack,
 		stackArray,

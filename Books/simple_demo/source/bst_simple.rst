@@ -2,7 +2,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple";ODSA.SETTINGS.MODULE_LONG_NAME = "Binary Search Trees";ODSA.SETTINGS.MODULE_CHAPTER = "A Simple Example"; ODSA.SETTINGS.BUILD_DATE = "2018-07-09 14:01:05"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple";ODSA.SETTINGS.MODULE_LONG_NAME = "Binary Search Trees";ODSA.SETTINGS.MODULE_CHAPTER = "A Simple Example"; ODSA.SETTINGS.BUILD_DATE = "2018-07-12 15:10:52"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
@@ -226,6 +226,18 @@ Tree Property if equal values appear in the left subtree.
 
 .. avembed:: AV/List/arrayInsertPRO.html pe
    :module: bst_simple
+.. avembed:: AV/List/arrayFindPRO.html pe
+   :module: bst_simple
+.. avembed:: AV/List/arrayDeletePRO.html pe
+   :module: bst_simple
+
+.. avembed:: AV/cs1/forLoop1DPRO.html pe
+   :module: bst_simple
+.. avembed:: AV/cs1/forLoop2DPRO.html pe
+   :module: bst_simple
+
+
+
 
 
 

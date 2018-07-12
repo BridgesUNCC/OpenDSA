@@ -195,6 +195,14 @@ Tree Property if equal values appear in the left subtree.
 .. avembed:: AV/List/llistDeletePRO.html pe
 
 .. avembed:: AV/List/arrayInsertPRO.html pe
+.. avembed:: AV/List/arrayFindPRO.html pe
+.. avembed:: AV/List/arrayDeletePRO.html pe
+
+.. avembed:: AV/cs1/forLoop1DPRO.html pe
+.. avembed:: AV/cs1/forLoop2DPRO.html pe
+
+
+
 
 
 
