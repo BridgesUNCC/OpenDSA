@@ -4,11 +4,8 @@
       ".avTitle": "BST Tree Building",
       "av_Authors": "Matthew McQuaigue",
       ".instructLabel": "Instructions:",
-      ".instructions": "Build a BST by following the algorithm and using the 'Add Root Node', 'Add Left Child', and 'Add Right Child' buttons. To add a root node, click the empty node and click 'Add Root Node'. To add a child to a parent node, click to highlight the parent and then click the 'Add Left Child' or 'Add Right Child' buttons.",
-      "#about": "About",
-      "#addnode": "Add Root Node",
-      "#addleft": "Add Left Child",
-      "#addright": "Add Right Child"
+      ".instructions": "• Build a BST based on the algorithm above using the values in the array.<br>• Start by inserting the first value into the root by clicking the '?' node.<br>• Once a value is inserted, leaf nodes will appear for possible insertion spots.<br>• Continue to insert values untill the array is empty.",
+      "#about": "About"
     }
   },
   "params": {

@@ -4,7 +4,7 @@
       ".avTitle": "Sorted Array Delete",
       "av_Authors": "Anna Boekelheide",
       ".instructLabel": "Instructions:",
-      ".instructions": "Click the 'Next' button until you've reached the correct value. The click 'Delete' to delete the value.",
+      ".instructions": "<p>1. Click the 'Next' button until you've reached the correct value.</p> <p>2. Click 'Delete' to delete the value.</p>",
       "#about": "About"
     }
   },

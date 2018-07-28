@@ -4,7 +4,7 @@
       ".avTitle": "BST Random Insertion",
       "av_Authors": "Matthew McQuaigue",
       ".instructLabel": "Instructions:",
-      ".instructions": "Based on the algorithm shown above, Click and highlight the path of insertion for the given value at the front of the stack.",
+      ".instructions": "• Based on the algorithm, starting at the root node, trace a path to the correct insertion spot by clicking on the nodes. <br>• Once you reach a leaf node, empty nodes will appear for possible insertion spots.<br>• Click the empty node to insert the value.",
       "av_postorder": "Postorder traversal begins.",
       "av_nullcheck": "Check to see if node is null.",
       "av_isnotnull": "Not null.",

@@ -100,6 +100,9 @@ $(document).ready(function () {
       node.unhighlight();
       node = node.next();
     }
+    if(node.value() == "null"){
+      node.unhighlight();
+    }
   }
   function findDelete(node){
     index = 0;
@@ -120,6 +123,11 @@ $(document).ready(function () {
         currentNode = this;
       }
       if(clicks == 1){
+        if(this.value() < previousNode.value() || this.value() == previousNode.value()){
+          currentNode = "";
+          alert("You must select a node with larger value to link with the previous node.");
+          return;
+        }
         findDelete(list.first());
         list.remove(index);
         previousNode.next(this);
@@ -136,6 +144,8 @@ $(document).ready(function () {
       else if(selectedNode){
         previousNode = this;
         previousNode.highlight();
+        list.layout();
+        currentNode = "";
         clicks++;
       }
   };

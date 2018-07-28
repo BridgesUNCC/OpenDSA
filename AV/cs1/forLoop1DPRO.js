@@ -13,9 +13,8 @@ $(document).ready(function() {
         if (userArr)
             userArr.clear()
 		av.clearumsg()
-		document.getElementById("number_complete").innerHTML = "Array 1 of 5 (" + difficultyString(arr_ind) + ")"
+		arr_ind = av.variable(0)
 		paint_type = "paint_lvl"
-		arr_ind = 0;
 		for (var i = 0; i < arr_size; i++) 
 			arr[i] = "";
 		// set the first array's values
@@ -23,9 +22,9 @@ $(document).ready(function() {
 			randomizeElements(i);		
 		// create the array
 		setUserArray(arr);
-		setUpText(arr_ind);
+		setUpText(arr_ind.value());
 		userArr.click(function(index) {
-			userArr.addClass(index, paint_type + arr_ind);
+			userArr.addClass(index, paint_type + arr_ind.value());
 			userArr.addClass(index, "paint");
 			exercise.gradeableStep();
 		});	
@@ -41,19 +40,19 @@ $(document).ready(function() {
 	}
 	
 	function setUpIncrText(ind) {
-		av.umsg("<br/>&emsp;for (int i = " + arr_starts[ind] + "; i < "
+		av.umsg("<p><strong>Array " + (ind + 1) + " of 5 (" + difficultyString(arr_ind.value()) + ")</strong></p>&emsp;for (int i = " + arr_starts[ind] + "; i < "
 			+ arr_ends[ind] + "; i = i + " + arr_steps[ind] + ") {" 
 		+ "<br/> &emsp;&emsp; paint(i); <br/> &emsp;}")
 	}
 	
 	function setUpDecrText(ind) {
-		av.umsg("<br/>&emsp;for (int i = " + arr_ends[ind] + "; i > "
+		av.umsg("<p><strong>Array " + (ind + 1) + " of 5 (" + difficultyString(arr_ind.value()) + ")</strong></p>&emsp;for (int i = " + arr_ends[ind] + "; i > "
 			+ arr_starts[ind] + "; i = i - " + arr_steps[ind] + ") {" 
 		+ "<br/> &emsp;&emsp; paint(i); <br/> &emsp;}")
 	}
 	
 	function setUpMultText(ind) {
-		av.umsg("<br/>&emsp;for (int i = " + arr_starts[ind] + "; i < "
+		av.umsg("<p><strong>Array " + (ind + 1) + " of 5 (" + difficultyString(arr_ind.value()) + ")</strong></p>&emsp;for (int i = " + arr_starts[ind] + "; i < "
 			+ arr_ends[ind] + "; i = i * " + arr_steps[ind] + ") {" 
 		+ "<br/> &emsp;&emsp; paint(i); <br/> &emsp;}")
 	}
@@ -114,7 +113,7 @@ $(document).ready(function() {
 					modelArray.addClass(i, "paint");
 					av.gradeableStep();
 				}
-				clearArrayPaint(modelArray, model_ind)
+				clearArrayPaint(model_ind, modelArray)
 				model_ind = model_ind + 1;
 		}
 		av.step();
@@ -135,31 +134,29 @@ $(document).ready(function() {
     }
 	
 	function nextArray() {
-		if (userArr && arr_ind < 4) {
-			clearArrayPaint(arr_ind, userArr)
-			arr_ind = arr_ind + 1;
-			document.getElementById("number_complete").innerHTML = "Array " + (arr_ind + 1) + " of 5 (" + difficultyString(arr_ind) + ")"	
-			setUpText(arr_ind)
+		if (userArr && arr_ind.value() < 4) {
+			clearArrayPaint(arr_ind.value(), userArr)
+			arr_ind.value(arr_ind.value() + 1)
+			setUpText(arr_ind.value())
 		} 
 	}
 	
 	function backArray() {
-		if (userArr && arr_ind > 0) {
-			clearArrayPaint(arr_ind, userArr)
-			arr_ind = arr_ind - 1;
-			document.getElementById("number_complete").innerHTML = "Array " + (arr_ind + 1) + " of 5 (" + difficultyString(arr_ind) + ")"
-			setUpText(arr_ind)
+		if (userArr && arr_ind.value() > 0) {
+			clearArrayPaint(arr_ind.value(), userArr)
+			arr_ind.value(arr_ind.value() - 1)
+			setUpText(arr_ind.value())
 		}
 	}
 	
 	function setColorType(pt_type) {
 		if (pt_type != paint_type) {
-			var painted_ind = getIndicesWithClass(userArr, paint_type + arr_ind)
+			var painted_ind = getIndicesWithClass(userArr, paint_type + arr_ind.value())
 			var old_paint = paint_type
 			paint_type = pt_type;
 			for (var i = 0; i < painted_ind.length; i++) {
-				userArr.addClass(painted_ind[i], paint_type + arr_ind)
-				userArr.removeClass(painted_ind[i], old_paint + arr_ind)
+				userArr.addClass(painted_ind[i], paint_type + arr_ind.value())
+				userArr.removeClass(painted_ind[i], old_paint + arr_ind.value())
 			}
 		}
 	}	
@@ -183,13 +180,15 @@ $(document).ready(function() {
     //////////////////////////////////////////////////////////////////
     var arr_size = 13,
 		paint_type,
+		arr_text,
 		arr_starts = [],
 		arr_ends = [],
 		arr_steps = [],
         config = ODSA.UTILS.loadConfig(),
         interpret = config.interpreter, // get the interpreter
         code = config.code,
-		arr_ind = 0,
+		//arr_ind = 0,
+		arr_ind,
 		arr = [],
         codeOptions = {
             after: { element: $(".instructions") },

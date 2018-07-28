@@ -11,16 +11,20 @@
 
 .. odsalink:: AV/Binary/BSTCON.css
 
-Linked Lists
+Arrays
 ==============
 
 Insert
--------
-
-.. avembed:: AV/List/llistinsertPRO.html pe
-
-Delete
 --------
 
-.. avembed:: AV/List/llistDeletePRO.html pe
+.. avembed:: AV/List/arrayInsertPRO.html pe
 
+Find
+--------
+
+.. avembed:: AV/List/arrayFindPRO.html pe
+
+Delete
+-------
+
+.. avembed:: AV/List/arrayDeletePRO.html pe

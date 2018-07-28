@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>1.1. Binary Search Trees &mdash; Example of Simple Book</title>
+    <title>3.1. Arrays &mdash; Example of Simple Book</title>
     
     <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -41,8 +41,8 @@
     });
   </script>
     <link rel="index" title="Example of Simple Book" href="index.html" />
-    <link rel="next" title="1. Linked Lists" href="bst_simple2.html" />
-    <link rel="prev" title="1. How to Use this System" href="Intro.html" />
+    <link rel="next" title="1. CS1 For Loops" href="bst_simple4.html" />
+    <link rel="prev" title="1. Linked Lists" href="bst_simple2.html" />
 
   </head>
 
@@ -130,23 +130,23 @@
             <div class="title-content">
               <h1 class="heading" ><a href="index.html">
                 <span>Example of Simple Book</span></a></h1>
-              <h2 class="heading" ><span>Chapter 1 Binary Search Trees</span></h2>
+              <h2 class="heading" ><span>Chapter 3 Arrays</span></h2>
             </div>
           </div>
         </div>
       </div>
       <div class="topnav">
         <p>
-            <a style="float:left;color:blue;" href="../source/bst_simple.rst"
+            <a style="float:left;color:blue;" href="../source/bst_simple3.rst"
               target="_blank" rel="nofollow">Show Source | </a>&#160;&#160;
             <a class="abt" style="float:left;color:blue;" href="#" rel="nofollow">| About</a>&#160;&#160;
 
           
-        «&#160;&#160;<a id="prevmod" href="Intro.html">0.1. How to Use this System</a>
+        «&#160;&#160;<a id="prevmod" href="bst_simple2.html">2.1. Linked Lists</a>
         &#160;&#160;::&#160;&#160;
         <a  class="uplink" href="index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a  id="nextmod" href="bst_simple2.html">2.1. Linked Lists</a>&#160;&#160;»
+        <a  id="nextmod" href="bst_simple4.html">4.1. CS1 For Loops</a>&#160;&#160;»
 
 
         </p>
@@ -154,65 +154,21 @@
        
       <div class="content">
         
-  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple";ODSA.SETTINGS.MODULE_LONG_NAME = "Binary Search Trees";ODSA.SETTINGS.MODULE_CHAPTER = "Binary Search Trees"; ODSA.SETTINGS.BUILD_DATE = "2018-07-27 13:34:40"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><p>. This file is part of the OpenDSA eTextbook project. See
+  <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple3";ODSA.SETTINGS.MODULE_LONG_NAME = "Arrays";ODSA.SETTINGS.MODULE_CHAPTER = "Arrays"; ODSA.SETTINGS.BUILD_DATE = "2018-07-27 13:34:40"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script><p>. This file is part of the OpenDSA eTextbook project. See
 .. <a class="reference external" href="http://algoviz.org/OpenDSA">http://algoviz.org/OpenDSA</a> for more details.
 .. Copyright (c) 2012-2016 by the OpenDSA Project Contributors, and
 .. distributed under an MIT open source license.</p>
 <link href="../../../AV/Binary/BSTCON.css" rel="stylesheet" type="text/css" />
-<div class="section" id="binary-search-trees">
-<h1>1.1. Binary Search Trees<a class="headerlink" href="#binary-search-trees" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="insertion">
-<h2>1.1.1. Insertion<a class="headerlink" href="#insertion" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="arrays">
+<h1>3.1. Arrays<a class="headerlink" href="#arrays" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="insert">
+<h2>3.1.1. Insert<a class="headerlink" href="#insert" title="Permalink to this headline">¶</a></h2>
 <div
-    id="BSTinsertPathPRO"
+    id="arrayInsertPRO"
     class="embedContainer"
-    data-exer-name="BSTinsertPathPRO"
-    data-long-name="BSTinsertPathPRO"
-    data-frame-src="../../../AV/Binary/BSTinsertPathPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=bst_simple&amp;JXOP-debug=true&amp;JOP-lang=en&amp;JXOP-code=java_generic"
-    data-frame-width="950"
-    data-frame-height="650"
-    data-external="false"
-    data-points="0.0"
-    data-required="False"
-    data-showhide="show"
-    data-threshold="10.0"
-    data-type="pe">
-  
-  <div class="center">
-    <div id="BSTinsertPathPRO_iframe"></div>
-  </div>
-</div>
-</div>
-<div class="section" id="insertion-based-on-algorithm">
-<h2>1.1.2. Insertion Based on Algorithm<a class="headerlink" href="#insertion-based-on-algorithm" title="Permalink to this headline">¶</a></h2>
-<div
-    id="BSTrandinsertPRO"
-    class="embedContainer"
-    data-exer-name="BSTrandinsertPRO"
-    data-long-name="BSTrandinsertPRO"
-    data-frame-src="../../../AV/Binary/BSTrandinsertPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=bst_simple&amp;JXOP-debug=true&amp;JOP-lang=en&amp;JXOP-code=java_generic"
-    data-frame-width="950"
-    data-frame-height="650"
-    data-external="false"
-    data-points="0.0"
-    data-required="False"
-    data-showhide="show"
-    data-threshold="10.0"
-    data-type="pe">
-  
-  <div class="center">
-    <div id="BSTrandinsertPRO_iframe"></div>
-  </div>
-</div>
-</div>
-<div class="section" id="creation">
-<h2>1.1.3. Creation<a class="headerlink" href="#creation" title="Permalink to this headline">¶</a></h2>
-<div
-    id="BSTcreatePRO"
-    class="embedContainer"
-    data-exer-name="BSTcreatePRO"
-    data-long-name="BSTcreatePRO"
-    data-frame-src="../../../AV/Binary/BSTcreatePRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=bst_simple"
+    data-exer-name="arrayInsertPRO"
+    data-long-name="arrayInsertPRO"
+    data-frame-src="../../../AV/List/arrayInsertPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=bst_simple3"
     data-frame-width="950"
     data-frame-height="650"
     data-external="false"
@@ -223,18 +179,18 @@
     data-type="pe">
   
   <div class="center">
-    <div id="BSTcreatePRO_iframe"></div>
+    <div id="arrayInsertPRO_iframe"></div>
   </div>
 </div>
 </div>
 <div class="section" id="find">
-<h2>1.1.4. Find<a class="headerlink" href="#find" title="Permalink to this headline">¶</a></h2>
+<h2>3.1.2. Find<a class="headerlink" href="#find" title="Permalink to this headline">¶</a></h2>
 <div
-    id="BSTfindPRO"
+    id="arrayFindPRO"
     class="embedContainer"
-    data-exer-name="BSTfindPRO"
-    data-long-name="BSTfindPRO"
-    data-frame-src="../../../AV/Binary/BSTfindPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=bst_simple"
+    data-exer-name="arrayFindPRO"
+    data-long-name="arrayFindPRO"
+    data-frame-src="../../../AV/List/arrayFindPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=bst_simple3"
     data-frame-width="950"
     data-frame-height="650"
     data-external="false"
@@ -245,18 +201,18 @@
     data-type="pe">
   
   <div class="center">
-    <div id="BSTfindPRO_iframe"></div>
+    <div id="arrayFindPRO_iframe"></div>
   </div>
 </div>
 </div>
-<div class="section" id="remove">
-<h2>1.1.5. Remove<a class="headerlink" href="#remove" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="delete">
+<h2>3.1.3. Delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h2>
 <div
-    id="BSTremovepathPRO"
+    id="arrayDeletePRO"
     class="embedContainer"
-    data-exer-name="BSTremovepathPRO"
-    data-long-name="BSTremovepathPRO"
-    data-frame-src="../../../AV/Binary/BSTremovepathPRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=bst_simple"
+    data-exer-name="arrayDeletePRO"
+    data-long-name="arrayDeletePRO"
+    data-frame-src="../../../AV/List/arrayDeletePRO.html?selfLoggingEnabled=false&amp;localMode=true&amp;module=bst_simple3"
     data-frame-width="950"
     data-frame-height="650"
     data-external="false"
@@ -264,10 +220,10 @@
     data-required="False"
     data-showhide="show"
     data-threshold="1.0"
-    data-type="ss">
+    data-type="pe">
   
   <div class="center">
-    <div id="BSTremovepathPRO_iframe"></div>
+    <div id="arrayDeletePRO_iframe"></div>
   </div>
 </div>
 </div>
@@ -278,11 +234,11 @@
       <div class="bottomnav">
       <p><span class="email_div" style="display:inline;"><a id="contact_us" class="contact" style="float:left;color:blue;" rel="nofollow" href="mailto:">Contact Us |</a><a style="float:left;color:blue;" rel="nofollow" href="../../../lib/Privacy.html" target="_blank">| Privacy |</a> <a style="float:left;color:blue;" rel="nofollow" href="../../../lib/license.html" target="_blank">| License</a></span>&#160;&#160;
       
-        «&#160;&#160;<a id="prevmod1" href="Intro.html">0.1. How to Use this System</a>
+        «&#160;&#160;<a id="prevmod1" href="bst_simple2.html">2.1. Linked Lists</a>
         &#160;&#160;::&#160;&#160;
         <a  class="uplink" href="index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a  id="nextmod1" href="bst_simple2.html">2.1. Linked Lists</a>&#160;&#160;»
+        <a  id="nextmod1" href="bst_simple4.html">4.1. CS1 For Loops</a>&#160;&#160;»
 
 </p>
       </div>

@@ -4,7 +4,7 @@
       ".avTitle": "BST Find Value",
       "av_Authors": "Matthew McQuaigue",
       ".instructLabel": "Instructions:",
-      ".instructions": "Click on the respective nodes to highlight the path of insertion for the given number.",
+      ".instructions": "• Starting at the root node, trace a path to find the given value by clicking on the nodes. <br>• Once you find the correct value, a new insertion value will appear and the path will be unhighlighted.<br>• Once all leaf nodes have been inserted, the tree is finished.",
       "#about": "About"
     }
   },

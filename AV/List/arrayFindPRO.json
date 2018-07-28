@@ -4,7 +4,7 @@
       ".avTitle": "Sorted Array Find",
       "av_Authors": "Anna Boekelheide",
       ".instructLabel": "Instructions:",
-      ".instructions": "Click the 'Next' button until you've reached the correct value, then click 'Found'.",
+      ".instructions": "<p>1. Click the 'Next' button until you've reached the correct value.</p></p>2. Click 'Found' once you have reached the correct value.<p>",
       "#about": "About"
     }
   },

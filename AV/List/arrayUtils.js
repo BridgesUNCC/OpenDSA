@@ -5,6 +5,17 @@ function arrHasHighlight(ar) {
 	return true;
 }
 
+// add an array of values to a stack
+function buildStackFromArr(arr, stack) {
+  return buildStackFromArr(arr, arr.length, stack)
+}
+
+function buildStackFromArr(arr, stackSize, stack) {
+    for (var i = 0; i < stackSize; i++)
+        stack.addLast(arr[i])
+    return stack
+}
+
   // returns the index of the highlighted value if there is one
   function getHighlight(ar) {
     for (var i = 0; i < ar.size(); i++) {

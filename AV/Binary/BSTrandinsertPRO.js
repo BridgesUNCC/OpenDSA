@@ -269,7 +269,8 @@ $(document).ready(function () {
           this.value(stack.first().value());
           removeStyle(this);
           removeEmpty(jsavTree.root());
-          stacksize = stacksize - 1;
+          //enable for code changing during insert
+          //stacksize = stacksize - 1;
           stack.removeFirst();
           stack.layout();
           exercise.gradeableStep();

@@ -4,7 +4,7 @@
       ".avTitle": "Sorted Array Insert",
       "av_Authors": "Anna Boekelheide",
       ".instructLabel": "Instructions:",
-      ".instructions": "Click the 'Next' button until you've reached the correct position in which to insert the value. Then click 'Insert'.",
+      ".instructions": "<p>In this exercise, you will simulate </p><p>1. Click the 'Next' button until you've reached the correct position in which to insert the value.</p><p>2. Click 'Insert' to insert the value.<p>",
       "#about": "About"
     }
   },

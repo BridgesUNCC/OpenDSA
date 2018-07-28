@@ -4,7 +4,7 @@
       ".avTitle": "BST Insert Path Proficiency Exercise",
       "av_Authors": "Matthew McQuaigue",
       ".instructLabel": "Instructions:",
-      ".instructions": "Click on the respective nodes to highlight the path of insertion for the given number.",
+      ".instructions": "• Starting at the root node, trace a path to the correct insertion spot by clicking on the nodes. <br>• Once you reach a leaf node, empty nodes will appear for possible insertion spots.<br>• Click the empty node to insert the value.",
       "#about": "About"
     }
   },

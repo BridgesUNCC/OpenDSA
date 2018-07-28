@@ -10,12 +10,17 @@ $(document).ready(function () {
   $("#about").click(about);
 
   function removeStyle(node){
-    if (node.edgeToParent()){
-      node.unhighlight();
-      node = node.parent();
-      removeStyle(node);
-    } else {
-      node.unhighlight();
+    node.unhighlight();
+    if(!node.left() && !node.right()){
+      return;
+    }
+    if(node.left()){
+      var nextLeft = node.left();
+      removeStyle(nextLeft);
+    }
+    if(node.right()){
+      var nextRight = node.right();
+      removeStyle(nextRight);
     }
   }
 
@@ -81,6 +86,7 @@ $(document).ready(function () {
 
     av.container.find(".jsavcanvas").css("min-height", 442);
     console.log(keyToFind);
+    alreadyUsed[0] = keyToFind;
     return jsavTree;
   }
 
@@ -105,7 +111,6 @@ $(document).ready(function () {
     modelTree.layout();
 
     av.container.find(".jsavcanvas").css("min-height", 442);
-    console.log(initialData);
     av.displayInit();
 
     return modelTree;
@@ -117,13 +122,21 @@ $(document).ready(function () {
     if (!this.isHighlight()) {
       var index = getIndex(this, jsavTree.root());
       this.value(initialData[index]);
+      insertCount += 1;
       this.highlight();
       jsavTree.layout();
+      if(alreadyUsed.length == (Math.floor(nodeNum/2) + 1)){
+        $key.html("<li>" + "" + "</li>");
+        removeStyle(jsavTree.root())
+        return;
+      }
       if(this.value() == keyToFind){
+        removeStyle(jsavTree.root())
         var count = 1;
         while(count > 0){
           count = 0;
           keyToFind = initialData[JSAV.utils.rand.numKey(Math.floor(nodeNum / 2), nodeNum)];
+          console.log(alreadyUsed)
           for (var i = 0; i < alreadyUsed.length; i++ ){
             if (keyToFind == alreadyUsed[i]){
               count += 1;
@@ -131,7 +144,6 @@ $(document).ready(function () {
           }
         }
         alreadyUsed[i] = keyToFind;
-        console.log(keyToFind)
         $key.html("<li>" + keyToFind + "</li>");
         av.ds.array($key, {indexed: false}).css(0, {"background-color": "#ddf"}).toggleArrow(0);
       }
@@ -150,6 +162,7 @@ $(document).ready(function () {
       levels = 5,
       modelTree,
       modelKeyToFind,
+      insertCount = 0,
       nodeNum = Math.pow(2, levels) - 1,
       jsavTree,
       keyToFind,

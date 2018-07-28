@@ -22,6 +22,9 @@ $(document).ready(function () {
     current.hide();
     current = av.pointer("current", list.get(0), {anchor: "top right"});
     current.show();
+    head.hide();
+    head = av.pointer("head", list.get(0));
+    head.show();
     list.layout();
     av.displayInit();
   });
@@ -215,6 +218,10 @@ $(document).ready(function () {
 
   var clickHandler = function () {
     if (clicks == 2){
+      if (this.value() > newNode.next().value() || this.value() == "null"){
+        alert("must select smaller value to point to new node");
+        return;
+      }
       this.next(newNode);
       this.highlight();
       console.log(this.next().value());
@@ -248,6 +255,9 @@ $(document).ready(function () {
       nodeHere = false;
       clicks++;
     }
+    head.hide();
+    head = av.pointer("head", list.get(0));
+    head.show();
   };
 
   //////////////////////////////////////////////////////////////////

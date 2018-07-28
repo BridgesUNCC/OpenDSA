@@ -10,6 +10,7 @@ $(document).ready(function () {
   $("#about").click(about);
 
   function initialize() {
+    selected = false
     currentRun = 0;
     BST.turnAnimationOff();
     if (stack) {
@@ -41,16 +42,30 @@ $(document).ready(function () {
     jsavTree.layout();
 
     //pick the values to delete and push them in the stack
-    for (var i = 0; i < deleteSize; i++) {
+    for (var i = 0; i < deleteSize -1; i++) {
       deleteValues[i] = initialArray[Math.floor(treeSize - 1 - i * (treeSize - 1) / (deleteSize - 1))];
       stack.addLast(deleteValues[i]);
     }
     stack.first().highlight();
     stack.layout();
 
-    BST.restoreAnimationState();
+    find(stack.first().value());
+    //BST.restoreAnimationState();
 
     return jsavTree;
+  }
+
+  function find(val) {
+    var node = jsavTree.root();
+    while (node.value() !== val) {
+      if (val < node.value()) {
+        node = node.left();
+      } else {
+        node = node.right();
+      }
+    }
+    node.highlight();
+    return node;
   }
 
   function modelSolution(av) {
@@ -117,7 +132,7 @@ $(document).ready(function () {
 
     av._undo = [];
 
-    for (i = 0; i < deleteSize; i++) {
+    for (i = 0; i < deleteSize - 1; i++) {
       //highlight the value which should be deleted
       modelStack.first().highlight();
       //node which should be deleted
@@ -203,11 +218,27 @@ $(document).ready(function () {
     }
   }
 
+  function removeRed(node){
+    if (node.edgeToParent()){
+      node.removeClass("boldred");
+      node = node.parent();
+      removeRed(node);
+    } else{
+      node.removeClass("boldred")
+    }
+  }
+
 
   var clickHandler = function () {
+    // if(selected == false){
+    //   this.addClass("boldred");
+    //   selected = true;
+    // }
     if (stack.size() && !this.hasClass("jsavnullnode")) {
       this.highlight();
-      this.edgeToParent().addClass("blueline");
+      if (!this.parent().hasClass("jsavnullnode") || this.value() == ""){
+        this.edgeToParent().addClass("blueline");
+      }
       //find possible empty node between this and root
       var empty = this;
       while (empty !== null && empty.value() !== "") {
@@ -218,18 +249,20 @@ $(document).ready(function () {
       if (empty) {
         if (!empty.right() !== !empty.left()) {
           //replace node with this
-          BST.turnAnimationOff();
+          //BST.turnAnimationOff();
           if (empty.parent().left() === empty) {
             empty.parent().left(this);
           } else {
             empty.parent().right(this);
           }
           this.show();
-          BST.restoreAnimationState();
+          //BST.restoreAnimationState();
           jsavTree.layout();
           highlightNext();
           removeStyle(this);
           //exercise.gradeableStep();
+          //selected = true;
+          find(stack.first().value());
           return;
         } else {
           //insert value of this into empty node
@@ -244,13 +277,16 @@ $(document).ready(function () {
         removeStyle(this);
       }
       //if no children, remove node and move on
-      if (!this.left() && !this.right()) {
+      if (!this.left() && !this.right() && this.value() == "") {
         this.remove();
-        jsavTree.layout();
         highlightNext();
+        jsavTree.layout();
+        find(stack.first().value());
+        //selected = false;
       }
       //exercise.gradeableStep();
     }
+    removeRed(jsavTree.root())
   };
 
   // helper function for creating a perfect binary tree
@@ -275,6 +311,7 @@ $(document).ready(function () {
       stack,
       empty,
       isitNull,
+      selected = false,
       replacement,
       currentRun = 0,
       clicks = 0,

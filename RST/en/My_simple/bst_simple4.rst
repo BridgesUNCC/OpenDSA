@@ -11,16 +11,15 @@
 
 .. odsalink:: AV/Binary/BSTCON.css
 
-Linked Lists
+CS1 For Loops
 ==============
 
-Insert
--------
+1D For loop
+------------
 
-.. avembed:: AV/List/llistinsertPRO.html pe
+.. avembed:: AV/cs1/forLoop1DPRO.html pe
 
-Delete
---------
+2D For loop
+------------
 
-.. avembed:: AV/List/llistDeletePRO.html pe
-
+.. avembed:: AV/cs1/forLoop2DPRO.html pe

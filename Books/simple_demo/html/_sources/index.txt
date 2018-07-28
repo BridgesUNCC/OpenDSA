@@ -20,7 +20,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = false;ODSA.SETTINGS.MODULE_NAME = "index";ODSA.SETTINGS.MODULE_LONG_NAME = "Contents";ODSA.SETTINGS.MODULE_CHAPTER = ""; ODSA.SETTINGS.BUILD_DATE = "2018-07-12 15:10:52"; ODSA.SETTINGS.BUILD_CMAP = false;</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = false;ODSA.SETTINGS.MODULE_NAME = "index";ODSA.SETTINGS.MODULE_LONG_NAME = "Contents";ODSA.SETTINGS.MODULE_CHAPTER = ""; ODSA.SETTINGS.BUILD_DATE = "2018-07-27 13:34:40"; ODSA.SETTINGS.BUILD_CMAP = false;</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
@@ -37,14 +37,41 @@ Preface
 
    Intro
 
-A Simple Example
-================
+Binary Search Trees
+===================
 
 .. toctree::
    :numbered:
    :maxdepth: 3
 
    bst_simple
+
+Linked Lists
+============
+
+.. toctree::
+   :numbered:
+   :maxdepth: 3
+
+   bst_simple2
+
+Arrays
+======
+
+.. toctree::
+   :numbered:
+   :maxdepth: 3
+
+   bst_simple3
+
+CS1 For Loops
+=============
+
+.. toctree::
+   :numbered:
+   :maxdepth: 3
+
+   bst_simple4
 
 
 .. toctree::

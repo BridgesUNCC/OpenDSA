@@ -1,13 +1,4 @@
-// add an array of values to a stack
-function buildStackFromArr(arr, stack) {
-  return buildStackFromArr(arr, arr.length, stack)
-}
 
-function buildStackFromArr(arr, stackSize, stack) {
-    for (var i = 0; i < stackSize; i++)
-        stack.addLast(arr[i])
-    return stack
-}
 
 // create an array only containing values NOT found in another array
 function buildArrayUniqueValues(arr, stackSize) {

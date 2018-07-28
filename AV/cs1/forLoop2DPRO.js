@@ -11,14 +11,12 @@ $(document).ready(function() {
         if (user_matrix)
             user_matrix.clear()
         av.clearumsg();
-        document.getElementById("number_complete").innerHTML = "Array 1 of 5 (Easy)";
-		paint_type = "paint_lvl"
-        matr_ind = 0;
+        paint_type = "paint_lvl"
+        matr_ind = av.variable(0);
 
 		// fill the random value arrays
 		for (var i = 0; i < 5; i++) 
-			randomizeElements(i);
-        
+			randomizeElements(i); 
 		setUpTextMaps()
         setUpText()
 
@@ -43,67 +41,73 @@ $(document).ready(function() {
                 user_matrix.addClass(i, j, "matrix_cell")
         }
         user_matrix.click(function(row, col) {
-            user_matrix.addClass(row, col, paint_type + matr_ind);
+            user_matrix.addClass(row, col, paint_type + matr_ind.value());
 			user_matrix.addClass(row, col, "paint")
             exercise.gradeableStep();
         })
         return user_matrix;
     }
 	
+	// Set up text for a medium difficulty exercise at the given array index
 	function setUpMediumText(ind) {
-		var t = "<br/>&emsp;for (int i = "	
+		var t;
 		var r = Math.floor(Math.random() * 5)
+		var inner = "&emsp;&emsp;&emsp;paint(i, j);"
 		switch(r) {
 			case 0:
-				t = t + i_starts[ind] + "; i " + " < " + i_ends[ind] + "; i = i * " + i_steps[ind] + ") {<br/>&emsp;&emsp;for (int j = " 
-					+ j_starts[ind] + "; j < " + j_ends[ind] + "; j = j + " + j_steps[ind]
+				t = exerciseString(i_starts[ind], i_ends[ind], j_starts[ind], j_ends[ind], "<", "<", "*", "+", ind, inner)
 				arr_outer[ind] = [ind, "mlt"]
 				arr_inner[ind] = [ind, "basic"]
 				
 			break;
 			case 1:
-				t = t  + i_starts[ind] + "; i " + " < " + i_ends[ind] + "; i =  i + " + i_steps[ind] + ") {<br/>&emsp;&emsp;for (int j = "
-					+ j_starts[ind] + "; j < " + j_ends[ind] + "; j *= " + j_steps[ind]
-				arr_outer[ind] = [ind, "basic"]
-				arr_inner[ind] = [ind, "mlt"]
+				t = exerciseString(i_starts[ind], i_ends[ind], j_starts[ind], j_ends[ind], "<", "<", "+", "*", ind, inner)
+				mapLoopTypes("mlt", "basic", ind)
 			break;
 			case 2:
-				t = t  + i_ends[ind] + "; i " + " > " + i_starts[ind] + "; i = i - " + i_steps[ind] + ") {<br/>&emsp;&emsp;for (int j = " 
-					+ j_starts[ind] + "; j < " + j_ends[ind] + "; j = j + " + j_steps[ind]
-				arr_outer[ind] = [ind, "dec"]
-				arr_inner[ind] = [ind, "basic"]
+				t = exerciseString(i_ends[ind], i_starts[ind], j_starts[ind], j_ends[ind], ">", "<", "-", "+", ind, inner)
+				mapLoopTypes("basic", "dec", ind)
 			break;
 			case 3:
-				t = t  + i_starts[ind] + "; i " + " < " + i_ends[ind] + "; i = i + " + i_steps[ind] + ") {<br/>&emsp;&emsp;for (int j = " 
-					+ j_starts[ind] + "; j > " + j_ends[ind] + "; j = j - " + j_steps[ind]
-				arr_outer[ind] = [ind, "basic"]
-				arr_inner[ind] = [ind, "dec"]
+				t = exerciseString(i_starts[ind], i_ends[ind], j_ends[ind], j_starts[ind], "<", ">", "+", "-", ind, inner)
+				mapLoopTypes("dec", "basic", ind)
 			break;
 			case 4:
-				t = t  + i_starts[ind] + "; i " + " < " + i_ends[ind] + "; i = i + " + i_steps[ind] + ") {<br/>&emsp;&emsp;for (int j = i"
-					+ "; j < " + j_ends[ind] + "; j = j + " + j_steps[ind]
-				arr_outer[ind] = [ind, "basic"]
-				arr_inner[ind] = [ind, "j=i"]
+				t = exerciseString(i_starts[ind], i_ends[ind], "j", j_ends[ind], "<", "<", "+", "+", ind, inner)
+				mapLoopTypes("j=i", "basic", ind)
 			break;
 			default:
-				t = t + i_starts[ind] + "; i " + " < " + i_ends[ind] + "; i = i + " + i_steps[ind] + ") {<br/>&emsp;&emsp;for (int j = " 
-					+ j_starts[ind] + "; j < i; j = j + " + j_steps[ind]
-				arr_outer[ind] = [ind, "basic"]	
-				arr_inner[ind] = [ind, "j<i"]
+				t = exerciseString(i_starts[ind], i_ends[ind], j_starts[ind], "i", "<", "<", "+", "+", ind, inner)
+				mapLoopTypes("j<i", "basic", ind)
 			break;
 		}
-		t = t + ";) {<br/>&emsp;&emsp;&emsp;paint(i, j);<br/>&emsp;&emsp;}<br/>&emsp;}"
 		arr_if[ind] = [ind, "none"]
 		map_arr[ind] = [ind, t]
 	}
 	
+	// Map the inner and outer arrays' indices to the correct loop type
+	function mapLoopTypes(inner_type, outer_type, ind) {
+		arr_outer[ind] = [ind, outer_type]
+		arr_inner[ind] = [ind, inner_type]
+	}
+	
+	// generate a string with the code the user will follow in the exercise
+	function exerciseString(initial_i, condval_i, initial_j, condval_j, condition_i, condition_j, operation_i, operation_j, ind, inner) {
+		return "<p><strong>Array " + (ind + 1) + " of 5 (" + difficultyString(ind) + ")</strong></p>&emsp;for (int i = "
+			+ initial_i + "; i " + condition_i + " " + condval_i + "; i = i " + operation_i + " " + i_steps[ind] 
+			+ ") {<br/>&emsp;&emsp;for (int j = " + initial_j + "; j " + condition_j + " " + condval_j + "; j = j " + operation_j + " " 
+			+ j_steps[ind] + ") {<br/>" + inner + "<br/>&emsp;&emsp;}<br/>&emsp;}"
+	}
+	
+	// Set up the text for a medium-hard difficulty exercise at the given index
 	function setUpMedHardText(ind) {
-		var t = "<br/>&emsp;for (int i = "
+		var t = "<p><strong>Array " + (ind + 1) + " of 5 (" + difficultyString(ind) + ")</strong></p>&emsp;for (int i = "
 		t = t + findMedHardOuter(ind) + findMedHardInner(ind) + ") {<br/>&emsp;&emsp;&emsp;paint(i, j);<br/>&emsp;&emsp;}<br/>&emsp;}"
 		map_arr[ind] = [ind, t]
 		arr_if[ind] = [ind, "none"]
 	}
 	
+	// Find the outer loop text for a medium or hard exercise
 	function findMedHardOuter(ind) {
 		var t = ""
 		var r = Math.floor(Math.random() * 2)
@@ -120,6 +124,7 @@ $(document).ready(function() {
 		return t + ") {<br/>&emsp;&emsp;";
 	}
 	
+	// Find the inner loop for a medium/hard exercise
 	function findMedHardInner(ind) {
 		var t = " for (int j = "
 		var r = Math.floor(Math.random() * 14)
@@ -148,14 +153,16 @@ $(document).ready(function() {
 		return t;
 	}
 	
+	// Set up the text for a hard difficulty level exercise at the given index
 	function setUpHardText(ind) {
-		var t = "<br/>&emsp;for (int i = "
+		var t = "<p><strong>Array " + (ind + 1) + " of 5 (" + difficultyString(4) + ")</strong></p>&emsp;for (int i = "
 		t = t + findMedHardOuter(ind) + findMedHardInner(ind) + ") {<br/>&emsp;&emsp;&emsp;"
 		t = t + "if (" + setUpIf(ind) + ") {<br/>&emsp;&emsp;&emsp;&emsp;"
 		t = t + "paint(i, j);<br/>&emsp;&emsp;&emsp;}<br/>&emsp;&emsp;}<br/>&emsp;}"
 		map_arr[ind] = [ind, t]
 	}
 	
+	// Set up the text for an if statement for an exercise at the given index.
 	function setUpIf(ind) {
 		var t = ""
 		var r = Math.floor(Math.random() * 7)
@@ -197,15 +204,15 @@ $(document).ready(function() {
 	
 	// set up the maps that keep track of the loops
 	function setUpTextMaps() {
-		map_arr[0] = [0, "<br/>&emsp;for (int i = " + i_starts[0] + "; i < " + i_ends[0] +
-                    "; i = i + " + i_steps[0] + ") {<br/> &emsp;&emsp;for (int j = " + j_starts[0] + "; j < " + j_ends[0] +
-                    "; j = j + " + j_steps[0] + ") {<br/>&emsp;&emsp;&emsp;paint(i, j);<br/>&emsp;&emsp;}<br/>&emsp;}"];
+		map_arr[0] = [0, "<p><strong>Array 1 of 5 (" + difficultyString(0) + ")</strong></p>&emsp;for (int i = " + i_starts[0] + "; i < " 
+			+ i_ends[0] + "; i = i + " + i_steps[0] + ") {<br/> &emsp;&emsp;for (int j = " + j_starts[0] + "; j < " + j_ends[0] 
+			+ "; j = j + " + j_steps[0] + ") {<br/>&emsp;&emsp;&emsp;paint(i, j);<br/>&emsp;&emsp;}<br/>&emsp;}"];
 		arr_outer[0] = [0, "basic"]
 		arr_inner[0] = [0, "basic"]
 		arr_if[0] = [0, "none"]
-		map_arr[1] = [1, "<br/>&emsp;for (int i = " + i_starts[1] + "; i < " + i_ends[1] +
-                    "; i = i + " + i_steps[1] + ") {<br/> &emsp;&emsp;for (int j = " + j_starts[1] + "; j < " + j_ends[1] +
-                    "; j = j + " + j_steps[1] + ") {<br/>&emsp;&emsp;&emsp;paint(i, j);<br/>&emsp;&emsp;}<br/>&emsp;}"]
+		map_arr[1] = [1, "<p><strong>Array 2 of 5 (" + difficultyString(1) + ")</strong></p>&emsp;for (int i = " + i_starts[1] + "; i < " 
+			+ i_ends[1] + "; i = i + " + i_steps[1] + ") {<br/> &emsp;&emsp;for (int j = " + j_starts[1] + "; j < " + j_ends[1] 
+			+ "; j = j + " + j_steps[1] + ") {<br/>&emsp;&emsp;&emsp;paint(i, j);<br/>&emsp;&emsp;}<br/>&emsp;}"]
 		arr_outer[1] = [1, "basic"]
 		arr_inner[1] = [1, "basic"]
 		arr_if[1] = [1, "none"]
@@ -221,7 +228,7 @@ $(document).ready(function() {
     function setUpText() {
         // clear the old text
         av.clearumsg()
-        av.umsg(text_map.get(matr_ind))
+        av.umsg(text_map.get(matr_ind.value()))
 	}
 
     // set up the randomized elements 
@@ -368,7 +375,6 @@ $(document).ready(function() {
 			break; 
 			default:
 				paint(ind, j, i, av)
-				//alert("should have painted")
 			break;
 		}
 	}
@@ -380,31 +386,29 @@ $(document).ready(function() {
 	}
 	
     function nextMatrix() {
-        if (user_matrix && matr_ind < 4) {
-			clearMatrixPaint(matr_ind, user_matrix)
-            matr_ind = matr_ind + 1;
-            document.getElementById("number_complete").innerHTML = "Array " + (matr_ind + 1) + " of 5 (" + difficultyString(matr_ind) + ")" 
-			setUpText()
+        if (user_matrix && matr_ind.value() < 4) {
+			clearMatrixPaint(matr_ind.value(), user_matrix)
+            matr_ind.value(matr_ind.value() + 1);
+            setUpText()
 		}
     }
 	
 	function backMatrix() {
-		if (user_matrix && matr_ind > 0) {
-			clearMatrixPaint(matr_ind, user_matrix)
-			matr_ind = matr_ind - 1;
-			document.getElementById("number_complete").innerHTML = "Array " + (matr_ind + 1) + " of 5 (" + difficultyString(matr_ind) + ")" 
+		if (user_matrix && matr_ind.value() > 0) {
+			clearMatrixPaint(matr_ind.value(), user_matrix)
+			matr_ind.value(matr_ind.value() - 1);
 			setUpText()	
 		}
 	}
 	
 	function setColorType(pt_type) {
 		if (pt_type != paint_type) {
-			var painted_ind = get2DIndicesWithClass(user_matrix, matrix_size, matrix_size, paint_type + matr_ind)
+			var painted_ind = get2DIndicesWithClass(user_matrix, matrix_size, matrix_size, paint_type + matr_ind.value())
 			var old_paint = paint_type
 			paint_type = pt_type;
 			for (var i = 0; i < painted_ind.length; i++) {
-				user_matrix.addClass(painted_ind[i][0], painted_ind[i][1], paint_type + matr_ind)
-				user_matrix.removeClass(painted_ind[i][0], painted_ind[i][1], old_paint + matr_ind)
+				user_matrix.addClass(painted_ind[i][0], painted_ind[i][1], paint_type + matr_ind.value())
+				user_matrix.removeClass(painted_ind[i][0], painted_ind[i][1], old_paint + matr_ind.value())
 			}
 		}
 	}
@@ -445,7 +449,7 @@ $(document).ready(function() {
         config = ODSA.UTILS.loadConfig(),
         interpret = config.interpreter, // get the interpreter
         code = config.code,
-        matr_ind = 0,
+        matr_ind,
         matrix = [],
         codeOptions = {
             after: {element: $(".instructions")},

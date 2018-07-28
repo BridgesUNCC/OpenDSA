@@ -17,7 +17,7 @@
         "sections": {}
       }
     },
-    "A Simple Example": {
+    "Binary Search Trees": {
       "My_simple/bst_simple": {
         "long_name": "Binary Search Trees",
         "sections": {
@@ -38,7 +38,103 @@
               "threshold": 10.0
             }
           },
-	  "Random Insertion of Binary Search Tree": {
+	         "Random Insertion of Binary Search Tree": {
+            "BSTrandinsertPRO": {
+              "long_name": "Random Insert BST Practice",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          }
+        }
+      }
+    },
+    "Linked Lists": {
+      "My_simple/bst_simple2": {
+        "long_name": "Linked Lists",
+        "sections": {
+          "Binary Search Trees": {},
+          "Insertion of Binary Search Tree": {
+            "BSTinsertCON": {
+              "long_name": "Insert BST Slideshow",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          },
+          "Insertion into Binary Search Tree Practice": {
+            "BSTinsertPathPRO": {
+              "long_name": "Insert BST path Practice",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          },
+	         "Random Insertion of Binary Search Tree": {
+            "BSTrandinsertPRO": {
+              "long_name": "Random Insert BST Practice",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          }
+        }
+      }
+    },
+    "Arrays": {
+      "My_simple/bst_simple3": {
+        "long_name": "Arrays",
+        "sections": {
+          "Binary Search Trees": {},
+          "Insertion of Binary Search Tree": {
+            "BSTinsertCON": {
+              "long_name": "Insert BST Slideshow",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          },
+          "Insertion into Binary Search Tree Practice": {
+            "BSTinsertPathPRO": {
+              "long_name": "Insert BST path Practice",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          },
+	         "Random Insertion of Binary Search Tree": {
+            "BSTrandinsertPRO": {
+              "long_name": "Random Insert BST Practice",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          }
+        }
+      }
+    },
+    "CS1 For Loops": {
+      "My_simple/bst_simple4": {
+        "long_name": "CS1 For Loops",
+        "sections": {
+          "Binary Search Trees": {},
+          "Insertion of Binary Search Tree": {
+            "BSTinsertCON": {
+              "long_name": "Insert BST Slideshow",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          },
+          "Insertion into Binary Search Tree Practice": {
+            "BSTinsertPathPRO": {
+              "long_name": "Insert BST path Practice",
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          },
+	         "Random Insertion of Binary Search Tree": {
             "BSTrandinsertPRO": {
               "long_name": "Random Insert BST Practice",
               "required": false,
