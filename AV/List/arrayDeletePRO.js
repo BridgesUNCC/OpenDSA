@@ -10,10 +10,12 @@ $(document).ready(function() {
     function initialize() {
         clearInterval(intv);
         if (stack)
-            stack.clear(); // clear number in the stack
+            stack.clear(); // Clear the numbers in the stack.
         if (userArr)
-            userArr.clear(); // clear the array
-        // generate the array
+            userArr.clear(); // Clear the array.
+		if (pointer)
+			pointer.hide() // Hide the pointer from any previous exercise.
+        // Generate the array values.
         initialArray = genArrNoRepeat(89, arraySize)
         stack = createStackLayout(av);
         stackArray = [];
@@ -24,12 +26,17 @@ $(document).ready(function() {
             stackArray[i] = value
             stack.addLast(value);
         }
-        // highlight the top number of the stack
+        // Highlight the top number of the stack.
         stack.first().highlight();
         stack.layout();
-        // Create the array the user will intereact with
+        // Create the array the user will intereact with and highlight the first value
         userArr = createArrayLayout(av, initialArray, false, arrayLayout.val())
-        return userArr;
+		userArr.highlight(0)
+		// Set the pointer's target to the center of the array to create a fixed anchor
+		pointer = av.pointer("", userArr, {"fixed": true, "anchor": "top center", "top": -75})
+		// Set the pointer's target to the first array element.
+		pointer.target(userArr, {"targetIndex": 0})
+		return userArr;
     }
 
     // Create the model solution used for grading the exercise
@@ -120,19 +127,28 @@ $(document).ready(function() {
                     userArr.value(ind + 1, "");
                     ind++;
                 }
+				if (stack.size() != 0 && getHighlight(userArr) < 0)
+					userArr.highlight(0)
                 stopAnimation()
-            }, 1800)
+            }, 1400)
             userArr.removeClass(getFirstIndWithClass(userArr, "correctIndex"), "correctIndex");
             userArr.removeClass(getFirstIndWithClass(userArr, "wrongIndex"), "wrongIndex");
-        }
+			pointer.target(userArr, {"targetIndex": 0})
+			av.step()
+		}
+		
+		// If the stack is empty, the exercise is complete. Hide the pointer.
+		if (stack.size() == 0)
+			pointer.hide()
     }
 
     function nextStepButton() {
         var hlPos = getHighlight(userArr);
         if (hlPos > -1)
             moveHighlight(hlPos, hlPos + 1, userArr)
-        else
-            userArr.highlight(0);
+		hlPos = getHighlight(userArr);
+		pointer.target(userArr, {"targetIndex": hlPos})
+		av.step()
     }
 
     //attach the button handlers
@@ -149,7 +165,7 @@ $(document).ready(function() {
         intv,
         modelStack,
         stackArray,
-        last_first,
+		pointer,
         // Load the config object with interpreter created by odsaUtils.js
         config = ODSA.UTILS.loadConfig(),
         interpret = config.interpreter, // get the interpreter
@@ -171,9 +187,7 @@ $(document).ready(function() {
     if (code)
         pseudo = av.code($.extend(codeOptions, code));
     var exercise = av.exercise(modelSolution, initialize, {
-        compare: {
-            class: "correctIndex"
-        },
+        compare: { class: "correctIndex"},
         controls: $(".jsavexercisecontrols")
     });
     // add the layout setting prelow, high, valference

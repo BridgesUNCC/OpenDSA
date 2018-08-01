@@ -141,6 +141,29 @@ $(document).ready(function () {
     }
   }
 
+  function checkPath(node){
+    if(node.value() == jsavTree.root().value()){
+      if(node.isHighlight()){
+        pathcomplete = true;
+        return;
+      }else{
+        pathcomplete = false;
+        return;
+      }
+    }
+    else{
+      node = node.parent();
+      if(node.isHighlight()){
+        console.log("here")
+        checkPath(node);
+        //return true;
+      }else{
+        pathcomplete = false;
+        return;
+      }
+    }
+  }
+
   var clickHandler = function () {
     BST.turnAnimationOff();
     if (stack.size()) {
@@ -163,14 +186,21 @@ $(document).ready(function () {
         this.addChild("");
         this.highlight();
       }
-      jsavTree.layout();
+      //jsavTree.layout();
       if(this.value() == ""){
-        this.value(stack.first().value());
-        removeStyle(this);
-        removeEmpty(jsavTree.root());
-        stack.removeFirst();
-        stack.layout();
-        exercise.gradeableStep();
+        console.log(checkPath(this))
+        checkPath(this);
+          if(pathcomplete == true){
+            this.value(stack.first().value());
+            removeStyle(this);
+            removeEmpty(jsavTree.root());
+            stack.removeFirst();
+            stack.layout();
+            exercise.gradeableStep();
+          }else{
+            removeStyle(this);
+            removeEmpty(jsavTree.root());
+          }
       }
       if(stack.first()){
         stack.first().highlight();
@@ -200,6 +230,7 @@ $(document).ready(function () {
       insertArray = [],
       jsavTree,
       stack,
+      pathcomplete,
       insertSize = 5,
       treeSize = 14,          //20 nodes
       maxHeight = 6,

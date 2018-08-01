@@ -27,7 +27,21 @@ $(document).ready(function () {
     head.show();
     list.layout();
     av.displayInit();
+    av.gradeableStep();
   });
+
+  function checkPath(node, insertNode){
+    if(node.value() == insertNode){
+      pathcomplete = true;
+      return;
+    }
+    if(node.isHighlight()){
+      checkPath(node.next(), insertNode);
+    }else{
+      pathcomplete = false;
+      return;
+    }
+  }
 
   function initialize() {
     if (stack){
@@ -62,6 +76,8 @@ $(document).ready(function () {
       list.add(i, randInsert[i]);
       list.layout();
     }
+    list.addFirst("first");
+    list.layout();
     head = av.pointer("head", list.get(0));
     head.show();
     if (!current){
@@ -88,6 +104,8 @@ $(document).ready(function () {
       modelList.add(i, randInsert[i]);
       modelList.layout();
     }
+    modelList.addFirst("first");
+    modelList.layout();
     head = av.pointer("head", modelList.get(0));
     head.show();
     if (!current){
@@ -97,15 +115,15 @@ $(document).ready(function () {
 
     var modelCount = 0;
 
-    for (j = 0; j < stackArray.length; j++){
-      for(i = 0; i < randInsert.length; i++){
+    for (j = 1; j < stackArray.length; j++){
+      for(i = 1; i < randInsert.length; i++){
         console.log("2")
         modelList.get(i).highlight();
         var val = modelStack.first().value();
         var listVal1 = modelList.get(i).value();
         var listVal2 = modelList.get(i+1).value();
 
-        if(val <= modelList.first().value()){
+        if(val <= listVal1){
           var newModelNode = modelList.newNode("");
           newModelNode.css({top: 80, left: 222});
           av.step();
@@ -115,7 +133,8 @@ $(document).ready(function () {
           removeStyle(modelList.first());
           av.step();
 
-          modelList.addFirst(newModelNode);
+          newModelNode.next(modelList.get(i+1))
+          modelList.get(i).next(newModelNode)
           modelList.layout();
           av.gradeableStep();
           modelList.layout();
@@ -125,7 +144,7 @@ $(document).ready(function () {
 
           break;
         }
-        else if(val >= listVal1 && val < listVal2){
+        else if(val >= listVal1 && val < listVal2 || val >= listVal1 && listVal2 == "null"){
           var newModelNode = modelList.newNode("");
           newModelNode.css({top: 80, left: 222});
           av.step();
@@ -180,9 +199,6 @@ $(document).ready(function () {
           break;
         }
           av.step();
-          // if (foundInsert = true){
-          //   break;
-          // }
       }
 
 
@@ -213,6 +229,10 @@ $(document).ready(function () {
     while(node.value() != "null"){
       node.unhighlight();
       node = node.next();
+    }
+    if(node.value() == "null"){
+      node.unhighlight();
+      return;
     }
   }
 
@@ -249,6 +269,11 @@ $(document).ready(function () {
       currentNode = this;
     }
     if(nodeHere == true){
+      if(this.value() == "first"){
+        alert("dont insert before this node");
+        removeStyle(list.first());
+        return;
+      }
       newNode.next(this);
       this.highlight();
       console.log(newNode.next());
@@ -273,6 +298,7 @@ $(document).ready(function () {
       randInsert,
       list,
       head,
+      pathcomplete,
       clicks,
       newNode,
       currentNode,

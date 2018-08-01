@@ -114,7 +114,7 @@ $(document).ready(function () {
        var node = modelTree.root();
        node.highlight();
        //var rand = Math.floor(Math.random() * ((4-2)+1) + 2);
-       console.log(rand)
+       console.log(rand[k])
        if (rand[k] == 2){
          while(node.value() != ""){
              if (!node.left()){
@@ -191,7 +191,7 @@ $(document).ready(function () {
        }
     }
       node.value(val);
-      stepcount++;
+      //stepcount++;
       removeStyle(node);
       node.left("");
       node.right("");
@@ -202,14 +202,13 @@ $(document).ready(function () {
       if (modelStack.first()) {
         modelStack.first().highlight();
       }
-
       if(stepcount == 2){
         k++
         console.log("randtemp "+ rand[k])
         stepcount = 0;
        }
-       av.gradeableStep();
-       av.step();
+      av.gradeableStep();
+      av.step();
     }
     k=1;
     return modelTree;
@@ -227,7 +226,7 @@ $(document).ready(function () {
   }
 
   function removeEmpty(node){
-    if (node.value() == "?"){
+    if (node.value() == "?" || node.value()  == ""){
       node.remove();
     }
     if (node.left()){
@@ -238,6 +237,29 @@ $(document).ready(function () {
     }
     if (!node.left() && !node.right()){
       return;
+    }
+  }
+
+  function checkPath(node){
+    if(node.value() == jsavTree.root().value()){
+      if(node.isHighlight()){
+        pathcomplete = true;
+        return;
+      }else{
+        pathcomplete = false;
+        return;
+      }
+    }
+    else{
+      node = node.parent();
+      if(node.isHighlight()){
+        console.log("here")
+        checkPath(node);
+        //return true;
+      }else{
+        pathcomplete = false;
+        return;
+      }
     }
   }
 
@@ -266,14 +288,20 @@ $(document).ready(function () {
         }
         jsavTree.layout();
         if(this.value() == "?"){
-          this.value(stack.first().value());
-          removeStyle(this);
-          removeEmpty(jsavTree.root());
-          //enable for code changing during insert
-          //stacksize = stacksize - 1;
-          stack.removeFirst();
-          stack.layout();
-          exercise.gradeableStep();
+          checkPath(this);
+          if(pathcomplete == true){
+            this.value(stack.first().value());
+            removeStyle(this);
+            removeEmpty(jsavTree.root());
+            //enable for code changing during insert
+            //stacksize = stacksize - 1;
+            stack.removeFirst();
+            stack.layout();
+            exercise.gradeableStep();
+          }else{
+            removeStyle(this);
+            removeEmpty(jsavTree.root());
+          }
         }
         if(stack.first()){
           stack.first().highlight();
@@ -352,10 +380,11 @@ $(document).ready(function () {
       insertArray = [],
       jsavTree,
       stack,
-      insertSize = 2,
+      insertSize = 1,
       treeSize = 8,          //20 nodes
       maxHeight = 6,
       runs = 0,
+      pathcomplete,
       modelruns = 0,
       m = 1,
       stacksize = 2,

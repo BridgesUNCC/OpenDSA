@@ -143,35 +143,38 @@ $(document).ready(function () {
     modelTree.click(clickHandler);
     modelTree.layout();
     av.displayInit();
-    console.log(modelTree.root().value() == "")
-
+    console.log(modelTree.root().value() == "?")
+    modelTree.root().value("?");
+    av.step();
     for (i = 0; i < nextArray.length; i++){
       var insertval = nextArray[i];
       var node = modelTree.root();
-      while(node.value() != ""){
-        if(insertval <= node.value() && !node.right()){
-          node.right("");
+      while(node.value() != "?"){
+        if(!node.right()){
+          node.right("?");
+          modelTree.layout();
           av.step();
         }
-        if(insertval > node.value() && !node.left()){
-          node.left("");
+        if(!node.left()){
+          node.left("?");
+          modelTree.layout();
           av.step();
         }
         if(insertval <= node.value()){
           node = node.right();
-          av.step();
         } else {
           node = node.left();
-          av.step();
         }
       }
        node.value(insertval);
-       av.step();
        modelarr.value(modelcount, "");
+       modelarr.unhighlight(modelcount);
+       modelarr.highlight(modelcount + 1);
+       node.left("?");
+       node.right("?");
        modelcount++;
        modelTree.layout();
        av.gradeableStep();
-       av.step();
     }
 
     return modelTree;
@@ -188,6 +191,7 @@ $(document).ready(function () {
       arr.highlight(arrcount + 1);
       this.left("?");
       this.right("?");
+      av.gradeableStep();
       jsavTree.layout();
       arrcount++;
     }

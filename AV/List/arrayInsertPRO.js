@@ -13,6 +13,8 @@ $(document).ready(function() {
 			stack.clear(); // clear number in the stack
 		if(userArr)
 			userArr.clear(); // clear the array
+		if (pointer)
+			pointer.hide() // Hide the pointer from any previous exercise.
 		var num_values = arraySize - stackSize;
 		// generate the array
 		initialArray = genArrNoRepeat(89, arraySize)
@@ -23,8 +25,14 @@ $(document).ready(function() {
 		// highlight the top number of the stack
 		stack.first().highlight();
 		stack.layout();
-		// Create the array the user will intereact with
+		// Create the array the user will intereact with and highlight the first value.
 		userArr = createArrayLayout(av, initialArray, false, arrayLayout.val())
+		userArr.highlight(0)
+		// Set the pointer's target to the center of the array to create a fixed anchor
+		pointer = av.pointer("", userArr, {"fixed": true, "anchor": "top center", "top": -75})
+		// Set the pointer's target to the first array element.
+		pointer.target(userArr, {"targetIndex": 0})
+		av.step()
 		return userArr;
 	}
 
@@ -91,7 +99,11 @@ $(document).ready(function() {
 	function insertValue(hlPos, insert_val) {
 		intv = setInterval(function animateStep() {
 			var position = userArr.size() - 1
-			var insert_pos = getIndicesWithClass(userArr, "correctIndex")[0];
+			var insert_pos;
+			if (getFirstIndWithClass(userArr, "correctIndex") >= 0)
+				insert_pos = getFirstIndWithClass(userArr, "correctIndex");
+			else
+				insert_pos = getFirstIndWithClass(userArr, "wrongIndex")
 			while(position > insert_pos) {
 				if(userArr.value(position) == "")
 					position = position - 1
@@ -110,11 +122,22 @@ $(document).ready(function() {
 					userArr.value(position, val)
 					userArr.removeClass(getFirstIndWithClass(userArr, "correctIndex"),
 						"correctIndex");
+					userArr.removeClass(getFirstIndWithClass(userArr, "wrongIndex"),
+						"wrongIndex");
+					userArr.unhighlight(hlPos);
+					// If the stack is empty, the exercise is complete. Hide the pointer.
+					if (stack.size() == 0)
+						pointer.hide()
+					else { // Otherwise, move the highlight and pointer to the first array value.
+						userArr.highlight(0)
+						pointer.target(userArr, {"targetIndex": 0})
+						av.step()
+					}
 					clearInterval(intv);
 				}
 			}
-		}, 1800);
-		userArr.unhighlight(hlPos);
+		}, 1400);
+		
 	}
 
 	function insertButton() {
@@ -138,12 +161,10 @@ $(document).ready(function() {
 	function nextStepButton() {
 		if(stack.size() != 0) {
 			userArr.removeClass(getFirstIndWithClass(userArr, "correctIndex"), "correctIndex")
-			var hlPos = getHighlight(userArr);
-			if(hlPos > -1)
-        moveHighlight(hlPos, hlPos + 1, userArr)
-			// the beginning of the exercise. Highlight the first value.
-			else
-				userArr.highlight(0);
+			var hlPos = getHighlight(userArr) + 1;
+			moveHighlight(hlPos - 1, hlPos, userArr)
+			pointer.target(userArr, {"targetIndex": hlPos})
+			av.step()
 		}
 	}
 
@@ -162,6 +183,7 @@ $(document).ready(function() {
 		modelStack,
 		stackArray,
 		last_first,
+		pointer,
 		// Load the config object with interpreter created by odsaUtils.js
 		config = ODSA.UTILS.loadConfig(),
 		interpret = config.interpreter, // get the interpreter

@@ -22,6 +22,7 @@ $(document).ready(function () {
       currentNode.value("");
       selectedNode = true;
       removeStyle(list.first());
+      highlightNext();
     }
   });
 
@@ -54,9 +55,9 @@ $(document).ready(function () {
 
     clicks = 0;
 
-    var randInsert = JSAV.utils.rand.numKeys(10, 100, 6, {sorted: true});
+    randInsert = JSAV.utils.rand.numKeys(10, 100, 6, {sorted: true});
     stack = av.ds.stack({center: true, xtransition: 5, ytransition: -3});
-    var stackArray = JSAV.utils.rand.sample(randInsert);
+    stackArray = JSAV.utils.rand.sample(randInsert);
     shuffle(stackArray);
     for(var i = 0; i < 4; i++){
       stack.addLast(stackArray[i]);
@@ -84,7 +85,58 @@ $(document).ready(function () {
   }
 
   function modelSolution(av) {
+      av._undo = [];
 
+      modelStack = av.ds.stack({center: true, xtransition: 5, ytransition: -3});
+      for(var i = 0; i < stackArray.length; i++){
+        modelStack.addLast(stackArray[i]);
+      }
+      modelStack.layout();
+      modelStack.first().highlight();
+
+      var modelList = av.ds.list({center: true, nodegap: 30});
+      modelList.first("null");
+      for (var i = 0; i < randInsert.length; i++){
+        modelList.add(i, randInsert[i]);
+        modelList.layout();
+      }
+      modelList.layout();
+      head = av.pointer("head", modelList.get(0));
+      head.show();
+      if (!current){
+        current = av.pointer("current", modelList.get(0), {anchor: "top right"});
+      }
+      av.displayInit();
+      while (modelStack.first()){
+        modelList.first().highlight();
+        var currentModelNode = modelList.first().highlight();
+        if(modelList.first().value() == modelStack.first().value()){
+          modelList.remove(0);
+        }else{
+          currentModelNode = currentModelNode.next();
+          currentModelNode.highlight();
+          if (currentModelNode.value() == modelStack.first().value()){
+            currentModelNode.value("");
+            var action = 1;
+          }
+          if(action = 1){
+            var deleteIndex = findDelete(modelList.get(0));
+            deleteIndex = deleteIndex - 1;
+            modelList.get(deleteIndex).highlight();
+            modelList.layout()
+            av.step()
+            action = 2;
+          }
+          if (action = 2){
+            modelList.get(deleteIndex).highlight();
+            dsad
+            av.step();
+            action = 0;
+          }
+        }
+
+      }
+      return modelList;
   }
 
   function highlightNext() {
@@ -110,8 +162,20 @@ $(document).ready(function () {
       node = node.next();
       index++;
     }
-    if(node.value() == "")
-    return index;
+    if(node.value() == ""){
+      return index;
+    }
+  }
+  function findPrev(node){
+    index = 0;
+    var curr = list.get(0);
+    while(curr.value() != node.value()){
+      curr = curr.next();
+      index++;
+    }
+    if(curr.value() == node.value()){
+      return index;
+    }
   }
 
 
@@ -123,9 +187,18 @@ $(document).ready(function () {
         currentNode = this;
       }
       if(clicks == 1){
-        if(this.value() < previousNode.value() || this.value() == previousNode.value()){
+        if(this.value() < previousNode.value() || this.value() == previousNode.value() || this.value() == "" ){
           currentNode = "";
           alert("You must select a node with larger value to link with the previous node.");
+          return;
+        }
+        var indprev = findPrev(previousNode);
+        var indnext = findPrev(this);
+        console.log(indprev)
+        console.log(indnext);
+        if(indnext > indprev + 2){
+          currentNode = "";
+          alert("Can't link over non-empty nodes.")
           return;
         }
         findDelete(list.first());
@@ -161,6 +234,10 @@ $(document).ready(function () {
       previousNode,
       index,
       stack,
+      modelStack,
+      stackArray,
+      randInsert,
+      modelList,
       list,
       head,
       clicks,

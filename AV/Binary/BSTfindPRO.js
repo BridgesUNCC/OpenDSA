@@ -64,7 +64,8 @@ $(document).ready(function () {
 
   function initialize() {
     av._undo = [];
-
+    alreadyUsed = [];
+    found = 0;
     BST.turnAnimationOff();
 
     if (jsavTree) {
@@ -79,7 +80,7 @@ $(document).ready(function () {
     jsavTree.insert(initialData);
     hideValues(jsavTree.root());
     jsavTree.layout();
-    keyToFind = initialData[JSAV.utils.rand.numKey(Math.floor(nodeNum / 2), nodeNum)];
+    keyToFind = initialData[JSAV.utils.rand.numKey(0, nodeNum)];
     console.log(keyToFind)
     $key.html("<li>" + keyToFind + "</li>");
     av.ds.array($key, {indexed: false}).css(0, {"background-color": "#ddf"}).toggleArrow(0);
@@ -116,6 +117,16 @@ $(document).ready(function () {
     return modelTree;
   }
 
+  function checkArray(value){
+    for (i = 0; i < alreadyUsed.length; i++){
+      if (alreadyUsed[i] == value){
+        check = true;
+        return;
+      }
+    }
+    check = false;
+    return;
+  }
 
 
   var clickHandler = function () {
@@ -124,18 +135,19 @@ $(document).ready(function () {
       this.value(initialData[index]);
       insertCount += 1;
       this.highlight();
-      jsavTree.layout();
-      if(alreadyUsed.length == (Math.floor(nodeNum/2) + 1)){
-        $key.html("<li>" + "" + "</li>");
-        removeStyle(jsavTree.root())
-        return;
+      checkArray(this.value());
+      if(!check){
+        alreadyUsed.push(this.value());
       }
+      jsavTree.layout();
+
       if(this.value() == keyToFind){
+        found += 1;
         removeStyle(jsavTree.root())
         var count = 1;
         while(count > 0){
           count = 0;
-          keyToFind = initialData[JSAV.utils.rand.numKey(Math.floor(nodeNum / 2), nodeNum)];
+          keyToFind = initialData[JSAV.utils.rand.numKey(0, nodeNum)];
           console.log(alreadyUsed)
           for (var i = 0; i < alreadyUsed.length; i++ ){
             if (keyToFind == alreadyUsed[i]){
@@ -146,6 +158,15 @@ $(document).ready(function () {
         alreadyUsed[i] = keyToFind;
         $key.html("<li>" + keyToFind + "</li>");
         av.ds.array($key, {indexed: false}).css(0, {"background-color": "#ddf"}).toggleArrow(0);
+      }
+      console.log(found)
+      console.log(Math.floor(nodeNum/2)-5)
+      if(found == Math.floor(nodeNum/2)-5){
+        $key.html("<li>" + "" + "</li>");
+        removeStyle(jsavTree.root());
+        jsavTree.layout();
+        av.displayInit();
+        return;
       }
       exercise.gradeableStep();
     }
@@ -165,7 +186,10 @@ $(document).ready(function () {
       insertCount = 0,
       nodeNum = Math.pow(2, levels) - 1,
       jsavTree,
+      check,
+      found = 0,
       keyToFind,
+      inserted = 0,
       match,
       $key = $('#keyToFind'),
       pseudo;

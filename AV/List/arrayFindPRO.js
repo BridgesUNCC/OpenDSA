@@ -13,6 +13,8 @@ $(document).ready(function() {
 			stack.clear(); // clear number in the stack
 		if(userArr)
 			userArr.clear(); // clear the array
+		if (pointer) 
+			pointer.hide() // hide pointer from any previous exercise
 		// generate the array
 		initialArray = genArrNoRepeat(89, arraySize)
 		stack = createStackLayout(av);
@@ -25,8 +27,13 @@ $(document).ready(function() {
 		// highlight the stack's top number
 		stack.first().highlight();
 		stack.layout();
-		// Create the array the user will intereact with
+		// Create the array the user will intereact with and highlight the first value
 		userArr = createArrayLayout(av, initialArray, false, arrayLayout.val())
+		userArr.highlight(0)
+		// set the pointer's target to the center of the array to create a fixed anchor
+		pointer = av.pointer("", userArr, {"fixed": true, "anchor": "top center", "top": -75})
+		// set the pointer's target to the first array element
+		pointer.target(userArr, {"targetIndex": 0})
 		return userArr;
 	}
 
@@ -88,17 +95,28 @@ $(document).ready(function() {
 			exercise.gradeableStep();
 			userArr.unhighlight(hlPos);
 		}
+		// Clear the "correct" or "wrong" CSS class from the array.
+		userArr.removeClass(getFirstIndWithClass(userArr, "correctIndex"), "correctIndex") 
+		userArr.removeClass(getFirstIndWithClass(userArr, "wrongIndex"), "wrongIndex")
+		
+		// If the stack is empty, the exercise is complete. Hide the pointer.
+		if (stack.size() == 0) {
+			pointer.hide()
+		} else { // Otherwise, move the highlight and pointer to the first array value.
+			userArr.highlight(0)
+			pointer.target(userArr, {"targetIndex": 0})
+			av.step() // Call step() or the pointer's new position won't show up right away.
+		}
 	}
 
 	function nextStepButton() {
-		if(stack.size() != 0) {
-			userArr.removeClass(getFirstIndWithClass(userArr, "correctIndex"), "correctIndex")
+		if(stack.size() != 0) { 
 			var hlPos = getHighlight(userArr);
-			if(hlPos > -1)
-        moveHighlight(hlPos, hlPos + 1, userArr)
-			else // the beginning of the exercise. Highlight the first value.
-				userArr.highlight(0);
-		}
+			moveHighlight(hlPos, hlPos + 1, userArr)
+			hlPos = getHighlight(userArr)
+			pointer.target(userArr, {"targetIndex": hlPos})
+			av.step() // Call step() or the pointer's new position won't show up right away.
+		} 
 	}
 	
 	//attach the button handlers
@@ -114,7 +132,7 @@ $(document).ready(function() {
 		stack,
 		modelStack,
 		stackArray,
-		last_first,
+		pointer,
 		// Load the config object with interpreter created by odsaUtils.js
 		config = ODSA.UTILS.loadConfig(),
 		interpret = config.interpreter, // get the interpreter
