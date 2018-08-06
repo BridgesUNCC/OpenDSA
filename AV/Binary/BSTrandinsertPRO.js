@@ -19,6 +19,7 @@ $(document).ready(function () {
      for (k = 0; k < 3; k++){
         rand[k] = Math.floor(Math.random() * ((4-2)+1) + 2);
      }
+     rand[0] = 2;
      k = 0;
      if (rand[k] == 2){
        JSAV_EXERCISE_OPTIONS.code = "processing";
