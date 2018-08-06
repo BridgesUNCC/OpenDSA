@@ -45,9 +45,10 @@ $(document).ready(function () {
        pseudo = av.code(code[0]);
      }
 
-    av.umsg(interpret("av_postorder"));
+    av.umsg(interpret("av_isnull"));
     pseudo.setCurrentLine("start");
-    //av.recorded();
+    av.displayInit();
+    document.getElementById("output").innerHTML = "Begin with tracing the path of insertion starting at the root node.";
 
     BST.turnAnimationOff();
 
@@ -281,6 +282,7 @@ $(document).ready(function () {
           this.highlight();
           this.addClass("thicknode");
           pseudo.show();
+          document.getElementById("output").innerHTML = "Choose the child to continue the correct path.";
         }
         else if(this.left() || this.right()){
           this.highlight();
@@ -288,16 +290,20 @@ $(document).ready(function () {
           jsavTree.layout();
           pseudo.unhighlight([2,3,4,5]);
           pseudo.highlight([6,7,8]);
+          document.getElementById("output").innerHTML = "Choose the child to continue the correct path.";
         }
         if(!this.left()){
           this.edgeToParent().addClass("blueline");
           this.addChild("?");
           this.highlight();
+          document.getElementById("output").innerHTML = "Choose the child to continue the correct path. Insert the value in an '?' node when ready.";
         }
         if(!this.right()){
           this.edgeToParent().addClass("blueline");
           this.addChild("?");
           this.highlight();
+          document.getElementById("output").innerHTML = "Choose the child to continue the correct path. Insert the value in an '?' node when ready.";
+
         }
         jsavTree.layout();
         if(this.value() == "?"){
@@ -320,6 +326,7 @@ $(document).ready(function () {
             stack.removeFirst();
             stack.layout();
             exercise.gradeableStep();
+            document.getElementById("output").innerHTML = "Begin with tracing the path of insertion starting at the root node.";
           }else{
             removeStyle(this);
             removeEmpty(jsavTree.root());
@@ -419,12 +426,14 @@ $(document).ready(function () {
       rand = [],
       randtemp;
 
-  var config = ODSA.UTILS.loadConfig();
+
+  var av_name = "BSTrandinsertPRO";
+  var config = ODSA.UTILS.loadConfig({av_name: av_name});
   var interpret = config.interpreter;
   var code = config.code;
 
   //var settings = config.getSettings();
-  var av = new JSAV($(".avcontainer"), {settings: settings});
+  var av = new JSAV($(".avcontainer"), {settings: settings}, av_name);
   //var pseudo = av.code(code[0]);
   //var av2 = new JSAV($(".avcontainer"), {settings: settings});
 
