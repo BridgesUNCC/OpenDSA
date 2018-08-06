@@ -26,8 +26,8 @@
       "startAfter": "/* *** ODSATag: randinsertGood *** */",
       "endBefore": "/* *** ODSAendTag: randinsertGood *** */",
       "tags": {
-        "sig": 1,
-        "checknull": 2,
+        "start": 1,
+        "root": 5,
         "visitleft": 3,
         "visitright": 4,
         "visit": 5,

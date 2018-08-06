@@ -23,31 +23,30 @@ $(document).ready(function () {
      if (rand[k] == 2){
        JSAV_EXERCISE_OPTIONS.code = "processing";
        console.log("2")
-       var config = ODSA.UTILS.loadConfig();
+       config = ODSA.UTILS.loadConfig();
          //var interpret = config.interpreter;       // get the interpreter
-       var code = config.code;                   // get the code object
-       var pseudo = av.code(code[0]);
+       code = config.code;                   // get the code object
+       pseudo = av.code(code[0]);
       }
      if (rand[k] == 3){
        JSAV_EXERCISE_OPTIONS.code = "java";
        console.log("3")
-       var config = ODSA.UTILS.loadConfig();
+       config = ODSA.UTILS.loadConfig();
        //var interpret = config.interpreter;       // get the interpreter
-       var code = config.code;                   // get the code object
-       var pseudo = av.code(code[0]);
+       code = config.code;                   // get the code object
+       pseudo = av.code(code[0]);
      }
      if (rand[k] == 4){
        JSAV_EXERCISE_OPTIONS.code = "java_generic";
        console.log("4")
-       var config = ODSA.UTILS.loadConfig();
+       config = ODSA.UTILS.loadConfig();
        //var interpret = config.interpreter;       // get the interpreter
-       var code = config.code;                   // get the code object
-       var pseudo = av.code(code[0]);
+       code = config.code;                   // get the code object
+       pseudo = av.code(code[0]);
      }
 
     av.umsg(interpret("av_postorder"));
-    //pseudo.setCurrentLine("sig");
-    av.displayInit();
+    pseudo.setCurrentLine("start");
     //av.recorded();
 
     BST.turnAnimationOff();
@@ -263,24 +262,38 @@ $(document).ready(function () {
     }
   }
 
+  function unhighlightcode(){
+    for( i = 0; i < 17; i++){
+      console.log("here")
+      pseudo.unhighlight([i]);
+      av.step();
+    }
+    return;
+  }
+
   var clickHandler = function () {
     BST.turnAnimationOff();
       if (stack.size()) {
-        if (this.value() == jsavTree.root().value){
+        if (this.value() == jsavTree.root().value()){
+          unhighlightcode();
+          av.step();
+          pseudo.highlight([2, 3, 4, 5]);
           this.highlight();
           this.addClass("thicknode");
+          pseudo.show();
         }
-        if(this.left() || this.right()){
+        else if(this.left() || this.right()){
           this.highlight();
           this.edgeToParent().addClass("blueline");
           jsavTree.layout();
+          pseudo.unhighlight([2,3,4,5]);
+          pseudo.highlight([6,7,8]);
         }
         if(!this.left()){
           this.edgeToParent().addClass("blueline");
           this.addChild("?");
           this.highlight();
         }
-        jsavTree.layout();
         if(!this.right()){
           this.edgeToParent().addClass("blueline");
           this.addChild("?");
@@ -290,6 +303,15 @@ $(document).ready(function () {
         if(this.value() == "?"){
           checkPath(this);
           if(pathcomplete == true){
+            pseudo.unhighlight([1,2,3,4,5,6,7,8]);
+            if(this == this.parent().left()){
+              unhighlightcode();
+              pseudo.highlight([9,10,11]);
+            }else{
+              unhighlightcode();
+              pseudo.highlight([14,15,16]);
+            }
+
             this.value(stack.first().value());
             removeStyle(this);
             removeEmpty(jsavTree.root());
@@ -316,28 +338,28 @@ $(document).ready(function () {
           if (rand[k+1] == 2){
               JSAV_EXERCISE_OPTIONS.code = "processing";
               console.log("2")
-              var config = ODSA.UTILS.loadConfig();
+              config = ODSA.UTILS.loadConfig();
               var interpret = config.interpreter;       // get the interpreter
-              var code = config.code;                   // get the code object
-              var pseudo = av.code(code[0]);
+              code = config.code;                   // get the code object
+              pseudo = av.code(code[0]);
               console.log("here at 2")
           }
           if (rand[k+1] == 3){
               JSAV_EXERCISE_OPTIONS.code = "java";
               console.log("3")
-              var config = ODSA.UTILS.loadConfig();
+              config = ODSA.UTILS.loadConfig();
               var interpret = config.interpreter;       // get the interpreter
-              var code = config.code;                   // get the code object
-              var pseudo = av.code(code[0]);
+              code = config.code;                   // get the code object
+              pseudo = av.code(code[0]);
               console.log("here at 3")
           }
           if (rand[k+1] == 4){
               JSAV_EXERCISE_OPTIONS.code = "java_generic";
               console.log("4")
-              var config = ODSA.UTILS.loadConfig();
+              config = ODSA.UTILS.loadConfig();
               var interpret = config.interpreter;       // get the interpreter
-              var code = config.code;                   // get the code object
-              var pseudo = av.code(code[0]);
+              code = config.code;                   // get the code object
+              pseudo = av.code(code[0]);
               console.log("here at 4")
           }
           stack.first().highlight();
@@ -380,6 +402,7 @@ $(document).ready(function () {
       insertArray = [],
       jsavTree,
       stack,
+      pseudo,
       insertSize = 1,
       treeSize = 8,          //20 nodes
       maxHeight = 6,
@@ -388,6 +411,8 @@ $(document).ready(function () {
       modelruns = 0,
       m = 1,
       stacksize = 2,
+      code,
+      config,
       k,
       j = 0,
       stepcount,
