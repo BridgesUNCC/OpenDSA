@@ -2,7 +2,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple";ODSA.SETTINGS.MODULE_LONG_NAME = "Binary Search Trees";ODSA.SETTINGS.MODULE_CHAPTER = "Binary Search Trees"; ODSA.SETTINGS.BUILD_DATE = "2018-07-31 19:19:08"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple";ODSA.SETTINGS.MODULE_LONG_NAME = "Binary Search Trees";ODSA.SETTINGS.MODULE_CHAPTER = "Binary Search Trees"; ODSA.SETTINGS.BUILD_DATE = "2018-08-09 13:46:08"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
 
 
 .. |--| unicode:: U+2013   .. en dash

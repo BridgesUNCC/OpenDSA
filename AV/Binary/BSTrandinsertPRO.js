@@ -7,25 +7,47 @@ $(document).ready(function () {
   }
   BST.turnAnimationOff();
 
+  //recursive function to grayout the entire bst
+  //@param root - is the root of the tree to start
+  function grayOut(root){
+    root.css({"background-color": "gray"});
+    if(!root.left() && !root.right()){
+      return;
+    }
+    if(root.left()){
+      grayOut(root.left());
+    }
+    if(root.right()){
+      grayOut(root.right());
+    }
+  }
+
   // Set click handlers
   $("#about").click(about);
 
-
+  //init the module and all of its structures
   function initialize() {
+    //clear the current code box if one exists
      if(JSAV_EXERCISE_OPTIONS.code){
        av.clear();
        //var rand = [];
      }
+     //create 3 rand numbers whic will be the numbers for the algorithm. the random numbers are between 2 and 4
      for (k = 0; k < 3; k++){
         rand[k] = Math.floor(Math.random() * ((4-2)+1) + 2);
      }
+
      rand[0] = 2;
      k = 0;
+
+     //the if statements for deciding which algorithm to Choose
+     //these algorithms are selected and rendered to the screen.
+     //based on how the random number is set, we can change each time
+     //the user loads the module
      if (rand[k] == 2){
        JSAV_EXERCISE_OPTIONS.code = "processing";
        console.log("2")
        config = ODSA.UTILS.loadConfig();
-         //var interpret = config.interpreter;       // get the interpreter
        code = config.code;                   // get the code object
        pseudo = av.code(code[0]);
       }
@@ -33,7 +55,6 @@ $(document).ready(function () {
        JSAV_EXERCISE_OPTIONS.code = "java";
        console.log("3")
        config = ODSA.UTILS.loadConfig();
-       //var interpret = config.interpreter;       // get the interpreter
        code = config.code;                   // get the code object
        pseudo = av.code(code[0]);
      }
@@ -41,18 +62,21 @@ $(document).ready(function () {
        JSAV_EXERCISE_OPTIONS.code = "java_generic";
        console.log("4")
        config = ODSA.UTILS.loadConfig();
-       //var interpret = config.interpreter;       // get the interpreter
        code = config.code;                   // get the code object
        pseudo = av.code(code[0]);
      }
 
+    //start with the first line in the algorithm highlighted
+    //can be changes in the .json file
     av.umsg(interpret("av_isnull"));
     pseudo.setCurrentLine("start");
     av.displayInit();
+    //set the dynamic instructions as well
     document.getElementById("output").innerHTML = "Begin with tracing the path of insertion starting at the root node.";
 
-    BST.turnAnimationOff();
+    BST.turnAnimationOff();//set the bst animations off because of bugs
 
+    //test if the data going into tree and stack is correct data
     function dataTest(array) {
       var bst = av.ds.binarytree();
       bst.insert(array);
@@ -61,7 +85,9 @@ $(document).ready(function () {
       return result;
     }
 
+    //init the random array of values to use to put into the stack and the tree
     insertArray = JSAV.utils.rand.numKeys(10, 100, insertSize * 3, {test: dataTest, tries: 10});
+    //clear the stack on reset if one exists
     if (stack) {
       stack.clear();
     }
@@ -77,7 +103,7 @@ $(document).ready(function () {
       jsavTree.clear();
     }
     //generate random tree
-    jsavTree = av.ds.binarytree({center: true, visible: true, nodegap: 25});
+    jsavTree = av.ds.binarytree({center: true, visible: true, nodegap: 20});
     do {
       initialArray = [];
       perfectBinTree(initialArray, 1, 10, 100, 3, 1);
@@ -85,6 +111,10 @@ $(document).ready(function () {
     } while (!dataTest(initialArray));
     jsavTree.insert(initialArray);
     jsavTree.click(clickHandler);
+    grayOut(jsavTree.root());
+    jsavTree.root().highlight();
+    jsavTree.root().left().css({"background-color": "white"});
+    jsavTree.root().right().css({"background-color": "white"});
     jsavTree.layout();
 
     av.container.find(".jsavcanvas").css("min-height", 442);
@@ -104,6 +134,10 @@ $(document).ready(function () {
 
     var modelTree = av.ds.binarytree({center: true, visible: true, nodegap: 20});
     modelTree.insert(initialArray);
+    grayOut(modelTree.root());
+    modelTree.root().highlight();
+    modelTree.root().left().css({"background-color": "white"});
+    modelTree.root().right().css({"background-color": "white"});
     modelTree.layout();
 
     av.displayInit();
@@ -117,25 +151,37 @@ $(document).ready(function () {
        //var rand = Math.floor(Math.random() * ((4-2)+1) + 2);
        console.log(rand[k])
        if (rand[k] == 2){
-         while(node.value() != ""){
+         while(node.value() != "?"){
              if (!node.left()){
-               node.left("");
+               node.left("?");
                modelTree.layout();
                av.step();
              }
              if (!node.right()){
-               node.right("");
+               node.right("?");
                modelTree.layout();
                av.step();
              }
            else if(val <= node.value()){
              node.left().highlight();
              node = node.left();
+             if(node.left()){
+               node.left().css({"background-color": "white"});
+             }
+             if(node.right()){
+               node.right().css({"background-color": "white"});
+             }
              node.edgeToParent().addClass("blueline");
              av.step();
            } else {
              node.right().highlight();
              node = node.right();
+             if(node.left()){
+               node.left().css({"background-color": "white"});
+             }
+             if(node.right()){
+               node.right().css({"background-color": "white"});
+             }
              node.edgeToParent().addClass("blueline");
              av.step();
            }
@@ -194,9 +240,13 @@ $(document).ready(function () {
       node.value(val);
       //stepcount++;
       removeStyle(node);
-      node.left("");
-      node.right("");
+      // node.left("");
+      // node.right("");
       removeEmpty(modelTree.root());
+      grayOut(modelTree.root());
+      modelTree.root().highlight();
+      modelTree.root().left().css({"background-color": "white"});
+      modelTree.root().right().css({"background-color": "white"});
       modelTree.layout();
       modelStack.removeFirst();
       modelStack.layout();
@@ -209,12 +259,13 @@ $(document).ready(function () {
         stepcount = 0;
        }
       av.gradeableStep();
-      av.step();
     }
     k=1;
     return modelTree;
 }
 
+  //recursive function to remove the highlighing of tree nodes and edges
+  //@param node - root node to start at
   function removeStyle(node){
     if (node.edgeToParent()){
       node.unhighlight();
@@ -226,6 +277,8 @@ $(document).ready(function () {
     }
   }
 
+  //recursive function to remove the empty nodes in the bst after inserting
+  //@param node - root node to start
   function removeEmpty(node){
     if (node.value() == "?" || node.value()  == ""){
       node.remove();
@@ -241,6 +294,8 @@ $(document).ready(function () {
     }
   }
 
+  //recursive function to check if the user traced a path from root before inserting
+  //@param node - the node that was inserted
   function checkPath(node){
     if(node.value() == jsavTree.root().value()){
       if(node.isHighlight()){
@@ -264,6 +319,7 @@ $(document).ready(function () {
     }
   }
 
+  //function to inhighlight all the lines in the psuedocode section
   function unhighlightcode(){
     for( i = 0; i < 17; i++){
       console.log("here")
@@ -273,26 +329,29 @@ $(document).ready(function () {
     return;
   }
 
+  //handel the click events
   var clickHandler = function () {
+    av._redo = [];
     BST.turnAnimationOff();
-      if (stack.size()) {
-        if (this.value() == jsavTree.root().value()){
-          unhighlightcode();
-          av.step();
-          pseudo.highlight([2, 3, 4, 5]);
-          this.highlight();
-          this.addClass("thicknode");
-          pseudo.show();
-          document.getElementById("output").innerHTML = "Choose the child to continue the correct path.";
-        }
-        else if(this.left() || this.right()){
+    //make sure that there is a value in the stack to be inserted and that the parent is highlighted before clicking the node
+      if (stack.size() && this.parent().isHighlight()) {
+        if(this.left() || this.right()){
           this.highlight();
           this.edgeToParent().addClass("blueline");
-          jsavTree.layout();
+          //set the children of the new explored node to be 'white'
+          if(this.left()){
+            this.left().css({"background-color": "white"});
+          }
+          if(this.right()){
+            this.right().css({"background-color": "white"});
+          }
           pseudo.unhighlight([2,3,4,5]);
           pseudo.highlight([6,7,8]);
           document.getElementById("output").innerHTML = "Choose the child to continue the correct path.";
+          jsavTree.layout();
+          av.step();
         }
+        //if there is not a left or right child of the current node, add the children
         if(!this.left()){
           this.edgeToParent().addClass("blueline");
           this.addChild("?");
@@ -304,40 +363,42 @@ $(document).ready(function () {
           this.addChild("?");
           this.highlight();
           document.getElementById("output").innerHTML = "Choose the child to continue the correct path. Insert the value in an '?' node when ready.";
-
         }
         jsavTree.layout();
+        //if this is an empty node, then insert the value into the node and reset the styling of the tree
+        //ie. remove all empty nodes, regray the tree, unhighlight all nodes and links, rehighlight the root node
         if(this.value() == "?"){
-          checkPath(this);
-          if(pathcomplete == true){
-            pseudo.unhighlight([1,2,3,4,5,6,7,8]);
-            if(this == this.parent().left()){
-              unhighlightcode();
-              pseudo.highlight([9,10,11]);
-            }else{
-              unhighlightcode();
-              pseudo.highlight([14,15,16]);
-            }
-
-            this.value(stack.first().value());
-            removeStyle(this);
-            removeEmpty(jsavTree.root());
-            //enable for code changing during insert
-            //stacksize = stacksize - 1;
-            stack.removeFirst();
-            stack.layout();
-            exercise.gradeableStep();
-            document.getElementById("output").innerHTML = "Begin with tracing the path of insertion starting at the root node.";
+          pseudo.unhighlight([1,2,3,4,5,6,7,8]);
+          if(this == this.parent().left()){
+            unhighlightcode();
+            pseudo.highlight([9,10,11]);
           }else{
-            removeStyle(this);
-            removeEmpty(jsavTree.root());
+            unhighlightcode();
+            pseudo.highlight([14,15,16]);
           }
+          this.value(stack.first().value());
+          removeStyle(this);
+          removeEmpty(jsavTree.root());
+          grayOut(jsavTree.root());
+          jsavTree.root().highlight();
+          jsavTree.root().left().css({"background-color": "white"});
+          jsavTree.root().right().css({"background-color": "white"});
+          //enable for code changing during insert
+          //stacksize = stacksize - 1;
+          stack.removeFirst();
+          stack.layout();
+          exercise.gradeableStep();
+          av.stepOption("grade", true);
+          document.getElementById("output").innerHTML = "Begin with tracing the path of insertion starting at the root node.";
         }
         if(stack.first()){
           stack.first().highlight();
         }
         jsavTree.layout();
       }
+
+      //when enabled, this section of code will change the algorithm based on a certain amount of insertions
+      //the user does. the algorithm is selected based on the array of random numbers generated during init
       if(stacksize == 0){
         console.log("in loop to change")
         if(JSAV_EXERCISE_OPTIONS.code){
@@ -390,7 +451,6 @@ $(document).ready(function () {
 };
 
   // helper function for creating a perfect binary tree
-
   function perfectBinTree(arr, level, min, max, levelsInTotal, arrayIndex) {
     var diff = max - min;
     var value = JSAV.utils.rand.numKey(min + Math.floor(diff / 3), max - Math.floor(diff / 3));
@@ -411,7 +471,7 @@ $(document).ready(function () {
       jsavTree,
       stack,
       pseudo,
-      insertSize = 1,
+      insertSize = 2,
       treeSize = 8,          //20 nodes
       maxHeight = 6,
       runs = 0,
@@ -433,19 +493,15 @@ $(document).ready(function () {
   var interpret = config.interpreter;
   var code = config.code;
 
-  //var settings = config.getSettings();
   var av = new JSAV($(".avcontainer"), {settings: settings}, av_name);
-  //var pseudo = av.code(code[0]);
-  //var av2 = new JSAV($(".avcontainer"), {settings: settings});
 
   av.recorded();
 
   var exercise = av.exercise(modelSolution, initialize,
                               {controls: $(".jsavexercisecontrols")},
-                              {feedback: "atend"}, {compare: $(".jsavtree")});
+                              {feedback: "continuous"}, {compare: $(".jsavtree")});
 
  // we are not recording an AV with an algorithm
-
   exercise.reset();
 
 });
