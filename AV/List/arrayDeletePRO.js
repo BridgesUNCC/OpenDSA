@@ -8,15 +8,22 @@ $(document).ready(function() {
 
     // Processes the reset button
     function initialize() {
+		// if (JSAV_EXERCISE_OPTIONS.code)
+		// 	av.clear();
+		// JSAV_EXERCISE_OPTIONS.code = "delete";
+		//config = ODSA.UTILS.loadConfig();
+		// code = config.code;                   // get the code object
+		// pseudo = av.code(code[0]);
+
         clearInterval(intv);
         if (stack)
             stack.clear(); // Clear the numbers in the stack.
         if (userArr)
             userArr.clear(); // Clear the array.
-		if (pointer)
-			pointer.hide() // Hide the pointer from any previous exercise.
-        // Generate the array values.
-        initialArray = genArrNoRepeat(89, arraySize)
+		//if (pseudo)
+		//	pseudo.clear();
+		//pseudo = av.code({url: "delete_code.txt", lineNumbers: false})
+        initialArray = genArrNoRepeat(89, arraySize) // Generate the array values.
         stack = createStackLayout(av);
         stackArray = [];
         for (var i = 0; i < stackSize; i++) {
@@ -30,66 +37,51 @@ $(document).ready(function() {
         stack.first().highlight();
         stack.layout();
         // Create the array the user will intereact with and highlight the first value
-        userArr = createArrayLayout(av, initialArray, false, arrayLayout.val())
-		userArr.highlight(0)
-		// Set the pointer's target to the center of the array to create a fixed anchor
-		pointer = av.pointer("", userArr, {"fixed": true, "anchor": "top center", "top": -75})
-		// Set the pointer's target to the first array element.
-		pointer.target(userArr, {"targetIndex": 0})
+        userArr = createArrayLayout(av, initialArray, true, arrayLayout.val())
+		addArrayClick()
 		return userArr;
     }
 
+	// Add a click event to userArr
+	function addArrayClick() {
+		userArr.click(function(index) {
+			userArr.unhighlight(getHighlight(userArr))
+			userArr.highlight(index)
+			av.gradeableStep()
+		});
+	}
+
     // Create the model solution used for grading the exercise
-    function modelSolution(av) {
+    function modelSolution(modelav) {
         // create stack and populate with values from stackArray
-        modelStack = createStackLayout(av)
+        modelStack = createStackLayout(modelav)
         modelStack = buildStackFromArr(stackArray, stackSize, modelStack)
         modelStack.layout();
-
-        // highlight top value
         modelStack.first().highlight();
-
-        // create the array
-        var modelArr = createArrayLayout(av, initialArray, false, arrayLayout.val())
-
-        // initialize the display
-        av.displayInit();
-
+        var modelArr = createArrayLayout(modelav, initialArray, true, arrayLayout.val())
+        modelav.displayInit();
         while (modelStack.size() > 0) {
-            // initialize ind to keep track of the highlight's position. Set to 1 to avoid out of bounds exception
             var ind = 1
-
-            // highlight the array's first value
             modelArr.highlight(0)
-
-            av.step()
-
-            // while the current value is less than the stack's top value and not a blank string
-            while (modelArr.value(ind) <= modelStack.first().value() && modelArr.value(ind) != "") {
+            modelav.gradeableStep()
+			while (modelArr.value(ind) <= modelStack.first().value() && modelArr.value(ind) != "") {
                 moveHighlight(ind - 1, ind, modelArr)
-                av.step();
+                modelav.gradeableStep();
                 ind++;
             }
-            // decrement ind so its value matches the highlight position
             ind--;
-
-            // unhighlight the value and add the correctIndex class
-            modelArr.unhighlight(ind);
+			modelArr.unhighlight(ind);
             modelArr.addClass(ind, "correctIndex");
-
-            // "delete" the value by setting it to a blank string 
-            modelArr.value(ind, "");
-
-            av.gradeableStep();
-
+			modelav.gradeableStep();
+			modelStack.removeFirst()
+			modelArr.removeClass(getFirstIndWithClass(modelArr, "correctIndex"), "correctIndex")
+			modelArr.value(ind, "");
             while (ind < arraySize - 1) {
                 modelArr.value(ind, modelArr.value(ind + 1));
                 modelArr.value(ind + 1, "");
                 ind++;
             }
-            modelStack.removeFirst()
-            modelArr.removeClass(getFirstIndWithClass(modelArr, "correctIndex"), "correctIndex");
-            av.step();
+            modelav.step();
         }
         return modelArr;
     }
@@ -102,7 +94,7 @@ $(document).ready(function() {
         var userArrElems = JSAV.utils._helpers.getIndices($(userArr.element).find("li"));
         for (var i = 0; i < modelArray.size(); i++) {
             // Fix any incorrect values
-            userArr.value(i, modelArray.value(i));
+            userArr.value(i, modelArray.value(i))
             // Ensure the classes of each element in the user array match those in the model solution
             userArrElems[i].className = modArrElems[i].className;
         }
@@ -112,48 +104,35 @@ $(document).ready(function() {
         if (arrHasHighlight(userArr)) {
             var hlPos = getHighlight(userArr);
             var array_value = userArr.value(hlPos);
-            userArr.value(hlPos, "");
-            if (array_value == stack.first().value())
-                userArr.addClass(hlPos, "correctIndex");
-            else
-                userArr.addClass(hlPos, "wrongIndex");
-            exercise.gradeableStep();
-            userArr.unhighlight(hlPos);
+            if (array_value == stack.first().value()) {
+                userArr.addClass(hlPos, "correctIndex")
+				userArr.unhighlight(hlPos)
+				exercise.gradeableStep()
+				stack.removeFirst()
+				if (stack.size() > 0)			// If the stack is not empty
+					stack.first().highlight()	// highlight the top value.
+			}
+            else {
+                userArr.addClass(hlPos, "wrongIndex")
+				userArr.unhighlight(hlPos)
+				exercise.gradeableStep()
+			}
             var ind = hlPos;
-            stack.removeFirst();
+			userArr.value(hlPos, "");
             intv = setInterval(function animateStep() {
                 while (ind < arraySize - 1) {
-                    userArr.value(ind, userArr.value(ind + 1));
-                    userArr.value(ind + 1, "");
+                    userArr.value(ind, userArr.value(ind + 1))
+                    userArr.value(ind + 1, "")
                     ind++;
                 }
-				if (stack.size() != 0 && getHighlight(userArr) < 0)
-					userArr.highlight(0)
                 stopAnimation()
             }, 1400)
             userArr.removeClass(getFirstIndWithClass(userArr, "correctIndex"), "correctIndex");
             userArr.removeClass(getFirstIndWithClass(userArr, "wrongIndex"), "wrongIndex");
-			pointer.target(userArr, {"targetIndex": 0})
-			av.step()
 		}
-		
-		// If the stack is empty, the exercise is complete. Hide the pointer.
-		if (stack.size() == 0)
-			pointer.hide()
     }
 
-    function nextStepButton() {
-        var hlPos = getHighlight(userArr);
-        if (hlPos > -1)
-            moveHighlight(hlPos, hlPos + 1, userArr)
-		hlPos = getHighlight(userArr);
-		pointer.target(userArr, {"targetIndex": hlPos})
-		av.step()
-    }
-
-    //attach the button handlers
-    $('#Next').click(nextStepButton);
-    $('#Delete').click(deleteButton);
+    $('#Delete').click(deleteButton)
 
     //////////////////////////////////////////////////////////////////
     // Start processing here
@@ -165,15 +144,14 @@ $(document).ready(function() {
         intv,
         modelStack,
         stackArray,
-		pointer,
+		    pseudo,
+		    code,
         // Load the config object with interpreter created by odsaUtils.js
         config = ODSA.UTILS.loadConfig(),
         interpret = config.interpreter, // get the interpreter
         code = config.code,
         codeOptions = {
-            after: {
-                element: $(".instructions")
-            },
+            after: {element: $(".instructions")},
             visible: true
         },
         settings = config.getSettings(), // Settings for the AV
@@ -181,13 +159,13 @@ $(document).ready(function() {
             settings: settings
         });
     av.recorded(); // we are not recording an AV with an algorithm
-	
+
     // show a JSAV code instance only if the code is defined in the parameter
     // and the parameter value is not "none"
-    if (code)
-        pseudo = av.code($.extend(codeOptions, code));
+    //if (code)
+    //    pseudo = av.code($.extend(codeOptions, code));
     var exercise = av.exercise(modelSolution, initialize, {
-        compare: { class: "correctIndex"},
+        compare: {css: "backgroundColor"},//feedback: "continuous",
         controls: $(".jsavexercisecontrols")
     });
     // add the layout setting prelow, high, valference

@@ -9,6 +9,60 @@ $(document).ready(function () {
   // Set click handlers
   $("#about").click(about);
 
+  //recursive function to grayout the entire bst
+  //@param root - is the root of the tree to start
+  function grayOut(root){
+    root.css({"background-color": "gray"});
+    if(!root.left() && !root.right()){
+      return;
+    }
+    if(root.left()){
+      grayOut(root.left());
+    }
+    if(root.right()){
+      grayOut(root.right());
+    }
+  }
+
+  // function sleep(milliseconds) {
+  //   var start = new Date().getTime();
+  //   for (var i = 0; i < 1e7; i++) {
+  //     if ((new Date().getTime() - start) > milliseconds){
+  //       break;
+  //     }
+  //   }
+  // }
+
+  $(document).on('click', '#Found', function() {
+    currentNode.unhighlight();
+    if(currentNode.value() == stack.first().value()){
+       currentNode.css({"background-color": "green"});
+       exercise.gradeableStep();
+    }else{
+      //exercise.gradeableStep();
+      currentNode.css({"background-color": "red"});
+      correct = false;
+      isCorrect(correct);
+    }
+    stack.removeFirst();
+    currentNode.unhighlight();
+    removeStyle(jsavTree.root());
+    grayOut(jsavTree.root());
+    jsavTree.root().highlight();
+    jsavTree.root().left().css({"background-color": "white"});
+    jsavTree.root().right().css({"background-color": "white"});
+    av.step();
+  });
+  $(document).on('click', '#NotinTree', function() {
+
+  });
+
+  function isCorrect(correct){
+    return correct;
+  }
+
+  //remove the styling in the tree. ie highlighing and edge highlighting
+  //@param node - the root node of the tree (reursive)
   function removeStyle(node){
     node.unhighlight();
     if(!node.left() && !node.right()){
@@ -37,82 +91,152 @@ $(document).ready(function () {
     }
   }
 
-  function getIndex(node, root) {
-    if (node === root) {
-      return 0;
-    }
-
-    if (node.parent().left() === node) {
-      return (getIndex(node.parent(), root) + 1) * 2 - 1;
-    } else {
-      return (getIndex(node.parent(), root) + 1) * 2;
-    }
-  }
-
-  function calculateInitialData(level, min, max, levelsInTotal, arrayIndex) {
-    var diff = max - min;
-    var value = JSAV.utils.rand.numKey(min + Math.floor(diff / 3),
-                                       max - Math.floor(diff / 3));
-    initialData[arrayIndex - 1] = value;
-    if (level < levelsInTotal) {
-      calculateInitialData(level + 1, min, value - 1,
-                           levelsInTotal, 2 * arrayIndex);
-      calculateInitialData(level + 1, value + 1,
-                           max, levelsInTotal, 2 * arrayIndex + 1);
-    }
-  }
-
   function initialize() {
+    av.clear();
     av._undo = [];
     alreadyUsed = [];
     found = 0;
     BST.turnAnimationOff();
 
+    //test if the data going into tree and stack is correct data
+    function dataTest(array) {
+      var bst = av.ds.binarytree();
+      bst.insert(array);
+      var result = bst.height() <= maxHeight;
+      bst.clear();
+      return result;
+    }
+
+    /**
+    * Randomize array element order in-place.
+    * Using Durstenfeld shuffle algorithm.
+    */
+    function Shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+      return array;
+    }
+
     if (jsavTree) {
       jsavTree.clear();
     }
+
+    //init the random array of values to use to put into the stack and the tree
+    insertArray = JSAV.utils.rand.numKeys(10, 100, 6, {test: dataTest, tries: 10});
+    //clear the stack on reset if one exists
+    if (stack) {
+      stack.clear();
+      copyArray = [];
+    }
+    stack = av.ds.stack({center: true, xtransition: 5, ytransition: -3});
+    do {
+      initialArray = [];
+      perfectBinTree(initialArray, 1, 10, 100, 3, 1);
+      initialArray = initialArray.concat(JSAV.utils.rand.numKeys(10, 100, treeSize-7));
+    } while (!dataTest(initialArray));
+    //pick the values to delete and push them in the stack
     //generate random tree
     jsavTree = av.ds.binarytree({center: true, visible: true, nodegap: 15});
     jsavTree.click(clickHandler);
+    jsavTree.insert(initialArray);
+    //hideValues(jsavTree.root());
+    for(i =0; i< initialArray.length-1; i++){
+      copyArray.push(initialArray[i]);
+    }
+    Shuffle(copyArray)
+    for (var i = 1; i < insertSize; i = i +2) {
+      stack.addLast(copyArray[i]);
+    }
+    stack.first().highlight();
+    stack.layout();
 
+    grayOut(jsavTree.root());
+    jsavTree.root().highlight();
+    jsavTree.root().left().css({"background-color": "white"});
+    jsavTree.root().right().css({"background-color": "white"});
 
-    calculateInitialData(1, 100, 1000, levels, 1);
-    jsavTree.insert(initialData);
-    hideValues(jsavTree.root());
     jsavTree.layout();
-    keyToFind = initialData[JSAV.utils.rand.numKey(0, nodeNum)];
-    console.log(keyToFind)
-    $key.html("<li>" + keyToFind + "</li>");
-    av.ds.array($key, {indexed: false}).css(0, {"background-color": "#ddf"}).toggleArrow(0);
 
     av.container.find(".jsavcanvas").css("min-height", 442);
-    console.log(keyToFind);
-    alreadyUsed[0] = keyToFind;
+    alreadyUsed[0] = stack.first();
     return jsavTree;
   }
 
 
 
   function modelSolution(av) {
-    var stackIndex = 0;
-
-    modelKeyToFind = initialData[JSAV.utils.rand.numKey(Math.floor(nodeNum / 2), nodeNum)];
-
-    var modelStack = av.ds.stack({center: true, xtransition: 5, ytransition: -1});
-    //pick the values to delete and push them in the stack
-    modelStack.addLast(initialData[stackIndex]);
-    modelStack.first().highlight();
+    var i;
+    av._undo = [];
+    modelStack = av.ds.stack({center: true});
+    for (i = 1; i < insertSize; i = i +2) {
+      modelStack.addLast(copyArray[i]);
+    }
     modelStack.layout();
+    modelStack.first().highlight();
 
-
-    modelTree = av.ds.binarytree({center: true, visible: true, nodegap: 15});
-
-    modelTree.insert(initialData);
-    hideValues(modelTree.root());
+    modelTree = av.ds.binarytree({center: true, visible: true, nodegap: 20});
+    modelTree.insert(initialArray);
+    grayOut(modelTree.root());
+    modelTree.root().highlight();
+    modelTree.root().left().css({"background-color": "white"});
+    modelTree.root().right().css({"background-color": "white"});
     modelTree.layout();
-
-    av.container.find(".jsavcanvas").css("min-height", 442);
     av.displayInit();
+
+    console.log(modelStack)
+    console.log(initialArray)
+
+    for (var i = 0; i < 4; i++){
+      var val = modelStack.first();
+      var cur = modelTree.root();
+      console.log(cur.value())
+      while(val.value() != cur.value()){
+        if(val.value() <= cur.value()){
+          cur = cur.left();
+          cur.highlight();
+          if(cur.left()){
+            cur.left().css({"background-color": "white"});
+          }
+          if(cur.right()){
+            cur.right().css({"background-color": "white"});
+          }
+          // av.gradeableStep();
+        }else{
+          cur = cur.right();
+          cur.highlight();
+          if(cur.left()){
+            cur.left().css({"background-color": "white"});
+          }
+          if(cur.right()){
+            cur.right().css({"background-color": "white"});
+          }
+          // av.gradeableStep();
+       }
+       av.gradeableStep();
+      }
+      cur.css({"background-color": "green"});
+      av.gradeableStep();
+      modelStack.removeFirst();
+      removeStyle(modelTree.root());
+      grayOut(modelTree.root());
+      modelTree.root().highlight();
+      modelTree.root().left().css({"background-color": "white"});
+      modelTree.root().right().css({"background-color": "white"});
+      av.step();
+    }
+
 
     return modelTree;
   }
@@ -128,49 +252,44 @@ $(document).ready(function () {
     return;
   }
 
+  var fixState = function(){
+
+  }
 
   var clickHandler = function () {
-    if (!this.isHighlight()) {
-      var index = getIndex(this, jsavTree.root());
-      this.value(initialData[index]);
+    currentNode = this;
+    if (!this.isHighlight() && this.parent().isHighlight()) {
       insertCount += 1;
       this.highlight();
-      checkArray(this.value());
-      if(!check){
-        alreadyUsed.push(this.value());
+      if(this.left()){
+        this.left().css({"background-color": "white"});
       }
-      jsavTree.layout();
+      if(this.right()){
+        this.right().css({"background-color": "white"});
+      }
 
-      if(this.value() == keyToFind){
-        found += 1;
-        removeStyle(jsavTree.root())
-        var count = 1;
-        while(count > 0){
-          count = 0;
-          keyToFind = initialData[JSAV.utils.rand.numKey(0, nodeNum)];
-          console.log(alreadyUsed)
-          for (var i = 0; i < alreadyUsed.length; i++ ){
-            if (keyToFind == alreadyUsed[i]){
-              count += 1;
-            }
-          }
-        }
-        alreadyUsed[i] = keyToFind;
-        $key.html("<li>" + keyToFind + "</li>");
-        av.ds.array($key, {indexed: false}).css(0, {"background-color": "#ddf"}).toggleArrow(0);
-      }
-      console.log(found)
-      console.log(Math.floor(nodeNum/2)-5)
-      if(found == Math.floor(nodeNum/2)-5){
-        $key.html("<li>" + "" + "</li>");
+      if(!stack.first()){
         removeStyle(jsavTree.root());
         jsavTree.layout();
         av.displayInit();
         return;
       }
-      exercise.gradeableStep();
     }
+    jsavTree.layout();
+    exercise.gradeableStep();
+
   };
+
+  // helper function for creating a perfect binary tree
+  function perfectBinTree(arr, level, min, max, levelsInTotal, arrayIndex) {
+    var diff = max - min;
+    var value = JSAV.utils.rand.numKey(min + Math.floor(diff / 3), max - Math.floor(diff / 3));
+    arr[arrayIndex - 1] = value;
+    if (level < levelsInTotal) {
+      perfectBinTree(arr, level + 1, min, value - 1, levelsInTotal, 2 * arrayIndex);
+      perfectBinTree(arr, level + 1, value + 1, max, levelsInTotal, 2 * arrayIndex + 1);
+    }
+  }
 
 
   //////////////////////////////////////////////////////////////////
@@ -179,15 +298,27 @@ $(document).ready(function () {
 
   // AV variables
   var initialData = [],
+      initialArray = [],
+      insertArray = [],
       alreadyUsed = [],
       levels = 5,
+      treeSize = 25,
+      stack,
+      modelStack,
+      currentNode,
+      insertSize = 8,
       modelTree,
       modelKeyToFind,
+      maxHeight = 10,
       insertCount = 0,
+      correct,
       nodeNum = Math.pow(2, levels) - 1,
       jsavTree,
       check,
+      val,
+      cur,
       found = 0,
+      copyArray = [],
       keyToFind,
       inserted = 0,
       match,
@@ -195,17 +326,18 @@ $(document).ready(function () {
       pseudo;
 
 
-      // Load the configurations created by odsaAV.js
-      var config = ODSA.UTILS.loadConfig();
-      var interpret = config.interpreter;
-      var code = config.code;
+  // Load the configurations created by odsaAV.js
+  var av_name = "BSTfindPRO";
+  var config = ODSA.UTILS.loadConfig({av_name: av_name});
+  var interpret = config.interpreter;
+  var code = config.code;
 
-      // Create a JSAV instance
-      var av = new JSAV($(".avcontainer"), {settings: settings}, {animationMode: "none"});
+  // Create a JSAV instance
+  var av = new JSAV($(".avcontainer"), {settings: settings}, av_name, {animationMode: "none"});
 
   av.recorded(); // we are not recording an AV with an algorithm
 
   var exercise = av.exercise(modelSolution, initialize,
-                              {controls: $(".jsavexercisecontrols")});
+                              {controls: $(".jsavexercisecontrols")}, {feedback: "continuous"}, {compare: {"css": "background-color"}});
   exercise.reset();
 });

@@ -141,30 +141,50 @@ $(document).ready(function () {
     modelTree.layout();
 
     av.displayInit();
+
     var modelruns = 0;
     var stepcount = 0;
     var k = 0
+
      for(i = 0; i < insertSize * 3; i++){
        var val = insertArray[i];
        var node = modelTree.root();
        node.highlight();
+       modelTree.root().left().css({"background-color": "white"});
+       modelTree.root().right().css({"background-color": "white"});
+       modelTree.layout();
        //var rand = Math.floor(Math.random() * ((4-2)+1) + 2);
        console.log(rand[k])
        if (rand[k] == 2){
          while(node.value() != "?"){
+           if(!node.left() || !node.right()){
              if (!node.left()){
                node.left("?");
                modelTree.layout();
-               av.step();
              }
              if (!node.right()){
                node.right("?");
                modelTree.layout();
-               av.step();
              }
-           else if(val <= node.value()){
+             av.step();
+           }
+           if(val <= node.value()){
+             if(node.left().value() == "?"){
+               node = node.left();
+               break;
+             }
              node.left().highlight();
              node = node.left();
+             if(!node.left() || !node.right()){
+               if (!node.left()){
+                 node.left("?");
+                 modelTree.layout();
+               }
+               if (!node.right()){
+                 node.right("?");
+                 modelTree.layout();
+               }
+             }
              if(node.left()){
                node.left().css({"background-color": "white"});
              }
@@ -172,10 +192,23 @@ $(document).ready(function () {
                node.right().css({"background-color": "white"});
              }
              node.edgeToParent().addClass("blueline");
-             av.step();
            } else {
+             if(node.right().value() == "?"){
+               node = node.right();
+               break;
+             }
              node.right().highlight();
              node = node.right();
+             if(!node.left() || !node.right()){
+               if (!node.left()){
+                 node.left("?");
+                 modelTree.layout();
+               }
+               if (!node.right()){
+                 node.right("?");
+                 modelTree.layout();
+               }
+             }
              if(node.left()){
                node.left().css({"background-color": "white"});
              }
@@ -183,66 +216,70 @@ $(document).ready(function () {
                node.right().css({"background-color": "white"});
              }
              node.edgeToParent().addClass("blueline");
-             av.step();
+             //av.gradeableStep();
            }
+           if(node.value() != "?"){
+            av.gradeableStep();
+          }
          }
       }
-      if (rand[k] == 3){
-        while(node.value() != ""){
-            if (!node.left()){
-              node.left("");
-              modelTree.layout();
-              av.step();
-            }
-            if (!node.right()){
-              node.right("");
-              modelTree.layout();
-              av.step();
-            }
-          else if(val <= node.value()){
-            node.left().highlight();
-            node = node.left();
-            node.edgeToParent().addClass("blueline");
-            av.step();
-          } else {
-            node.left().highlight();
-            node = node.left();
-            node.edgeToParent().addClass("blueline");
-            av.step();
-          }
-        }
-     }
-     if (rand[k] == 4){
-       while(node.value() != ""){
-           if (!node.left()){
-             node.left("");
-             modelTree.layout();
-             av.step();
-           }
-           if (!node.right()){
-             node.right("");
-             modelTree.layout();
-             av.step();
-           }
-         else if(val <= node.value()){
-           node.right().highlight();
-           node = node.right();
-           node.edgeToParent().addClass("blueline");
-           av.step();
-         } else {
-           node.right().highlight();
-           node = node.right();
-           node.edgeToParent().addClass("blueline");
-           av.step();
-         }
-       }
-    }
+    //   if (rand[k] == 3){
+    //     while(node.value() != ""){
+    //         if (!node.left()){
+    //           node.left("");
+    //           modelTree.layout();
+    //           av.step();
+    //         }
+    //         if (!node.right()){
+    //           node.right("");
+    //           modelTree.layout();
+    //           av.step();
+    //         }
+    //       else if(val <= node.value()){
+    //         node.left().highlight();
+    //         node = node.left();
+    //         node.edgeToParent().addClass("blueline");
+    //         av.step();
+    //       } else {
+    //         node.left().highlight();
+    //         node = node.left();
+    //         node.edgeToParent().addClass("blueline");
+    //         av.step();
+    //       }
+    //     }
+    //  }
+    //  if (rand[k] == 4){
+    //    while(node.value() != ""){
+    //        if (!node.left()){
+    //          node.left("");
+    //          modelTree.layout();
+    //          av.step();
+    //        }
+    //        if (!node.right()){
+    //          node.right("");
+    //          modelTree.layout();
+    //          av.step();
+    //        }
+    //      else if(val <= node.value()){
+    //        node.right().highlight();
+    //        node = node.right();
+    //        node.edgeToParent().addClass("blueline");
+    //        av.step();
+    //      } else {
+    //        node.right().highlight();
+    //        node = node.right();
+    //        node.edgeToParent().addClass("blueline");
+    //        av.step();
+    //      }
+    //    }
+    // }
       node.value(val);
       //stepcount++;
       removeStyle(node);
       // node.left("");
       // node.right("");
       removeEmpty(modelTree.root());
+      removeStyle(modelTree.root());
       grayOut(modelTree.root());
       modelTree.root().highlight();
       modelTree.root().left().css({"background-color": "white"});
@@ -253,12 +290,13 @@ $(document).ready(function () {
       if (modelStack.first()) {
         modelStack.first().highlight();
       }
+      av.gradeableStep();
       if(stepcount == 2){
         k++
         console.log("randtemp "+ rand[k])
         stepcount = 0;
        }
-      av.gradeableStep();
+      //av.step();
     }
     k=1;
     return modelTree;
@@ -267,13 +305,21 @@ $(document).ready(function () {
   //recursive function to remove the highlighing of tree nodes and edges
   //@param node - root node to start at
   function removeStyle(node){
-    if (node.edgeToParent()){
-      node.unhighlight();
+    node.unhighlight();
+    if(node.edgeToParent()){
       node.edgeToParent().removeClass("blueline");
-      node = node.parent();
-      removeStyle(node);
-    } else {
-      node.unhighlight();
+    }
+    if(node.left() || node.right()){
+      if(node.left()){
+        node.left().unhighlight();
+        removeStyle(node.left());
+      }
+      if(node.right()){
+        node.right().unhighlight();
+        removeStyle(node.right());
+      }
+    }else{
+      return;
     }
   }
 
@@ -322,7 +368,6 @@ $(document).ready(function () {
   //function to inhighlight all the lines in the psuedocode section
   function unhighlightcode(){
     for( i = 0; i < 17; i++){
-      console.log("here")
       pseudo.unhighlight([i]);
       av.step();
     }
@@ -335,9 +380,42 @@ $(document).ready(function () {
     BST.turnAnimationOff();
     //make sure that there is a value in the stack to be inserted and that the parent is highlighted before clicking the node
       if (stack.size() && this.parent().isHighlight()) {
-        if(this.left() || this.right()){
+        //if there is not a left or right child of the current node, add the children
+        // if(clicks == 0){
+        //   this.highlight();
+        //   if(this.left()){
+        //     this.left().css({"background-color": "white"});
+        //   }
+        //   if(this.right()){
+        //     this.right().css({"background-color": "white"});
+        //   }
+        //   this.edgeToParent().addClass("blueline");
+        //   pseudo.unhighlight([2,3,4,5]);
+        //   pseudo.highlight([6,7,8]);
+        //   document.getElementById("output").innerHTML = "Choose the child to continue the correct path.";
+        //   jsavTree.layout();
+        //   clicks++;
+        //   //exercise.gradeableStep();
+        //   //exercise.gradeableStep();
+        // }
+        if(!this.left() || !this.right()){
+          if(!this.left()){
+            this.edgeToParent().addClass("blueline");
+            this.addChild("?");
+            this.highlight();
+            document.getElementById("output").innerHTML = "Choose the child to continue the correct path. Insert the value in an '?' node when ready.";
+          }
+          if(!this.right()){
+            this.edgeToParent().addClass("blueline");
+            this.addChild("?");
+            this.highlight();
+            document.getElementById("output").innerHTML = "Choose the child to continue the correct path. Insert the value in an '?' node when ready.";
+          }
+          //av.step()
+        }
+        if(this.value() != "?"){
+          console.log("here")
           this.highlight();
-          this.edgeToParent().addClass("blueline");
           //set the children of the new explored node to be 'white'
           if(this.left()){
             this.left().css({"background-color": "white"});
@@ -345,26 +423,20 @@ $(document).ready(function () {
           if(this.right()){
             this.right().css({"background-color": "white"});
           }
+          this.edgeToParent().addClass("blueline");
           pseudo.unhighlight([2,3,4,5]);
           pseudo.highlight([6,7,8]);
           document.getElementById("output").innerHTML = "Choose the child to continue the correct path.";
           jsavTree.layout();
-          av.step();
+          //exercise.gradeableStep();
         }
-        //if there is not a left or right child of the current node, add the children
-        if(!this.left()){
-          this.edgeToParent().addClass("blueline");
-          this.addChild("?");
-          this.highlight();
-          document.getElementById("output").innerHTML = "Choose the child to continue the correct path. Insert the value in an '?' node when ready.";
+        // if(clicks == 0){
+        //   exercise.gradeableStep();
+        //   clicks++;
+        // }
+        if(this.value() != "?"){
+          exercise.gradeableStep();
         }
-        if(!this.right()){
-          this.edgeToParent().addClass("blueline");
-          this.addChild("?");
-          this.highlight();
-          document.getElementById("output").innerHTML = "Choose the child to continue the correct path. Insert the value in an '?' node when ready.";
-        }
-        jsavTree.layout();
         //if this is an empty node, then insert the value into the node and reset the styling of the tree
         //ie. remove all empty nodes, regray the tree, unhighlight all nodes and links, rehighlight the root node
         if(this.value() == "?"){
@@ -377,7 +449,7 @@ $(document).ready(function () {
             pseudo.highlight([14,15,16]);
           }
           this.value(stack.first().value());
-          removeStyle(this);
+          removeStyle(jsavTree.root());
           removeEmpty(jsavTree.root());
           grayOut(jsavTree.root());
           jsavTree.root().highlight();
@@ -387,14 +459,15 @@ $(document).ready(function () {
           //stacksize = stacksize - 1;
           stack.removeFirst();
           stack.layout();
+          jsavTree.layout();
+          if(stack.first()){
+            stack.first().highlight();
+          }
           exercise.gradeableStep();
-          av.stepOption("grade", true);
           document.getElementById("output").innerHTML = "Begin with tracing the path of insertion starting at the root node.";
         }
-        if(stack.first()){
-          stack.first().highlight();
-        }
         jsavTree.layout();
+        //exercise.gradeableStep();
       }
 
       //when enabled, this section of code will change the algorithm based on a certain amount of insertions
@@ -471,6 +544,8 @@ $(document).ready(function () {
       jsavTree,
       stack,
       pseudo,
+      clicks = 0,
+      modelclicks = 0,
       insertSize = 2,
       treeSize = 8,          //20 nodes
       maxHeight = 6,
@@ -499,8 +574,8 @@ $(document).ready(function () {
 
   var exercise = av.exercise(modelSolution, initialize,
                               {controls: $(".jsavexercisecontrols")},
-                              {feedback: "continuous"}, {compare: $(".jsavtree")});
-
+                              {feedback: "undo"}, {compare: {class: "jsavhighlight"}});
+//{compare: $(".jsavtree")}
  // we are not recording an AV with an algorithm
   exercise.reset();
 

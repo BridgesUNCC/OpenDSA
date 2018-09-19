@@ -22,17 +22,13 @@
         "long_name": "Binary Search Trees",
         "sections": {
           "Binary Search Trees": {},
-          "Insertion of Binary Search Tree": {
-            "BSTinsertCON": {
-              "long_name": "Insert BST Slideshow",
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          },
           "Insertion into Binary Search Tree Practice": {
             "BSTinsertPathPRO": {
               "long_name": "Insert BST path Practice",
+              "exer_options": {
+                "JXOP-feedback": "continuous",
+                "JXOP-fixmode": "fix"
+              },
               "required": false,
               "points": 0.0,
               "threshold": 10.0
@@ -41,6 +37,46 @@
 	         "Random Insertion of Binary Search Tree": {
             "BSTrandinsertPRO": {
               "long_name": "Random Insert BST Practice",
+              "exer_options": {
+                "JXOP-feedback": "continuous",
+                "JXOP-fixmode": "fix"
+              },
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          },
+          "Random Creation of Binary Search Tree": {
+           "BSTcreatePRO": {
+             "long_name": "Random Insert BST Practice",
+             "exer_options": {
+               "JXOP-feedback": "continuous",
+               "JXOP-fixmode": "fix"
+             },
+             "required": false,
+             "points": 0.0,
+             "threshold": 10.0
+           }
+         },
+          "Find value in BST": {
+           "BSTfindPRO": {
+             "long_name": "Random Insert BST Practice",
+             "exer_options": {
+               "JXOP-feedback": "continuous",
+               "JXOP-fixmode": "fix"
+             },
+             "required": false,
+             "points": 0.0,
+             "threshold": 10.0
+           }
+         },
+          "Random removal of Binary Search Tree": {
+           "BSTremovepathPRO": {
+              "long_name": "Random Insert BST Practice",
+              "exer_options": {
+                "JXOP-feedback": "continuous",
+                "JXOP-fixmode": "fix"
+              },
               "required": false,
               "points": 0.0,
               "threshold": 10.0
@@ -87,24 +123,39 @@
         "sections": {
           "Binary Search Trees": {},
           "Insertion of Binary Search Tree": {
-            "BSTinsertCON": {
+            "arrayinsertPRO": {
               "long_name": "Insert BST Slideshow",
+              "exer_options": {
+                "JXOP-code": "none",
+                "JXOP-feedback": "continuous",
+                "JXOP-fixmode": "fix"
+              },
               "required": false,
               "points": 0.0,
               "threshold": 10.0
             }
           },
           "Insertion into Binary Search Tree Practice": {
-            "BSTinsertPathPRO": {
+            "arrayFindPRO": {
               "long_name": "Insert BST path Practice",
+              "exer_options": {
+                "JXOP-code": "none",
+                "JXOP-feedback": "continuous",
+                "JXOP-fixmode": "fix"
+              },
               "required": false,
               "points": 0.0,
               "threshold": 10.0
             }
           },
 	         "Random Insertion of Binary Search Tree": {
-            "BSTrandinsertPRO": {
+            "arrayDeletePRO": {
               "long_name": "Random Insert BST Practice",
+              "exer_options": {
+                "JXOP-code": "none",
+                "JXOP-feedback": "continuous",
+                "JXOP-fixmode": "fix"
+              },
               "required": false,
               "points": 0.0,
               "threshold": 10.0

@@ -9,7 +9,8 @@
     }
   },
   "params": {
-    "JXOP-feedback": "atend"
+    "JXOP-feedback": "continuous",
+    "JXOP-fixmode":"undo"
   },
   "code": {
     "processing": {
