@@ -28,22 +28,22 @@ on_slides = os.environ.get('SLIDES', None) == "yes"
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/avembed'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/extrtoolembed'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/avmetadata'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/codeinclude'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/numref'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/chapnum'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/odsalink'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/odsascript'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/sphinx-numfig'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/inlineav'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/html5'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/odsafig'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/odsatable'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/chapref'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/odsatoctree'))
-sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA/RST/ODSAextensions/odsa/showhidecontent'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/avembed'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/extrtoolembed'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/avmetadata'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/codeinclude'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/numref'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/chapnum'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/odsalink'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/odsascript'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/sphinx-numfig'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/inlineav'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/html5'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/odsafig'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/odsatable'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/chapref'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/odsatoctree'))
+sys.path.append(os.path.abspath('/home/mcquaig/Desktop/OpenDSA-test/RST/ODSAextensions/odsa/showhidecontent'))
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.todo', 'sphinx.ext.mathjax', 'sphinx.ext.ifconfig', 'avembed', 'avmetadata', 'extrtoolembed', 'codeinclude', 'numref', 'chapnum', 'odsalink', 'odsascript', 'numfig', 'inlineav', 'html5', 'odsafig', 'odsatable', 'chapref', 'odsatoctree','showhidecontent']
 
 slides_lib = ''
@@ -117,8 +117,8 @@ pygments_style = 'borland' #'sphinx'
 #modindex_common_prefix = []
 
 # -- Options for HTML Slide output ---------------------------------------------------
-sys.path.append('/home/mcquaig/Desktop/OpenDSA/RST/_themes')
-slide_theme_path = ['/home/mcquaig/Desktop/OpenDSA/RST/_themes']
+sys.path.append('/home/mcquaig/Desktop/OpenDSA-test/RST/_themes')
+slide_theme_path = ['/home/mcquaig/Desktop/OpenDSA-test/RST/_themes']
 slide_theme = 'slidess' #'single-level'
 #slide_theme_options = {'custom_css':'custom.css'}
 
@@ -138,8 +138,8 @@ html_translator_class = 'html5.HTMLTranslator'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-sys.path.append('/home/mcquaig/Desktop/OpenDSA/RST/_themes')
-html_theme_path = ['/home/mcquaig/Desktop/OpenDSA/RST/_themes']
+sys.path.append('/home/mcquaig/Desktop/OpenDSA-test/RST/_themes')
+html_theme_path = ['/home/mcquaig/Desktop/OpenDSA-test/RST/_themes']
 if on_slides:
    html_theme = 'slides'
 else:
@@ -280,13 +280,13 @@ local_mode = True
 
 
 #Absolute path to OpenDSA directory
-odsa_path = '/home/mcquaig/Desktop/OpenDSA/'
+odsa_path = '/home/mcquaig/Desktop/OpenDSA-test/'
 
 #Absolute path of eTextbook (build) directory
-ebook_path = '/home/mcquaig/Desktop/OpenDSA/Books/simple_demo/html/'
+ebook_path = '/home/mcquaig/Desktop/OpenDSA-test/Books/simple_demo/html/'
 
 #path (from the RST home) to the sourcecode directory that I want to use
-sourcecode_path = '/home/mcquaig/Desktop/OpenDSA/SourceCode/'
+sourcecode_path = '/home/mcquaig/Desktop/OpenDSA-test/SourceCode/'
 
 # Dictionary containing code_lang to extension mapping
 code_lang = '{"Java_Generic": {"lang": "java", "ext": ["java"], "label": "Java (Generic)"}, "Processing": {"lang": "java", "ext": ["pde"], "label": "Processing"}, "Java": {"lang": "java", "ext": ["java"], "label": "Java"}, "C++": {"lang": "C++", "ext": ["cpp", "h"], "label": "C++"}}'
@@ -295,10 +295,10 @@ code_lang = '{"Java_Generic": {"lang": "java", "ext": ["java"], "label": "Java (
 tabbed_codeinc = True
 
 # Path to AV/ directory (local or remote)
-av_dir = '/home/mcquaig/Desktop/OpenDSA/'
+av_dir = '/home/mcquaig/Desktop/OpenDSA-test/'
 
 # Path to Exercises/ directory (local or remote)
-exercises_dir = '/home/mcquaig/Desktop/OpenDSA/'
+exercises_dir = '/home/mcquaig/Desktop/OpenDSA-test/'
 
 # Path to translation json file
-translation_file = '/home/mcquaig/Desktop/OpenDSA/tools/language_msg.json'
+translation_file = '/home/mcquaig/Desktop/OpenDSA-test/tools/language_msg.json'

@@ -2,7 +2,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple3";ODSA.SETTINGS.MODULE_LONG_NAME = "Arrays";ODSA.SETTINGS.MODULE_CHAPTER = "Arrays"; ODSA.SETTINGS.BUILD_DATE = "2018-09-18 15:04:05"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple3";ODSA.SETTINGS.MODULE_LONG_NAME = "Arrays";ODSA.SETTINGS.MODULE_CHAPTER = "Arrays"; ODSA.SETTINGS.BUILD_DATE = "2018-09-22 02:58:13"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
@@ -29,25 +29,14 @@ Arrays
 Insert
 --------
 
-.. avembed:: AV/List/arrayInsertPRO.html pe
-   :module: bst_simple3
+Removed for Degugging
 
 Find
 --------
 
-.. avembed:: AV/List/arrayFindPRO.html pe
-   :module: bst_simple3
-   :points: 0.0
-   :required: False
-   :threshold: 10.0
-   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=fix&amp;JXOP-code=none&amp;JXOP-debug=true
+Removed for Degugging
 
 Delete
 -------
 
-.. avembed:: AV/List/arrayDeletePRO.html pe
-   :module: bst_simple3
-   :points: 0.0
-   :required: False
-   :threshold: 10.0
-   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=fix&amp;JXOP-code=none&amp;JXOP-debug=true
+Removed for Degugging

@@ -34,16 +34,7 @@ $(document).ready(function () {
   // }
 
   $(document).on('click', '#Found', function() {
-    currentNode.unhighlight();
-    if(currentNode.value() == stack.first().value()){
-       currentNode.css({"background-color": "green"});
-       exercise.gradeableStep();
-    }else{
-      //exercise.gradeableStep();
-      currentNode.css({"background-color": "red"});
-      correct = false;
-      isCorrect(correct);
-    }
+    //exercise.gradeableStep();
     stack.removeFirst();
     currentNode.unhighlight();
     removeStyle(jsavTree.root());
@@ -212,7 +203,6 @@ $(document).ready(function () {
           if(cur.right()){
             cur.right().css({"background-color": "white"});
           }
-          // av.gradeableStep();
         }else{
           cur = cur.right();
           cur.highlight();
@@ -222,12 +212,9 @@ $(document).ready(function () {
           if(cur.right()){
             cur.right().css({"background-color": "white"});
           }
-          // av.gradeableStep();
        }
        av.gradeableStep();
       }
-      cur.css({"background-color": "green"});
-      av.gradeableStep();
       modelStack.removeFirst();
       removeStyle(modelTree.root());
       grayOut(modelTree.root());
@@ -267,16 +254,16 @@ $(document).ready(function () {
       if(this.right()){
         this.right().css({"background-color": "white"});
       }
-
       if(!stack.first()){
         removeStyle(jsavTree.root());
         jsavTree.layout();
         av.displayInit();
         return;
       }
+      exercise.gradeableStep();
     }
     jsavTree.layout();
-    exercise.gradeableStep();
+
 
   };
 
@@ -328,7 +315,7 @@ $(document).ready(function () {
 
   // Load the configurations created by odsaAV.js
   var av_name = "BSTfindPRO";
-  var config = ODSA.UTILS.loadConfig({av_name: av_name});
+  var config = ODSA.UTILS.loadConfig();
   var interpret = config.interpreter;
   var code = config.code;
 
@@ -338,6 +325,6 @@ $(document).ready(function () {
   av.recorded(); // we are not recording an AV with an algorithm
 
   var exercise = av.exercise(modelSolution, initialize,
-                              {controls: $(".jsavexercisecontrols")}, {feedback: "continuous"}, {compare: {"css": "background-color"}});
+                              {controls: $(".jsavexercisecontrols")}, {compare: {class: "jsavhighlight"}});
   exercise.reset();
 });

@@ -17,9 +17,9 @@ CS1 For Loops
 1D For loop
 ------------
 
-.. avembed:: AV/cs1/forLoop1DPRO.html pe
+Removed for Degugging
 
 2D For loop
 ------------
 
-.. avembed:: AV/cs1/forLoop2DPRO.html pe
+Removed for Degugging

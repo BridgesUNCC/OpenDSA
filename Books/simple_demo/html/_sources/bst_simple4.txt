@@ -2,7 +2,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple4";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 For Loops";ODSA.SETTINGS.MODULE_CHAPTER = "CS1 For Loops"; ODSA.SETTINGS.BUILD_DATE = "2018-09-18 15:04:05"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple4";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 For Loops";ODSA.SETTINGS.MODULE_CHAPTER = "CS1 For Loops"; ODSA.SETTINGS.BUILD_DATE = "2018-09-22 02:58:13"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
@@ -29,11 +29,9 @@ CS1 For Loops
 1D For loop
 ------------
 
-.. avembed:: AV/cs1/forLoop1DPRO.html pe
-   :module: bst_simple4
+Removed for Degugging
 
 2D For loop
 ------------
 
-.. avembed:: AV/cs1/forLoop2DPRO.html pe
-   :module: bst_simple4
+Removed for Degugging

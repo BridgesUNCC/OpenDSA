@@ -170,24 +170,26 @@
         "sections": {
           "Binary Search Trees": {},
           "Insertion of Binary Search Tree": {
-            "BSTinsertCON": {
+            "forLoop1DPRO": {
               "long_name": "Insert BST Slideshow",
+              "exer_options": {
+                "JXOP-code": "none",
+                "JXOP-feedback": "continuous",
+                "JXOP-fixmode": "fix"
+              },
               "required": false,
               "points": 0.0,
               "threshold": 10.0
             }
           },
           "Insertion into Binary Search Tree Practice": {
-            "BSTinsertPathPRO": {
+            "forLoop2DPro": {
               "long_name": "Insert BST path Practice",
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          },
-	         "Random Insertion of Binary Search Tree": {
-            "BSTrandinsertPRO": {
-              "long_name": "Random Insert BST Practice",
+              "exer_options": {
+                "JXOP-code": "none",
+                "JXOP-feedback": "continuous",
+                "JXOP-fixmode": "fix"
+              },
               "required": false,
               "points": 0.0,
               "threshold": 10.0

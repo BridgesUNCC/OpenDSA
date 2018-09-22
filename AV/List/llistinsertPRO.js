@@ -19,15 +19,15 @@ $(document).ready(function () {
       clicks = 0;
     }
     removeStyle(list.first());
-    current.hide();
-    current = av.pointer("current", list.get(0), {anchor: "top right"});
-    current.show();
+    //current.hide();
+    //current = av.pointer("current", list.get(0), {anchor: "top right"});
+    //current.show();
     head.hide();
     head = av.pointer("head", list.get(0));
     head.show();
     list.layout();
-    av.displayInit();
-    av.gradeableStep();
+    //av.displayInit();
+    exercise.gradeableStep();
   });
 
   function checkPath(node, insertNode){
@@ -70,7 +70,7 @@ $(document).ready(function () {
     stack.layout();
 
     list = av.ds.list({center: true, nodegap: 30});
-    randInsert = JSAV.utils.rand.numKeys(10, 100, 6, {sorted: true});
+    randInsert = JSAV.utils.rand.numKeys(10, 100, 4, {sorted: true});
     list.first("null");
     for (var i = 0; i < randInsert.length; i++){
       list.add(i, randInsert[i]);
@@ -81,14 +81,13 @@ $(document).ready(function () {
     head = av.pointer("head", list.get(0));
     head.show();
     if (!current){
-      current = av.pointer("current", list.get(0), {anchor: "top right"});
+      //current = av.pointer("current", list.get(0), {anchor: "top right"});
     }
     list.click(clickHandler);
     return list;
   }
 
   function modelSolution(av) {
-    av._undo = [];
     var i;
     var j;
     modelStack = av.ds.stack({center: true, xtransition: 5, ytransition: -3});
@@ -114,16 +113,19 @@ $(document).ready(function () {
     av.displayInit();
 
     var modelCount = 0;
-
-    for (j = 1; j < stackArray.length; j++){
-      for(i = 1; i < randInsert.length; i++){
-        console.log("2")
+    var iterate = randInsert.length;
+    for (j = 0; j < stackArray.length; j++){
+      for(i = 1; i < iterate + 2; i++)
+      {
+        console.log(randInsert.length)
         modelList.get(i).highlight();
         var val = modelStack.first().value();
+        console.log(val)
         var listVal1 = modelList.get(i).value();
         var listVal2 = modelList.get(i+1).value();
 
-        if(val <= listVal1){
+        //Handle the case of inserting in the front of linked list
+        if(modelList.get(i-1).value() == "first" && val <= modelList.get(i).value()){
           var newModelNode = modelList.newNode("");
           newModelNode.css({top: 80, left: 222});
           av.step();
@@ -133,54 +135,43 @@ $(document).ready(function () {
           removeStyle(modelList.first());
           av.step();
 
-          newModelNode.next(modelList.get(i+1))
-          modelList.get(i).next(newModelNode)
-          modelList.layout();
-          av.gradeableStep();
-          modelList.layout();
-          modelCount++;
-          console.log("4")
-          // return foundInsert;
-
-          break;
-        }
-        else if(val >= listVal1 && val < listVal2 || val >= listVal1 && listVal2 == "null"){
-          var newModelNode = modelList.newNode("");
-          newModelNode.css({top: 80, left: 222});
-          av.step();
-
-          newModelNode.value(val);
-          highlightNextModel();
-          removeStyle(modelList.first());
-          var nodeReady = true;
-          av.gradeableStep();
-          console.log("5")
-        }
-        else if(listVal2 == "null"){
-          var newModelNode = modelList.newNode("");
-          newModelNode.css({top: 80, left: 222});
-          av.step();
-
-          newModelNode.value(val);
-          highlightNextModel();
-          removeStyle(modelList.first());
+          listVal1 = modelList.get(i-1);
+          listVal2 = modelList.get(i);
           var nodeReady = true;
           av.step();
-
+          console.log("Insert Front")
 
         }
+        else if((val >= listVal1 && val < listVal2 )){
+          var newModelNode = modelList.newNode("");
+          newModelNode.css({top: 80, left: 222});
+          av.step();
 
+          newModelNode.value(val);
+          highlightNextModel();
+          removeStyle(modelList.first());
+          listVal1 = modelList.get(i);
+          listVal2 = modelList.get(i+1);
+          var nodeReady = true;
+          av.step();
+          console.log("InBetween Insert")
+        }else if(val > listVal1 && listVal2 == "null"){
+          var newModelNode = modelList.newNode("");
+          newModelNode.css({top: 80, left: 222});
+          av.step();
+
+          newModelNode.value(val);
+          highlightNextModel();
+          removeStyle(modelList.first());
+          listVal1 = modelList.get(i);
+          listVal2 = modelList.get(i+1);
+          var nodeReady = true;
+          av.step();
+          console.log("End Insert")
+        }
         if(nodeReady == true){
-          var beginning = modelList.get(i);
-          var end = modelList.get(i+1);
-
-          modelList.get(i).highlight();
-          av.gradeableStep();
-
-          newModelNode.highlight();
-          beginning.next(newModelNode);
-          modelList.layout({updateLeft: false, updateTop: false});
-          av.step();
+          var beginning = listVal1;
+          var end = listVal2;
 
           end.highlight();
           av.step();
@@ -189,24 +180,30 @@ $(document).ready(function () {
           modelList.layout({updateLeft: false, updateTop: false});
           av.step();
 
+          modelList.get(i).highlight();
+          av.step();
+
+          newModelNode.highlight();
+          beginning.next(newModelNode);
+          modelList.layout({updateLeft: false, updateTop: false});
+          av.step();
+
           modelList.layout();
           removeStyle(modelList.first());
-          av.step();
+          iterate++;
           modelCount++;
           nodeReady = false;
-          console.log("6")
-          // return foundInsert;
+          console.log("Inserted")
+          av.gradeableStep();
           break;
         }
-          av.step();
+        head.hide();
+        head = av.pointer("head", modelList.get(0));
+        head.show();
+        //av.step();
       }
-
-
     }
-
-
     return modelList;
-
   }
 
   function highlightNext() {
@@ -246,11 +243,12 @@ $(document).ready(function () {
       this.highlight();
       console.log(this.next().value());
       list.layout({updateLeft: false, updateTop: false});
-      current.hide();
-      current = av.pointer("current", list.get(0), {anchor: "top right"});
-      av.displayInit();
-      current.show();
+      //current.hide();
+      //current = av.pointer("current", list.get(0), {anchor: "top right"});
+      //av.displayInit();
+      //current.show();
       clicks = 0;
+      av.step();
     }
     if (clicks == 1){
       var nodeHere = true;
@@ -261,12 +259,14 @@ $(document).ready(function () {
       removeStyle(list.first());
       console.log(newNode.value())
       clicks++;
+      av.step();
     }
     else if (this.value() != ""){
       this.highlight();
-      current.target(this);
-      av.displayInit();
+      //current.target(this);
+      //av.displayInit();
       currentNode = this;
+      av.step();
     }
     if(nodeHere == true){
       if(this.value() == "first"){
@@ -279,6 +279,7 @@ $(document).ready(function () {
       console.log(newNode.next());
       nodeHere = false;
       clicks++;
+      av.step();
     }
     head.hide();
     head = av.pointer("head", list.get(0));

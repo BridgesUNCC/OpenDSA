@@ -17,10 +17,10 @@ Linked Lists
 Insert
 -------
 
-.. avembed:: AV/List/llistinsertPRO.html pe
+Removed for Degugging
 
 Delete
 --------
 
-.. avembed:: AV/List/llistDeletePRO.html pe
+Removed for Degugging
 

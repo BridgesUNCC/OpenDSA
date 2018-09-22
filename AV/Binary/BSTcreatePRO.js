@@ -142,10 +142,10 @@ $(document).ready(function () {
     var modelTree = av.ds.binarytree({center: true, visible: true, nodegap: 25});
     modelTree.click(clickHandler);
     modelTree.layout();
-    av.displayInit();
     console.log(modelTree.root().value() == "?")
     modelTree.root().value("?");
     av.step();
+    av.displayInit();
     for (i = 0; i < nextArray.length; i++){
       var insertval = nextArray[i];
       var node = modelTree.root();
@@ -174,7 +174,11 @@ $(document).ready(function () {
        node.right("?");
        modelcount++;
        modelTree.layout();
-       av.gradeableStep();
+       //av.gradeableStep();
+       av.stepOption("grade", true);
+       av.step();
+
+
     }
 
     return modelTree;
@@ -182,17 +186,19 @@ $(document).ready(function () {
 
 
   var clickHandler = function () {
+    av._undo = [];
     BST.turnAnimationOff();
     currentNode = this;
     if (this.value() == "?"){
+      this.higlight();
       this.value(arr.value(arrcount));
       arr.value(arrcount, "");
       arr.unhighlight(arrcount);
       arr.highlight(arrcount + 1);
       this.left("?");
       this.right("?");
-      av.gradeableStep();
       jsavTree.layout();
+      exercise.gradeableStep();
       arrcount++;
     }
   };
