@@ -27,7 +27,7 @@
               "long_name": "Insert BST path Practice",
               "exer_options": {
                 "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "fix"
+                "JXOP-fixmode": "undo"
               },
               "required": false,
               "points": 0.0,
@@ -39,7 +39,7 @@
               "long_name": "Random Insert BST Practice",
               "exer_options": {
                 "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "fix"
+                "JXOP-fixmode": "undo"
               },
               "required": false,
               "points": 0.0,
@@ -63,7 +63,7 @@
              "long_name": "Random Insert BST Practice",
              "exer_options": {
                "JXOP-feedback": "continuous",
-               "JXOP-fixmode": "fix"
+               "JXOP-fixmode": "undo"
              },
              "required": false,
              "points": 0.0,
@@ -75,7 +75,7 @@
               "long_name": "Random Insert BST Practice",
               "exer_options": {
                 "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "fix"
+                "JXOP-fixmode": "undo"
               },
               "required": false,
               "points": 0.0,

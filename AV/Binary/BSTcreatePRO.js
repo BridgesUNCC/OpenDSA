@@ -186,11 +186,10 @@ $(document).ready(function () {
 
 
   var clickHandler = function () {
-    av._undo = [];
     BST.turnAnimationOff();
     currentNode = this;
     if (this.value() == "?"){
-      this.higlight();
+      this.highlight();
       this.value(arr.value(arrcount));
       arr.value(arrcount, "");
       arr.unhighlight(arrcount);
