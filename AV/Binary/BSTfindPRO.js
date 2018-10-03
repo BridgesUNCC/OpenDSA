@@ -87,7 +87,7 @@ $(document).ready(function () {
     av._undo = [];
     alreadyUsed = [];
     found = 0;
-    BST.turnAnimationOff();
+    //BST.turnAnimationOff();
 
     //test if the data going into tree and stack is correct data
     function dataTest(array) {
@@ -318,6 +318,8 @@ $(document).ready(function () {
   var config = ODSA.UTILS.loadConfig();
   var interpret = config.interpreter;
   var code = config.code;
+
+  var settings = config.getSettings();
 
   // Create a JSAV instance
   var av = new JSAV($(".avcontainer"), {settings: settings}, av_name, {animationMode: "none"});

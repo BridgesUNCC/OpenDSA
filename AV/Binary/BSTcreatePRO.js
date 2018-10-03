@@ -186,7 +186,7 @@ $(document).ready(function () {
 
 
   var clickHandler = function () {
-    BST.turnAnimationOff();
+    //BST.turnAnimationOff();
     currentNode = this;
     if (this.value() == "?"){
       this.highlight();
@@ -232,7 +232,7 @@ $(document).ready(function () {
       //codeOptions = {after: {element: $(".instructions")}, visible: false},
 
       // Settings for the AV
-      //var settings = config.getSettings();
+      var settings = config.getSettings();
 
       // Create a JSAV instance
       var av = new JSAV($(".avcontainer"), {settings: settings}, {animationMode: "none"});

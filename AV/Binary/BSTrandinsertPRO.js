@@ -5,7 +5,7 @@ $(document).ready(function () {
   function about() {
     alert(ODSA.AV.aboutstring(interpret(".avTitle"), interpret("av_Authors")));
   }
-  BST.turnAnimationOff();
+  //BST.turnAnimationOff();
 
   //recursive function to grayout the entire bst
   //@param root - is the root of the tree to start
@@ -74,7 +74,7 @@ $(document).ready(function () {
     //set the dynamic instructions as well
     document.getElementById("output").innerHTML = "Begin with tracing the path of insertion starting at the root node.";
 
-    BST.turnAnimationOff();//set the bst animations off because of bugs
+    //BST.turnAnimationOff();//set the bst animations off because of bugs
 
     //test if the data going into tree and stack is correct data
     function dataTest(array) {
@@ -198,11 +198,11 @@ $(document).ready(function () {
              if(!node.left() || !node.right()){
                if (!node.left()){
                  node.left("?");
-                 modelTree.layout();
+                 //modelTree.layout();
                }
                if (!node.right()){
                  node.right("?");
-                 modelTree.layout();
+                 //modelTree.layout();
                }
              }
              if(node.left()){
@@ -213,6 +213,7 @@ $(document).ready(function () {
              }
              node.edgeToParent().addClass("blueline");
              //av.gradeableStep();
+             modelTree.layout();
            }
            if(node.value() != "?"){
             av.gradeableStep();
@@ -370,7 +371,7 @@ $(document).ready(function () {
   //handle the click events
   var clickHandler = function () {
     av._redo = [];
-    BST.turnAnimationOff();
+    //BST.turnAnimationOff();
     //make sure that there is a value in the stack to be inserted and that the parent is highlighted before clicking the node
       if (stack.size() && this.parent().isHighlight()) {
         //if there is not a left or right child of the current node, add the children
@@ -537,6 +538,8 @@ $(document).ready(function () {
   var config = ODSA.UTILS.loadConfig({av_name: av_name});
   var interpret = config.interpreter;
   var code = config.code;
+
+  var settings = config.getSettings();
 
   var av = new JSAV($(".avcontainer"), {settings: settings}, av_name);
 
