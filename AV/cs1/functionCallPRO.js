@@ -15,10 +15,44 @@ $(document).ready(function () {
     compileInput(input);
   });
 
+  //Check if the current direction generated is a valid direction based on if there is an element to move to
+  // @param dir - the direction generated
+  function checkDirection(dir, past){
+    if(dir == "left"){
+      if(destinations[0] === 0 || past == "left" || past == "right"){
+        var dicision = true;
+      }else{
+        var dicision = false;
+      }
+    }else if(dir == "right"){
+      if(destinations[0] === matrix_size-1 || past == "right" || past == "left"){
+        var dicision = true;
+      }else{
+        var dicision = false;
+      }
+    }else if(dir == "up"){
+      if (destinations[1] === 0 || past == "up" || past == "down"){
+        var dicision = true;
+      }else{
+        var dicision = false;
+      }
+    }else if(dir == "down"){
+      if(destinations[1] === matrix_size-1 || past == "down" || past == "up"){
+        var dicision = true;
+      }else{
+        var dicision = false;
+      }
+    }
+    return dicision;
+  }
+
 
   function initialize() {
     av.clear();
     av._undo = [];
+
+    var pastDir = "none";
+    var count = 1;
 
     // create the array of arrays
     var first_arr = []
@@ -36,27 +70,59 @@ $(document).ready(function () {
     user_matrix = av.ds.matrix(matrix, {style: "table"})
     user_matrix.addClass(0, 0, "circle");
     user_matrix.layout();
+    currentPosition = [0,0];
+    destinations = [0,0];
 
-    for(var i = 0; i < 1; i++){
-      // var tempDir = Math.floor((Math.random() * 6) + 1);
-      var tempDir = 3;
-      if (tempDir == 2){
-        var dir = "left";
-      }else if(tempDir == 3){
-        var dir  = "right";
-        var tempX = Math.floor((Math.random() * 10) + 1);
-        user_matrix.addClass(0, tempX, "circleBlack");
-      }else if(tempDir == 4){
-        var dir = "up";
-      }else{
-        var dir = "down";
+
+
+    //Generate the destination points for the user to move the red square to
+    for(var i = 0; i < 5; i++){
+      var reroll = true;
+      var dir;
+      while(reroll != false){
+        var tempDir = Math.floor((Math.random() * 5) + 1);
+        switch(tempDir){
+          case 1:
+            var dir = "up";
+            break;
+          case 2:
+            var dir = "left";
+            break;
+          case 3:
+            var dir = "right";
+            break;
+          case 4:
+            var dir = "down";
+            break;
+        }
+        reroll = checkDirection(dir, pastDir);
       }
+      if (dir == "left"){
+        var tempX = Math.floor((Math.random() * (destinations[0]) + 1));
+        user_matrix.value(destinations[1], destinations[0] - tempX, count);
+        destinations[0] = destinations[0] - tempX;
+      }else if(dir == "right"){
+        var tempX = Math.floor((Math.random() * (matrix_size-1) - destinations[0]) + destinations[0]+1);
+        user_matrix.value(destinations[1], tempX, count);
+        destinations[0] = tempX;
+      }else if(dir == "down"){
+        var tempY = Math.floor((Math.random() * (matrix_size-1) - destinations[1]) + destinations[1]+1);
+        user_matrix.value(tempY, destinations[0], count);
+        destinations[1] = tempY;
+      }else{
+        var tempY = Math.floor((Math.random() * (destinations[1]) + 1));
+        user_matrix.value(destinations[1] - tempY, destinations[0], count);
+        destinations[1] = destinations[1] - tempY;
+      }
+      console.log(dir)
+      pastDir = dir;
+      count += 1;
     }
-    var tempX = Math.floor((Math.random() * 10) + 1);
-    var tempY = Math.floor((Math.random() * 10) + 1);
 
     av.displayInit();
-    currentPosition = [0,0];
+
+    user_matrix.value(0,0,"♔")
+    console.log(user_matrix.value(0,0));
 
     return user_matrix;
   }
@@ -143,6 +209,8 @@ $(document).ready(function () {
       input,
       currentPosition = [],
       destinations = []
+      // dir,
+      //pastDir = "none"
 
 
 
