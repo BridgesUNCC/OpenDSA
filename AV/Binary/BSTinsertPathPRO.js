@@ -9,6 +9,21 @@ $(document).ready(function () {
   // Set click handlers
   $("#about").click(about);
 
+  //recursive function to grayout the entire bst
+  //@param root - is the root of the tree to start
+  function grayOut(root){
+    root.css({"background-color": "gray"});
+    if(!root.left() && !root.right()){
+      return;
+    }
+    if(root.left()){
+      grayOut(root.left());
+    }
+    if(root.right()){
+      grayOut(root.right());
+    }
+  }
+
 
   function initialize() {
     BST.turnAnimationOff();
@@ -45,6 +60,10 @@ $(document).ready(function () {
     } while (!dataTest(initialArray));
     jsavTree.insert(initialArray);
     jsavTree.click(clickHandler);
+    grayOut(jsavTree.root());
+    jsavTree.root().highlight();
+    jsavTree.root().left().css({"background-color": "white"});
+    jsavTree.root().right().css({"background-color": "white"});
     jsavTree.layout();
 
     av.container.find(".jsavcanvas").css("min-height", 442);
@@ -64,6 +83,10 @@ $(document).ready(function () {
 
     var modelTree = av.ds.binarytree({center: true, visible: true, nodegap: 20});
     modelTree.insert(initialArray);
+    grayOut(modelTree.root());
+    modelTree.root().highlight();
+    modelTree.root().left().css({"background-color": "white"});
+    modelTree.root().right().css({"background-color": "white"});
     modelTree.layout();
 
     av.displayInit();
@@ -154,7 +177,6 @@ $(document).ready(function () {
     else{
       node = node.parent();
       if(node.isHighlight()){
-        console.log("here")
         checkPath(node);
         //return true;
       }else{
@@ -188,7 +210,6 @@ $(document).ready(function () {
       }
       //jsavTree.layout();
       if(this.value() == ""){
-        console.log(checkPath(this))
         checkPath(this);
           if(pathcomplete == true){
             this.value(stack.first().value());
