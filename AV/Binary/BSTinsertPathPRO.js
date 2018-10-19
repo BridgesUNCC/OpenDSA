@@ -104,6 +104,7 @@ $(document).ready(function () {
              modelTree.layout();
            }
          }
+        //  av.step();
          if(val <= node.value()){
            if(node.left().value() == "?"){
              node = node.left();
@@ -128,6 +129,8 @@ $(document).ready(function () {
              node.right().css({"background-color": "white"});
            }
            node.edgeToParent().addClass("blueline");
+           av.gradeableStep();
+
          } else {
            if(node.right().value() == "?"){
              node = node.right();
@@ -154,10 +157,8 @@ $(document).ready(function () {
            node.edgeToParent().addClass("blueline");
            //av.gradeableStep();
            modelTree.layout();
+           av.gradeableStep();
          }
-         if(node.value() != "?"){
-          av.gradeableStep();
-        }
        }
        node.value(val);
        removeStyle(node);
@@ -262,13 +263,10 @@ $(document).ready(function () {
           this.right().css({"background-color": "white"});
         }
         this.edgeToParent().addClass("blueline");
-        // pseudo.unhighlight([2,3,4,5]);
-        // pseudo.highlight([6,7,8]);
-        // document.getElementById("output").innerHTML = "Choose the child to continue the correct path.";
         jsavTree.layout();
-      }
-      if(this.value() != "?"){
-        exercise.gradeableStep();
+        if(this.value() != "?"){
+          exercise.gradeableStep();
+        }
       }
       if(this.value() == "?"){
         this.value(stack.first().value());
