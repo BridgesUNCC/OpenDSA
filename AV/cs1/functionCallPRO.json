@@ -4,7 +4,7 @@
       ".avTitle": "function calls",
       "av_Authors": "Matthew McQuaigue",
       ".instructLabel": "Instructions:",
-      ".instructions": "In this module, you will be inserting a value into a Binary Search Tree based on the algorithm below. This will test your mastery of reading BST insertion algorithms and inserting into a tree.<br>1. Based on the algorithm, starting at the root node, trace a path to the correct insertion spot by clicking on the nodes. Once you reach a leaf node, empty nodes will appear for possible insertion spots. Click the empty node to insert the value. If the value is the same as current highlighted node, insert to the left.",
+      ".instructions": "<p>The following module displays a matrix with 5 generated destination points. In this exercise, you will create the main method that directs the red square through the destinations in order.</p> <ol><li><p>First, select the function from the drop down menu for the direction you wish to move.</p></li> <li><p>Enter the number of spaces you wish to move in the 'parameters' box. </p></li> <li><p>Then click the 'add' button to add that fucntion to the main method. </p></li><li><p>Once all of you functions are added, click 'execute' to run the program and move the square.</p></li></ol>",
       "#about": "About"
     }
   },

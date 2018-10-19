@@ -9,10 +9,41 @@ $(document).ready(function () {
   // Set click handlers
   $("#about").click(about);
 
-  $(document).on('click', '#func', function() {
-    input = document.getElementById('text').value;
-    document.getElementById('text').value = ""; //clear the text box after submitted.
-    compileInput(input);
+  //Take in the function selected from the dropdown list and the parameter the user specifies. Concatinates the number as the paramter and adds this to the textarea
+  $(document).on('click', '#funcAdd', function() {
+    param = document.getElementById('para').value;
+    input = document.getElementById('func').value;
+    var tempPos = input.indexOf("(") + 1;
+    input = [input.slice(0, tempPos), param, input.slice(tempPos)].join('');
+
+    var textareaContent = document.getElementById('functext').value;
+    if (functionCount == 0){
+        input = '\n' + '\t' + input + ';';
+        tempPos = textareaContent.indexOf('{') + 1;
+        textareaContent=[textareaContent.slice(0,tempPos),input,textareaContent.slice(tempPos)].join('');
+        document.getElementById('functext').value = textareaContent;
+    }else{
+        input = '\t' + input + ';\n';
+        tempPos = textareaContent.indexOf('}');
+        textareaContent=[textareaContent.slice(0,tempPos),input,textareaContent.slice(tempPos)].join('');
+        document.getElementById('functext').value = textareaContent;
+    }
+    functionCount += 1;
+
+//    compileInput(input);
+
+  });
+
+  $(document).on('click', '#run', function() {
+    var textareaContent = document.getElementById('functext').value;
+    var tempPos1 = textareaContent.indexOf("{") + 1;
+    var tempPos2 = textareaContent.indexOf("}");
+    functionSubstring = textareaContent.substring(tempPos1, tempPos2);
+    functionSubstring = functionSubstring.replace(/\s/g, "");
+    functionSubstring = functionSubstring.split(';');
+    for (i=0; i<functionSubstring.length; i++){
+      compileInput(functionSubstring[i]);
+    }
   });
 
   //Check if the current direction generated is a valid direction based on if there is an element to move to
@@ -137,10 +168,10 @@ $(document).ready(function () {
     //begin by removing beginning and trailing spaces in the string typed by the user.
       input = input.replace(/^[ ]+|[ ]+$/g,'')
       //check if the string is empty or null and alert the user to type a function.
-      if(isBlank(input)){
-        alert("Please Type the function and parameters.");
-        return;
-      }
+      // if(isBlank(input)){
+      //   alert("Please Type the function and parameters.");
+      //   return;
+      // }
 
       var functionUsed = input.substring(0, input.indexOf('('));//split the function before the first perenthises to know the method name.
       var parameterUsed = input.substring(input.lastIndexOf("(") + 1, input.lastIndexOf(")")); //get the parameter of the distance passed in.
@@ -175,10 +206,10 @@ $(document).ready(function () {
         currentPosition[0] = currentPosition[0] + Number(parameterUsed);
         user_matrix.addClass(currentPosition[1], currentPosition[0], "circle");
 
-      }else{
-        alert("Please type in one of the four designated fucntions.");//if none of the 4 functions are used.
-        return;
-      }
+      }//else{
+      //   alert("Please type in one of the four designated fucntions.");//if none of the 4 functions are used.
+      //   return;
+      // }
   }
 
   function colorBackPath(){
@@ -207,6 +238,9 @@ $(document).ready(function () {
       matrix = [],
       user_matrix,
       input,
+      functionCount = 0,
+      param,
+      functionSubstring,
       currentPosition = [],
       destinations = []
       // dir,
