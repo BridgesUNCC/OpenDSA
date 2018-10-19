@@ -4,7 +4,7 @@
       ".avTitle": "function calls",
       "av_Authors": "Matthew McQuaigue",
       ".instructLabel": "Instructions:",
-      ".instructions": "<p>The following module displays a matrix with 5 generated destination points. In this exercise, you will create the main method that directs the red square through the destinations in order.</p> <ol><li><p>First, select the function from the drop down menu for the direction you wish to move.</p></li> <li><p>Enter the number of spaces you wish to move in the 'parameters' box. </p></li> <li><p>Then click the 'add' button to add that fucntion to the main method. </p></li><li><p>Once all of you functions are added, click 'execute' to run the program and move the square.</p></li></ol>",
+      ".instructions": "<p>In this exercise, you will create the main method that directs the red square through the destinations in order.</p> <ol><li><p>First, select the function from the drop down menu for the direction you wish to move.</p></li> <li><p>Enter the number of spaces you wish to move in the 'parameters' box. </p></li> <li><p>Then click the 'add' button to add that function to the main method. </p></li><li><p>Once all of you functions are added, click 'execute' to run the program and move the square.</p></li></ol>",
       "#about": "About"
     }
   },

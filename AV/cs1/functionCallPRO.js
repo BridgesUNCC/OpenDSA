@@ -34,15 +34,16 @@ $(document).ready(function () {
 
   });
 
+  //this ges the substring between {} and runs each individual method within it
   $(document).on('click', '#run', function() {
     var textareaContent = document.getElementById('functext').value;
-    var tempPos1 = textareaContent.indexOf("{") + 1;
-    var tempPos2 = textareaContent.indexOf("}");
-    functionSubstring = textareaContent.substring(tempPos1, tempPos2);
-    functionSubstring = functionSubstring.replace(/\s/g, "");
-    functionSubstring = functionSubstring.split(';');
+    var tempPos1 = textareaContent.indexOf("{") + 1;//position of {
+    var tempPos2 = textareaContent.indexOf("}");//position of }
+    functionSubstring = textareaContent.substring(tempPos1, tempPos2);//gets the substring between them
+    functionSubstring = functionSubstring.replace(/\s/g, "");//removes whitespace
+    functionSubstring = functionSubstring.split(';');//puts each method in an array by dilimeter ';'
     for (i=0; i<functionSubstring.length; i++){
-      compileInput(functionSubstring[i]);
+      compileInput(functionSubstring[i]);//compile each function
     }
   });
 
