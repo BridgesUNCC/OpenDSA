@@ -9,9 +9,19 @@ $(document).ready(function () {
   // Set click handlers
   $("#about").click(about);
 
+  $("#container").bind("keypress", function(e) {
+            if (e.keyCode == 13) {
+                event.preventDefault();
+            }
+  });
+
   //Take in the function selected from the dropdown list and the parameter the user specifies. Concatinates the number as the paramter and adds this to the textarea
   $(document).on('click', '#funcAdd', function() {
     param = document.getElementById('para').value;
+    if(param.length === 0 || !param.trim()){
+      alert("Please enter a number as parameter");
+      return;
+    }
     input = document.getElementById('func').value;
     var tempPos = input.indexOf("(") + 1;
     input = [input.slice(0, tempPos), param, input.slice(tempPos)].join('');
