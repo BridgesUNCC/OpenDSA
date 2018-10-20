@@ -17,178 +17,44 @@
         "sections": {}
       }
     },
-    "Binary Search Trees": {
-      "My_simple/bst_simple": {
-        "long_name": "Binary Search Trees",
-        "sections": {
-          "Binary Search Trees": {},
-          "Insertion into Binary Search Tree Practice": {
-            "BSTinsertPathPRO": {
-              "long_name": "Insert BST path Practice",
-              "exer_options": {
-                "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "undo"
-              },
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          },
-	         "Random Insertion of Binary Search Tree": {
-            "BSTrandinsertPRO": {
-              "long_name": "Random Insert BST Practice",
-              "exer_options": {
-                "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "undo"
-              },
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          },
-          "Random Creation of Binary Search Tree": {
-           "BSTcreatePRO": {
-             "long_name": "Random Insert BST Practice",
-             "exer_options": {
-               "JXOP-feedback": "continuous",
-               "JXOP-fixmode": "undo"
-             },
-             "required": false,
-             "points": 0.0,
-             "threshold": 10.0
-           }
-         },
-          "Find value in BST": {
-           "BSTfindPRO": {
-             "long_name": "Random Insert BST Practice",
-             "exer_options": {
-               "JXOP-feedback": "continuous",
-               "JXOP-fixmode": "undo"
-             },
-             "required": false,
-             "points": 0.0,
-             "threshold": 10.0
-           }
-         },
-          "Random removal of Binary Search Tree": {
-           "BSTremovepathPRO": {
-              "long_name": "Random Insert BST Practice",
-              "exer_options": {
-                "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "undo"
-              },
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          }
-        }
-      }
-    },
-    "Linked Lists": {
-      "My_simple/bst_simple2": {
-        "long_name": "Linked Lists",
-        "sections": {
-          "Binary Search Trees": {},
-          "Insertion of Binary Search Tree": {
-            "BSTinsertCON": {
-              "long_name": "Insert BST Slideshow",
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          },
-          "Insertion into Binary Search Tree Practice": {
-            "BSTinsertPathPRO": {
-              "long_name": "Insert BST path Practice",
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          },
-	         "Random Insertion of Binary Search Tree": {
-            "BSTrandinsertPRO": {
-              "long_name": "Random Insert BST Practice",
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          }
-        }
-      }
-    },
-    "Arrays": {
-      "My_simple/bst_simple3": {
-        "long_name": "Arrays",
-        "sections": {
-          "Binary Search Trees": {},
-          "Insertion of Binary Search Tree": {
-            "arrayinsertPRO": {
-              "long_name": "Insert BST Slideshow",
-              "exer_options": {
-                "JXOP-code": "none",
-                "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "fix"
-              },
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          },
-          "Insertion into Binary Search Tree Practice": {
-            "arrayFindPRO": {
-              "long_name": "Insert BST path Practice",
-              "exer_options": {
-                "JXOP-code": "none",
-                "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "fix"
-              },
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          },
-	         "Random Insertion of Binary Search Tree": {
-            "arrayDeletePRO": {
-              "long_name": "Random Insert BST Practice",
-              "exer_options": {
-                "JXOP-code": "none",
-                "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "fix"
-              },
-              "required": false,
-              "points": 0.0,
-              "threshold": 10.0
-            }
-          }
-        }
-      }
-    },
-    "CS1 For Loops": {
+    "CS1 Sample Modules": {
       "My_simple/bst_simple4": {
-        "long_name": "CS1 For Loops",
+        "long_name": "CS1 Sample Modules",
         "sections": {
-          "Binary Search Trees": {},
-          "Insertion of Binary Search Tree": {
+          "CS1 Sample Modules": {},
+          "forLoop of 1D array": {
             "forLoop1DPRO": {
-              "long_name": "Insert BST Slideshow",
+              "long_name": "1D For loop",
               "exer_options": {
                 "JXOP-code": "none",
                 "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "fix"
+                "JXOP-fixmode": "undo"
               },
               "required": false,
               "points": 0.0,
               "threshold": 10.0
             }
           },
-          "Insertion into Binary Search Tree Practice": {
+          "forLoop of 2D array": {
             "forLoop2DPro": {
-              "long_name": "Insert BST path Practice",
+              "long_name": "2D For loop",
               "exer_options": {
                 "JXOP-code": "none",
                 "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "fix"
+                "JXOP-fixmode": "undo"
+              },
+              "required": false,
+              "points": 0.0,
+              "threshold": 10.0
+            }
+          },
+          "Function calling": {
+            "functionCallPRO": {
+              "long_name": "Function call practice",
+              "exer_options": {
+                "JXOP-code": "none",
+                "JXOP-feedback": "continuous",
+                "JXOP-fixmode": "undo"
               },
               "required": false,
               "points": 0.0,

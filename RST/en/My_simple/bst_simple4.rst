@@ -11,18 +11,18 @@
 
 .. odsalink:: AV/Binary/BSTCON.css
 
-CS1 For Loops
+CS1 Sample Modules
 ==============
 
 1D For loop
 ------------
 
-Removed for Degugging
+.. avembed:: AV/cs1/forLoop1DPRO.html pe
 
 2D For loop
 ------------
 
-Removed for Degugging
+.. avembed:: AV/cs1/forLoop2DPRO.html pe
 
 Fucntion Calls
 --------------
