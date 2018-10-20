@@ -39,9 +39,6 @@ $(document).ready(function () {
         document.getElementById('functext').value = textareaContent;
     }
     functionCount += 1;
-
-//    compileInput(input);
-
   });
 
   //this ges the substring between {} and runs each individual method within it
@@ -54,6 +51,36 @@ $(document).ready(function () {
     functionSubstring = functionSubstring.split(';');//puts each method in an array by dilimeter ';'
     for (i=0; i<functionSubstring.length; i++){
       compileInput(functionSubstring[i]);//compile each function
+    }
+    document.getElementById('functext').value = textareaContent.replace(textareaContent.substring(tempPos1, tempPos2), "\n")
+  });
+
+  $(document).on('click', '#remove', function() {
+    var textareaContent = document.getElementById('functext').value;
+    var tempPos1 = textareaContent.indexOf("{") + 1;//position of {
+    var tempPos2 = textareaContent.indexOf("}");//position of }
+    functionSubstring = textareaContent.substring(tempPos1, tempPos2);//gets the substring between them
+    functionSubstring = functionSubstring.replace(/\s/g, "");//removes whitespace
+    functionSubstring = functionSubstring.split(';');//puts each method in an array by dilimeter ';'
+    functionSubstring.pop();//remove the last function in the main method.
+    functionSubstring.pop();//remove the last function in the main method.
+    document.getElementById('functext').value = textareaContent.replace(textareaContent.substring(tempPos1, tempPos2), "\n")
+    textareaContent = document.getElementById('functext').value;
+
+    for(i = 0; i < functionSubstring.length; i++){
+      if (i == 0){
+          input = '\n' + '\t' + functionSubstring[i] + ';';
+          textareaContent=[textareaContent.slice(0,tempPos1),input,textareaContent.slice(tempPos1)].join('');
+          document.getElementById('functext').value = textareaContent;
+          console.log(textareaContent)
+      }else{
+          input = '\t' + functionSubstring[i] + ';\n';
+          var tempPos = textareaContent.indexOf('}');
+          textareaContent=[textareaContent.slice(0,tempPos),input,textareaContent.slice(tempPos)].join('');
+          document.getElementById('functext').value = textareaContent;
+          console.log(textareaContent)
+      }
+      tempFunctionCount += 1;
     }
   });
 
@@ -189,32 +216,52 @@ $(document).ready(function () {
 
       //move the function linerly in the direction specified, if not alert the user. The current position keeps track of the position of the square.
       if (functionUsed == "move_down"){
+        if(Number(parameterUsed) + currentPosition[1] >= matrix_size){
+          alert("One ore more functions moves square out of bounds.");
+          return;
+        }
         for(var i = currentPosition[1]; i < currentPosition[1] + Number(parameterUsed); i++){
           user_matrix.addClass(i, currentPosition[0], "circleGreen");
         }
         currentPosition[1] = currentPosition[1] + Number(parameterUsed);
+        user_matrix.removeClass(currentPosition[1], currentPosition[0], "circleGreen");
         user_matrix.addClass(currentPosition[1], currentPosition[0], "circle");
 
       }else if(functionUsed == "move_up"){
+        if(currentPosition[1] - Number(parameterUsed) < 0){
+          alert("One ore more functions moves square out of bounds.");
+          return;
+        }
         for(var i = currentPosition[1] - Number(parameterUsed) + 1; i < currentPosition[1] + 1; i++){
           user_matrix.addClass(i, currentPosition[0], "circleGreen");
         }
         currentPosition[1] = currentPosition[1] - Number(parameterUsed);
         console.log(currentPosition)
+        user_matrix.removeClass(currentPosition[1], currentPosition[0], "circleGreen");
         user_matrix.addClass(currentPosition[1], currentPosition[0], "circle");
 
       }else if(functionUsed == "move_left"){
+        if(currentPosition[0] - Number(parameterUsed) < 0){
+          alert("One ore more functions moves square out of bounds.");
+          return;
+        }
         for(var i = currentPosition[0] - Number(parameterUsed) + 1; i < currentPosition[0] + 1; i++){
           user_matrix.addClass(currentPosition[1], i, "circleGreen");
         }
         currentPosition[0] = currentPosition[0] - Number(parameterUsed);
+        user_matrix.removeClass(currentPosition[1], currentPosition[0], "circleGreen");
         user_matrix.addClass(currentPosition[1], currentPosition[0], "circle");
 
       }else if(functionUsed == "move_right"){
+        if(Number(parameterUsed) + currentPosition[0] >= matrix_size){
+          alert("One ore more functions moves square out of bounds.");
+          return;
+        }
         for(var i = currentPosition[0]; i < currentPosition[0] + Number(parameterUsed); i++){
           user_matrix.addClass(currentPosition[1], i, "circleGreen");
         }
         currentPosition[0] = currentPosition[0] + Number(parameterUsed);
+        user_matrix.removeClass(currentPosition[1], currentPosition[0], "circleGreen");
         user_matrix.addClass(currentPosition[1], currentPosition[0], "circle");
 
       }//else{
@@ -250,6 +297,7 @@ $(document).ready(function () {
       user_matrix,
       input,
       functionCount = 0,
+      tempFunctionCount = 0,
       param,
       functionSubstring,
       currentPosition = [],
