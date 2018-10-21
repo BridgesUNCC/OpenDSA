@@ -170,21 +170,26 @@ $(document).ready(function () {
         var tempX = Math.floor((Math.random() * (destinations[0]) + 1));
         user_matrix.value(destinations[1], destinations[0] - tempX, count);
         destinations[0] = destinations[0] - tempX;
+        parameterUsed.push(tempX)
       }else if(dir == "right"){
         var tempX = Math.floor((Math.random() * (matrix_size-1) - destinations[0]) + destinations[0]+1);
         user_matrix.value(destinations[1], tempX, count);
         destinations[0] = tempX;
+        parameterUsed.push(tempX)
       }else if(dir == "down"){
         var tempY = Math.floor((Math.random() * (matrix_size-1) - destinations[1]) + destinations[1]+1);
         user_matrix.value(tempY, destinations[0], count);
         destinations[1] = tempY;
+        parameterUsed.push(tempY)
       }else{
         var tempY = Math.floor((Math.random() * (destinations[1]) + 1));
         user_matrix.value(destinations[1] - tempY, destinations[0], count);
         destinations[1] = destinations[1] - tempY;
+        parameterUsed.push(tempY)
       }
-      console.log(dir)
       pastDir = dir;
+      destinationList.push(destinations[0],destinations[1]);
+      destDirections.push(dir);
       count += 1;
     }
 
@@ -205,15 +210,9 @@ $(document).ready(function () {
   function compileInput(input){
     //begin by removing beginning and trailing spaces in the string typed by the user.
       input = input.replace(/^[ ]+|[ ]+$/g,'')
-      //check if the string is empty or null and alert the user to type a function.
-      // if(isBlank(input)){
-      //   alert("Please Type the function and parameters.");
-      //   return;
-      // }
 
       var functionUsed = input.substring(0, input.indexOf('('));//split the function before the first perenthises to know the method name.
       var parameterUsed = input.substring(input.lastIndexOf("(") + 1, input.lastIndexOf(")")); //get the parameter of the distance passed in.
-
       //move the function linerly in the direction specified, if not alert the user. The current position keeps track of the position of the square.
       if (functionUsed == "move_down"){
         if(Number(parameterUsed) + currentPosition[1] >= matrix_size){
@@ -276,6 +275,40 @@ $(document).ready(function () {
 
   function modelSolution(av) {
 
+    model_matrix = av.ds.matrix(matrix, {style: "table"})
+    model_matrix.addClass(0, 0, "circle");
+    model_matrix.layout();
+    var currDest = 1;
+    var modelCurrentPosition = [0,0]
+
+    for(i = 0; i < destinationList.length; i+=2){
+      model_matrix.value(destinationList[i+1], destinationList[i], currDest);
+      currDest++;
+    }
+    av.displayInit();
+    currDest = 0;
+
+    for(var i = 0; i < destinationList.length; i+=2){
+      model_matrix.addClass(destinationList[i+1], destinationList[i], "circle");
+      if(destDirections[currDest] == "up"){
+        for(var j = modelCurrentPosition[1] - parameterUsed[currDest] + 1; j < modelCurrentPosition[1] + 1; j++){
+          model_matrix.addClass(j, modelCurrentPosition[0], "circleGreen");
+        }
+        model_matrix.layout();
+      }
+      if(destDirections[currDest] == "down"){
+        console.log(parameterUsed[0])
+        console.log(modelCurrentPosition[1] + parameterUsed[currDest])
+        for(var j = modelCurrentPosition[1]; j < modelCurrentPosition[1] + parameterUsed[currDest]; j++){
+          model_matrix.addClass(j, modelCurrentPosition[0], "circleGreen");
+        }
+        model_matrix.layout();
+      }
+      modelCurrentPosition[0] = destinationList[i]
+      modelCurrentPosition[1] = destinationList[i+1]
+      currDest++
+    }
+    return model_matrix;
   }
 
   var fixState = function(){
@@ -295,13 +328,17 @@ $(document).ready(function () {
   var matrix_size = 16,
       matrix = [],
       user_matrix,
+      model_matrix,
       input,
       functionCount = 0,
       tempFunctionCount = 0,
       param,
       functionSubstring,
       currentPosition = [],
-      destinations = []
+      destinations = [],
+      destinationList = [],
+      destDirections = [],
+      parameterUsed = []
       // dir,
       //pastDir = "none"
 

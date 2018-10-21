@@ -2,7 +2,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple4";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 Sample Modules";ODSA.SETTINGS.MODULE_CHAPTER = "CS1 Sample Modules"; ODSA.SETTINGS.BUILD_DATE = "2018-10-20 17:26:55"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple4";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 Sample Modules";ODSA.SETTINGS.MODULE_CHAPTER = "CS1 Sample Modules"; ODSA.SETTINGS.BUILD_DATE = "2018-10-21 04:09:04"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
