@@ -9,7 +9,6 @@
     }
   },
   "params": {
-    "JXOP-feedback": "continuous",
-    "JXOP-fixmode":"undo"
+    "JXOP-feedback": "atend"
   }
 }

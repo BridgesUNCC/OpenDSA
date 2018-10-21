@@ -53,8 +53,7 @@
               "long_name": "Function call practice",
               "exer_options": {
                 "JXOP-code": "none",
-                "JXOP-feedback": "continuous",
-                "JXOP-fixmode": "undo"
+                "JXOP-feedback": "atend"
               },
               "required": false,
               "points": 0.0,

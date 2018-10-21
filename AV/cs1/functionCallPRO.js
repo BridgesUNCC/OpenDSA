@@ -52,6 +52,7 @@ $(document).ready(function () {
     for (i=0; i<functionSubstring.length; i++){
       compileInput(functionSubstring[i]);//compile each function
     }
+    console.log(currentPosition)
     document.getElementById('functext').value = textareaContent.replace(textareaContent.substring(tempPos1, tempPos2), "\n")
   });
 
@@ -89,27 +90,27 @@ $(document).ready(function () {
   function checkDirection(dir, past){
     if(dir == "left"){
       if(destinations[0] === 0 || past == "left" || past == "right"){
-        var dicision = true;
+        dicision = true;
       }else{
-        var dicision = false;
+        dicision = false;
       }
     }else if(dir == "right"){
       if(destinations[0] === matrix_size-1 || past == "right" || past == "left"){
-        var dicision = true;
+        dicision = true;
       }else{
-        var dicision = false;
+        dicision = false;
       }
     }else if(dir == "up"){
       if (destinations[1] === 0 || past == "up" || past == "down"){
-        var dicision = true;
+        dicision = true;
       }else{
-        var dicision = false;
+        dicision = false;
       }
     }else if(dir == "down"){
       if(destinations[1] === matrix_size-1 || past == "down" || past == "up"){
-        var dicision = true;
+        dicision = true;
       }else{
-        var dicision = false;
+        dicision = false;
       }
     }
     return dicision;
@@ -118,7 +119,12 @@ $(document).ready(function () {
 
   function initialize() {
     av.clear();
-    av._undo = [];
+    currentPosition._undo = [];
+
+    destinationList = [];
+    parameterUsed = [];
+    destinations = [];
+    destDirections = [];
 
     var pastDir = "none";
     var count = 1;
@@ -165,37 +171,53 @@ $(document).ready(function () {
             break;
         }
         reroll = checkDirection(dir, pastDir);
+        console.log(dir)
       }
       if (dir == "left"){
         var tempX = Math.floor((Math.random() * (destinations[0]) + 1));
         user_matrix.value(destinations[1], destinations[0] - tempX, count);
         destinations[0] = destinations[0] - tempX;
         parameterUsed.push(tempX)
+        destDirections.push(dir);
       }else if(dir == "right"){
         var tempX = Math.floor((Math.random() * (matrix_size-1) - destinations[0]) + destinations[0]+1);
         user_matrix.value(destinations[1], tempX, count);
+        if(tempX - destinations[0] < 0){
+          destDirections.push("left");
+          parameterUsed.push(Math.abs(tempX - destinations[0]))
+        }else{
+          destDirections.push(dir);
+          parameterUsed.push(tempX - destinations[0])
+        }
         destinations[0] = tempX;
-        parameterUsed.push(tempX)
+
       }else if(dir == "down"){
         var tempY = Math.floor((Math.random() * (matrix_size-1) - destinations[1]) + destinations[1]+1);
         user_matrix.value(tempY, destinations[0], count);
+        if(tempY - destinations[1] < 0){
+          destDirections.push("up");
+          parameterUsed.push(Math.abs(tempY - destinations[1]))
+        }else {
+          destDirections.push(dir);
+          parameterUsed.push(tempY - destinations[1])
+        }
         destinations[1] = tempY;
-        parameterUsed.push(tempY)
+
       }else{
         var tempY = Math.floor((Math.random() * (destinations[1]) + 1));
         user_matrix.value(destinations[1] - tempY, destinations[0], count);
         destinations[1] = destinations[1] - tempY;
         parameterUsed.push(tempY)
+        destDirections.push(dir);
       }
       pastDir = dir;
       destinationList.push(destinations[0],destinations[1]);
-      destDirections.push(dir);
       count += 1;
     }
 
     av.displayInit();
 
-    user_matrix.value(0,0,"♔")
+    user_matrix.value(0,0,"♔");
     console.log(user_matrix.value(0,0));
 
     return user_matrix;
@@ -206,6 +228,24 @@ $(document).ready(function () {
     return (!str||/^\s*$/.test(str));
   }
 
+  function findRed(direction){
+    for(var k = 0; k < matrix_size; k++ ){
+      for(var l = 0; l < matrix_size; l++){
+        var isred = user_matrix.hasClass(k,l,"circleGreen");
+        if(direction == "right" || direction == "left"){
+          if(isred){
+            currentPosition[0] = l + 1;
+          }
+        }
+        if(direction == "up" || direction == "down"){
+          if(isred){
+            currentPosition[1] = k + 1;
+          }
+        }
+      }
+    }
+  }
+
   //Function to process the input the user types for the movement of the square. It dtermines the method used and the parameters passed in for distance to move.
   function compileInput(input){
     //begin by removing beginning and trailing spaces in the string typed by the user.
@@ -214,6 +254,7 @@ $(document).ready(function () {
       var functionUsed = input.substring(0, input.indexOf('('));//split the function before the first perenthises to know the method name.
       var parameterUsed = input.substring(input.lastIndexOf("(") + 1, input.lastIndexOf(")")); //get the parameter of the distance passed in.
       //move the function linerly in the direction specified, if not alert the user. The current position keeps track of the position of the square.
+      movement = "none"
       if (functionUsed == "move_down"){
         if(Number(parameterUsed) + currentPosition[1] >= matrix_size){
           alert("One ore more functions moves square out of bounds.");
@@ -222,9 +263,13 @@ $(document).ready(function () {
         for(var i = currentPosition[1]; i < currentPosition[1] + Number(parameterUsed); i++){
           user_matrix.addClass(i, currentPosition[0], "circleGreen");
         }
+
+        user_matrix.removeClass(currentPosition[1] + Number(parameterUsed), currentPosition[0], "circleGreen");
+        user_matrix.addClass(currentPosition[1] + Number(parameterUsed), currentPosition[0], "circle");
+        exercise.gradeableStep();
+        movement = "down";
         currentPosition[1] = currentPosition[1] + Number(parameterUsed);
-        user_matrix.removeClass(currentPosition[1], currentPosition[0], "circleGreen");
-        user_matrix.addClass(currentPosition[1], currentPosition[0], "circle");
+        //findRed();
 
       }else if(functionUsed == "move_up"){
         if(currentPosition[1] - Number(parameterUsed) < 0){
@@ -234,10 +279,13 @@ $(document).ready(function () {
         for(var i = currentPosition[1] - Number(parameterUsed) + 1; i < currentPosition[1] + 1; i++){
           user_matrix.addClass(i, currentPosition[0], "circleGreen");
         }
+
+        user_matrix.removeClass(currentPosition[1] - Number(parameterUsed), currentPosition[0], "circleGreen");
+        user_matrix.addClass(currentPosition[1] - Number(parameterUsed), currentPosition[0], "circle");
+        exercise.gradeableStep();
+        movement = "up";
+        //findRed();
         currentPosition[1] = currentPosition[1] - Number(parameterUsed);
-        console.log(currentPosition)
-        user_matrix.removeClass(currentPosition[1], currentPosition[0], "circleGreen");
-        user_matrix.addClass(currentPosition[1], currentPosition[0], "circle");
 
       }else if(functionUsed == "move_left"){
         if(currentPosition[0] - Number(parameterUsed) < 0){
@@ -247,9 +295,13 @@ $(document).ready(function () {
         for(var i = currentPosition[0] - Number(parameterUsed) + 1; i < currentPosition[0] + 1; i++){
           user_matrix.addClass(currentPosition[1], i, "circleGreen");
         }
+
+        user_matrix.removeClass(currentPosition[1], currentPosition[0] - Number(parameterUsed), "circleGreen");
+        user_matrix.addClass(currentPosition[1], currentPosition[0] - Number(parameterUsed), "circle");
+        exercise.gradeableStep();
+        movement = "left";
+        //findRed();
         currentPosition[0] = currentPosition[0] - Number(parameterUsed);
-        user_matrix.removeClass(currentPosition[1], currentPosition[0], "circleGreen");
-        user_matrix.addClass(currentPosition[1], currentPosition[0], "circle");
 
       }else if(functionUsed == "move_right"){
         if(Number(parameterUsed) + currentPosition[0] >= matrix_size){
@@ -259,14 +311,15 @@ $(document).ready(function () {
         for(var i = currentPosition[0]; i < currentPosition[0] + Number(parameterUsed); i++){
           user_matrix.addClass(currentPosition[1], i, "circleGreen");
         }
-        currentPosition[0] = currentPosition[0] + Number(parameterUsed);
-        user_matrix.removeClass(currentPosition[1], currentPosition[0], "circleGreen");
-        user_matrix.addClass(currentPosition[1], currentPosition[0], "circle");
 
-      }//else{
-      //   alert("Please type in one of the four designated fucntions.");//if none of the 4 functions are used.
-      //   return;
-      // }
+        user_matrix.removeClass(currentPosition[1], currentPosition[0] + Number(parameterUsed), "circleGreen");
+        user_matrix.addClass(currentPosition[1], currentPosition[0] + Number(parameterUsed), "circle");
+        exercise.gradeableStep();
+        movement = "right";
+        //findRed();
+        currentPosition[0] = currentPosition[0] + Number(parameterUsed);
+
+      }
   }
 
   function colorBackPath(){
@@ -274,39 +327,62 @@ $(document).ready(function () {
   }
 
   function modelSolution(av) {
-
+    av._undo = [];
     model_matrix = av.ds.matrix(matrix, {style: "table"})
     model_matrix.addClass(0, 0, "circle");
     model_matrix.layout();
-    var currDest = 1;
     var modelCurrentPosition = [0,0]
+    modelCurrDest = 1;
 
     for(i = 0; i < destinationList.length; i+=2){
-      model_matrix.value(destinationList[i+1], destinationList[i], currDest);
-      currDest++;
+      model_matrix.value(destinationList[i+1], destinationList[i], modelCurrDest);
+      modelCurrDest++;
     }
+
+    model_matrix.value(0,0,"♔");
     av.displayInit();
-    currDest = 0;
+    modelCurrDest = 0;
 
     for(var i = 0; i < destinationList.length; i+=2){
       model_matrix.addClass(destinationList[i+1], destinationList[i], "circle");
-      if(destDirections[currDest] == "up"){
-        for(var j = modelCurrentPosition[1] - parameterUsed[currDest] + 1; j < modelCurrentPosition[1] + 1; j++){
+      /////////////////////////////////////MOVE UP///////////////////
+      if(destDirections[modelCurrDest] == "up"){
+        for(var j = modelCurrentPosition[1] - parameterUsed[modelCurrDest] + 1; j < modelCurrentPosition[1] + 1; j++){
           model_matrix.addClass(j, modelCurrentPosition[0], "circleGreen");
         }
         model_matrix.layout();
       }
-      if(destDirections[currDest] == "down"){
-        console.log(parameterUsed[0])
-        console.log(modelCurrentPosition[1] + parameterUsed[currDest])
-        for(var j = modelCurrentPosition[1]; j < modelCurrentPosition[1] + parameterUsed[currDest]; j++){
+
+
+      ////////////////////////////////////////MOVE Down///////////////////////////
+      if(destDirections[modelCurrDest] == "down"){
+        for(var j = modelCurrentPosition[1]; j < modelCurrentPosition[1] + parameterUsed[modelCurrDest]; j++){
           model_matrix.addClass(j, modelCurrentPosition[0], "circleGreen");
+        }
+        model_matrix.layout();
+      }
+
+
+      //////////////////////////////MOVE LEFT///////////////////
+      if(destDirections[modelCurrDest] == "left"){
+        for(var j = modelCurrentPosition[0] - parameterUsed[modelCurrDest] + 1; j < modelCurrentPosition[0] + 1; j++){
+          model_matrix.addClass(modelCurrentPosition[1], j, "circleGreen");
+        }
+        model_matrix.layout();
+      }
+
+
+      ///////////////////////////////MOVE RIGHT////////////////////////
+      if(destDirections[modelCurrDest] == "right"){
+        for(var j = modelCurrentPosition[0]; j < modelCurrentPosition[0] + parameterUsed[modelCurrDest]; j++){
+          model_matrix.addClass(modelCurrentPosition[1], j, "circleGreen");
         }
         model_matrix.layout();
       }
       modelCurrentPosition[0] = destinationList[i]
       modelCurrentPosition[1] = destinationList[i+1]
-      currDest++
+      modelCurrDest++
+      av.gradeableStep();
     }
     return model_matrix;
   }
@@ -328,8 +404,10 @@ $(document).ready(function () {
   var matrix_size = 16,
       matrix = [],
       user_matrix,
+      dicision = true,
       model_matrix,
       input,
+      modelCurrDest = 1,
       functionCount = 0,
       tempFunctionCount = 0,
       param,
@@ -338,7 +416,9 @@ $(document).ready(function () {
       destinations = [],
       destinationList = [],
       destDirections = [],
-      parameterUsed = []
+      parameterUsed = [],
+      movement
+
       // dir,
       //pastDir = "none"
 
@@ -357,6 +437,6 @@ $(document).ready(function () {
   av.recorded(); // we are not recording an AV with an algorithm
 
   var exercise = av.exercise(modelSolution, initialize,
-                              {controls: $(".jsavexercisecontrols")}, {compare: {class: "jsavhighlight"}});
+                              {controls: $(".jsavexercisecontrols"), compare: {class: "circle"}});
   exercise.reset();
 });
