@@ -39,6 +39,7 @@ $(document).ready(function () {
         document.getElementById('functext').value = textareaContent;
     }
     functionCount += 1;
+    findRed();
   });
 
   //this ges the substring between {} and runs each individual method within it
@@ -52,8 +53,9 @@ $(document).ready(function () {
     for (i=0; i<functionSubstring.length; i++){
       compileInput(functionSubstring[i]);//compile each function
     }
-    console.log(currentPosition)
     document.getElementById('functext').value = textareaContent.replace(textareaContent.substring(tempPos1, tempPos2), "\n")
+    findRed();
+    console.log(currentPosition)
   });
 
   $(document).on('click', '#remove', function() {
@@ -155,7 +157,7 @@ $(document).ready(function () {
       var reroll = true;
       var dir;
       while(reroll != false){
-        var tempDir = Math.floor((Math.random() * 5) + 1);
+        var tempDir = Math.floor((Math.random() * 4) + 1);
         switch(tempDir){
           case 1:
             var dir = "up";
@@ -171,16 +173,23 @@ $(document).ready(function () {
             break;
         }
         reroll = checkDirection(dir, pastDir);
-        console.log(dir)
       }
       if (dir == "left"){
         var tempX = Math.floor((Math.random() * (destinations[0]) + 1));
+        while(user_matrix.value(destinations[1], destinations[0] - tempX) != " " || haveAdjacent(destinations[0] - tempX, dir)){
+          var tempX = Math.floor((Math.random() * (destinations[0]) + 1));
+          console.log(tempX)
+        }
         user_matrix.value(destinations[1], destinations[0] - tempX, count);
         destinations[0] = destinations[0] - tempX;
         parameterUsed.push(tempX)
         destDirections.push(dir);
+
       }else if(dir == "right"){
         var tempX = Math.floor((Math.random() * (matrix_size-1) - destinations[0]) + destinations[0]+1);
+        while(user_matrix.value(destinations[1], tempX) != " " || haveAdjacent(tempX, dir)){
+          var tempX = Math.floor((Math.random() * (matrix_size-1) - destinations[0]) + destinations[0]+1);
+        }
         user_matrix.value(destinations[1], tempX, count);
         if(tempX - destinations[0] < 0){
           destDirections.push("left");
@@ -193,6 +202,9 @@ $(document).ready(function () {
 
       }else if(dir == "down"){
         var tempY = Math.floor((Math.random() * (matrix_size-1) - destinations[1]) + destinations[1]+1);
+        while(user_matrix.value(tempY, destinations[0]) != " " || haveAdjacent(tempY, dir)){
+          var tempY = Math.floor((Math.random() * (matrix_size-1) - destinations[1]) + destinations[1]+1);
+        }
         user_matrix.value(tempY, destinations[0], count);
         if(tempY - destinations[1] < 0){
           destDirections.push("up");
@@ -205,6 +217,9 @@ $(document).ready(function () {
 
       }else{
         var tempY = Math.floor((Math.random() * (destinations[1]) + 1));
+        while(user_matrix.value(destinations[1] - tempY, destinations[0]) != " " || haveAdjacent(destinations[1] - tempY, dir)){
+          var tempY = Math.floor((Math.random() * (destinations[1]) + 1));
+        }
         user_matrix.value(destinations[1] - tempY, destinations[0], count);
         destinations[1] = destinations[1] - tempY;
         parameterUsed.push(tempY)
@@ -223,25 +238,43 @@ $(document).ready(function () {
     return user_matrix;
   }
 
+  function haveAdjacent(pos, direction){
+    console.log("here")
+    if (direction == "down" || direction == "up"){
+      for(var i = 0; i < matrix_size; i++){
+        var result = user_matrix.value(pos, i);
+        if(result != " "){
+          return true;
+        }
+      }
+      return false;
+    }
+    if (direction == "left" || direction == "right"){
+      for(var i = 0; i < matrix_size; i++){
+        var result = user_matrix.value(i, pos);
+        if(result != " "){
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
   //check if the sring is blank
   function isBlank(str){
     return (!str||/^\s*$/.test(str));
   }
 
-  function findRed(direction){
+  function findRed(){
     for(var k = 0; k < matrix_size; k++ ){
       for(var l = 0; l < matrix_size; l++){
-        var isred = user_matrix.hasClass(k,l,"circleGreen");
-        if(direction == "right" || direction == "left"){
-          if(isred){
-            currentPosition[0] = l + 1;
+        var isred = user_matrix.hasClass(k,l,"circle");
+        console.log(isred)
+        if(isred){
+            currentPosition[0] = l;
+            currentPosition[1] = k;
+            console.log(l,k)
           }
-        }
-        if(direction == "up" || direction == "down"){
-          if(isred){
-            currentPosition[1] = k + 1;
-          }
-        }
       }
     }
   }
@@ -344,6 +377,7 @@ $(document).ready(function () {
     modelCurrDest = 0;
 
     for(var i = 0; i < destinationList.length; i+=2){
+      model_matrix.removeClass(destinationList[i+1], destinationList[i], "circleGreen");
       model_matrix.addClass(destinationList[i+1], destinationList[i], "circle");
       /////////////////////////////////////MOVE UP///////////////////
       if(destDirections[modelCurrDest] == "up"){
