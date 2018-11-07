@@ -546,8 +546,7 @@ $(document).ready(function () {
   av.recorded();
 
   var exercise = av.exercise(modelSolution, initialize,
-                              {controls: $(".jsavexercisecontrols")},
-                              {feedback: "undo"}, {compare: {class: "jsavhighlight"}});
+                              {controls: $(".jsavexercisecontrols"), compare: {class: "jsavhighlight"}});
 //{compare: $(".jsavtree")}
  // we are not recording an AV with an algorithm
   exercise.reset();

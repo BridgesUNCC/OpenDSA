@@ -51,7 +51,9 @@ $(document).ready(function () {
     functionSubstring = functionSubstring.replace(/\s/g, "");//removes whitespace
     functionSubstring = functionSubstring.split(';');//puts each method in an array by dilimeter ';'
     for (i=0; i<functionSubstring.length; i++){
-      compileInput(functionSubstring[i]);//compile each function
+      findRed();
+      window.setTimeout(compileInput(functionSubstring[i]), 3000);
+      //compileInput(functionSubstring[i]);//compile each function
     }
     document.getElementById('functext').value = textareaContent.replace(textareaContent.substring(tempPos1, tempPos2), "\n")
     findRed();
@@ -269,8 +271,9 @@ $(document).ready(function () {
     for(var k = 0; k < matrix_size; k++ ){
       for(var l = 0; l < matrix_size; l++){
         var isred = user_matrix.hasClass(k,l,"circle");
+        var isgreen = user_matrix.hasClass(k,l,"circleGreen");
         console.log(isred)
-        if(isred){
+        if(isred && !isgreen){
             currentPosition[0] = l;
             currentPosition[1] = k;
             console.log(l,k)
