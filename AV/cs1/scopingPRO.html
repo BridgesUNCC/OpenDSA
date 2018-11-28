@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>Variable Scoping</title>
+    <link rel="stylesheet" href="../../JSAV/css/JSAV.css" type="text/css" />
+    <link rel="stylesheet" href="../../lib/odsaAV-min.css" type="text/css" />
+    <link rel="stylesheet" href="scopingPRO.css" type="text/css" />
+    <style>
+      .jsavvaluelabelleft{
+        text-align: left;!important;
+        padding-left: 10px;
+      }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div class="headerRight">
+			<!-- <div class="dropdown">
+				<button class="dropbtn">Color blindness</button>
+				<div class="dropdown-content">
+					<a id="default_col" href="#">Default</a>
+					<a id="pd_col" href="#">Protan/deutan</a>
+					<a id="trit_col" href="#">Tritan</a>
+					<a id="mono_col" href="#">Monochrome</a>
+				</div>
+			</div> -->
+            <input id="about" type="button" name="about" />
+            <a id="settings" class="jsavsettings" href="#"></a>
+        </div>
+        <div class="headerCenter">
+            <p class="jsavexercisecontrols"></p>
+        </div>
+        <div class="avcontainer">
+            <p class="instructLabel"></p>
+            <p class="instructions"></p>
+            <p class="jsavcode"></p>
+            <p align="center">
+              Your current score is <span class="jsavcurrentscore"></span>. Maximum score in this exercise is
+              <span class="jsavmaxscore"></span>.
+            </p>
+					<div id="av" class="jsavcanvas">
+					</div>
+				</div>
+			</div>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="../../JSAV/lib/jquery.transit.js"></script>
+    <script src="../../JSAV/lib/raphael.js"></script>
+    <script src="../../JSAV/build/JSAV-min.js"></script>
+    <script src="../../lib/odsaUtils-min.js"></script>
+    <script src="../../lib/odsaAV-min.js"></script>
+    <script src="../../JSAV/extras/stack.js"></script>
+    <script src="scopingPRO.js"></script>
+</body>
+
+</html>

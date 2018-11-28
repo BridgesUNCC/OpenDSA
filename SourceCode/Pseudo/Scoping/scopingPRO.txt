@@ -1,0 +1,24 @@
+/* *** ODSATag: first *** */
+int x = 10;
+int f(){
+   return x;
+}
+int g(){
+   int x = 20;
+   return f();
+}
+int main(){
+  printf("%d", g());
+  printf("\n");
+  return 0;
+}
+/* *** ODSAendTag: first *** */
+
+/* *** ODSATag: randinsertLeft *** */
+
+
+/* *** ODSAendTag: randinsertLeft *** */
+
+/* *** ODSATag: randinsertRight *** */
+
+/* *** ODSAendTag: randinsertRight *** */
