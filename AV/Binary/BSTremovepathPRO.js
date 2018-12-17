@@ -457,6 +457,6 @@ $(document).ready(function () {
 
   var exercise = av.exercise(modelSolution, initialize,
                              {controls: $(".jsavexercisecontrols"),
-                              modelDialog: {width: 700}},{feedback: "continuous"});
+                              modelDialog: {width: 700}, compare: {class: "jsavhighlight"}});
   exercise.reset();
 });

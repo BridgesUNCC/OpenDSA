@@ -1,0 +1,30 @@
+{
+  "translations": {
+    "en": {
+      ".avTitle": "Variable Scoping",
+      "av_Authors": "Matthew McQuaigue",
+      ".instructLabel": "Instructions:",
+      ".instructions": "Temp",
+      "#about": "About"
+    }
+  },
+  "params": {
+    "JXOP-feedback": "atend"
+  },
+  "code": {
+    "first": [{
+      "url": "../../../SourceCode/Pseudo/Scoping/scopingPRO.txt",
+      "lineNumbers": false,
+      "startAfter": "/* *** ODSATag: first *** */",
+      "endBefore": "/* *** ODSAendTag: first *** */",
+      "tags": {
+        "start": 1,
+        "root": 5,
+        "visitleft": 3,
+        "visitright": 4,
+        "visit": 5,
+        "end": 6
+      }
+    }]
+  }
+}
