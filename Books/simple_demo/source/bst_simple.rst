@@ -2,7 +2,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple";ODSA.SETTINGS.MODULE_LONG_NAME = "Binary Search Trees";ODSA.SETTINGS.MODULE_CHAPTER = "Binary Search Trees"; ODSA.SETTINGS.BUILD_DATE = "2018-10-01 13:03:23"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 Sample Modules";ODSA.SETTINGS.MODULE_CHAPTER = "BST Modules"; ODSA.SETTINGS.BUILD_DATE = "2018-12-17 16:05:30"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
@@ -30,7 +30,8 @@ Binary Search Trees
 Insertion
 ---------
 
-Removed for Degugging
+.. avembed:: AV/Binary/BSTinsertpathPRO.html pe
+   :module: bst_simple
 
 Insertion Based on Algorithm
 ----------------------------
@@ -40,17 +41,13 @@ Insertion Based on Algorithm
    :points: 0.0
    :required: False
    :threshold: 10.0
-   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=undo&amp;JXOP-code=java_generic&amp;JXOP-debug=true
+   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=undo&amp;JXOP-code=none&amp;JXOP-debug=true
 
 Creation
 --------
 
 .. avembed:: AV/Binary/BSTcreatePRO.html pe
    :module: bst_simple
-   :points: 0.0
-   :required: False
-   :threshold: 10.0
-   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=undo&amp;JXOP-code=java_generic&amp;JXOP-debug=true
 
 Find
 ----
@@ -60,11 +57,4 @@ Find
    :points: 0.0
    :required: False
    :threshold: 10.0
-   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=undo&amp;JXOP-code=java_generic&amp;JXOP-debug=true
-
-Remove
-------
-
-Removed for Degugging
-
-
+   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=undo&amp;JXOP-code=none&amp;JXOP-debug=true

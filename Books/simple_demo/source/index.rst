@@ -20,7 +20,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = false;ODSA.SETTINGS.MODULE_NAME = "index";ODSA.SETTINGS.MODULE_LONG_NAME = "Contents";ODSA.SETTINGS.MODULE_CHAPTER = ""; ODSA.SETTINGS.BUILD_DATE = "2018-10-21 22:04:09"; ODSA.SETTINGS.BUILD_CMAP = false;</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = false;ODSA.SETTINGS.MODULE_NAME = "index";ODSA.SETTINGS.MODULE_LONG_NAME = "Contents";ODSA.SETTINGS.MODULE_CHAPTER = ""; ODSA.SETTINGS.BUILD_DATE = "2018-12-17 16:05:30"; ODSA.SETTINGS.BUILD_CMAP = false;</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
@@ -45,6 +45,24 @@ CS1 Sample Modules
    :maxdepth: 3
 
    bst_simple4
+
+BST Modules
+===========
+
+.. toctree::
+   :numbered:
+   :maxdepth: 3
+
+   bst_simple
+
+Array Modules
+=============
+
+.. toctree::
+   :numbered:
+   :maxdepth: 3
+
+   bst_simple3
 
 
 .. toctree::

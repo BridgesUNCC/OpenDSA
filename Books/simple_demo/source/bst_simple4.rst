@@ -2,7 +2,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple4";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 Sample Modules";ODSA.SETTINGS.MODULE_CHAPTER = "CS1 Sample Modules"; ODSA.SETTINGS.BUILD_DATE = "2018-10-21 22:04:09"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple4";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 Sample Modules";ODSA.SETTINGS.MODULE_CHAPTER = "CS1 Sample Modules"; ODSA.SETTINGS.BUILD_DATE = "2018-12-17 16:05:30"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
@@ -41,3 +41,13 @@ CS1 Sample Modules
 
 .. avembed:: AV/cs1/forLoop2DPRO.html pe
    :module: bst_simple4
+
+Function Calls
+--------------
+
+.. avembed:: AV/cs1/functionCallPRO.html pe
+   :module: bst_simple4
+   :points: 0.0
+   :required: False
+   :threshold: 10.0
+   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=undo&amp;JXOP-code=none&amp;JXOP-debug=true

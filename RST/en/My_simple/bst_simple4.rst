@@ -23,3 +23,8 @@ CS1 Sample Modules
 ------------
 
 .. avembed:: AV/cs1/forLoop2DPRO.html pe
+
+Function Calls
+--------------
+
+.. avembed:: AV/cs1/functionCallPRO.html pe

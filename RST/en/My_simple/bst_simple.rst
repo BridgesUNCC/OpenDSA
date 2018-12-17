@@ -18,7 +18,7 @@ Binary Search Trees
 Insertion
 ---------
 
-Removed for Degugging
+.. avembed:: AV/Binary/BSTinsertpathPRO.html pe
 
 Insertion Based on Algorithm
 ----------------------------
@@ -34,10 +34,3 @@ Find
 ----
 
 .. avembed:: AV/Binary/BSTfindPRO.html pe
-
-Remove
-------
-
-Removed for Degugging
-
-

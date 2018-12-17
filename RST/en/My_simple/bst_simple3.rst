@@ -17,14 +17,14 @@ Arrays
 Insert
 --------
 
-Removed for Degugging
+.. avembed:: AV/List/arrayInsertPRO.html pe
 
 Find
 --------
 
-Removed for Degugging
+.. avembed:: AV/List/arrayFindPRO.html pe
 
 Delete
 -------
 
-Removed for Degugging
+.. avembed:: AV/List/arrayDeletePRO.html pe

@@ -2,7 +2,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple3";ODSA.SETTINGS.MODULE_LONG_NAME = "Arrays";ODSA.SETTINGS.MODULE_CHAPTER = "Arrays"; ODSA.SETTINGS.BUILD_DATE = "2018-10-01 13:03:23"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple3";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 Sample Modules";ODSA.SETTINGS.MODULE_CHAPTER = "Array Modules"; ODSA.SETTINGS.BUILD_DATE = "2018-12-17 16:05:30"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
@@ -29,14 +29,29 @@ Arrays
 Insert
 --------
 
-Removed for Degugging
+.. avembed:: AV/List/arrayInsertPRO.html pe
+   :module: bst_simple3
+   :points: 0.0
+   :required: False
+   :threshold: 10.0
+   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=undo&amp;JXOP-code=none&amp;JXOP-debug=true
 
 Find
 --------
 
-Removed for Degugging
+.. avembed:: AV/List/arrayFindPRO.html pe
+   :module: bst_simple3
+   :points: 0.0
+   :required: False
+   :threshold: 10.0
+   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=undo&amp;JXOP-code=none&amp;JXOP-debug=true
 
 Delete
 -------
 
-Removed for Degugging
+.. avembed:: AV/List/arrayDeletePRO.html pe
+   :module: bst_simple3
+   :points: 0.0
+   :required: False
+   :threshold: 10.0
+   :exer_opts: JOP-lang=en&amp;JXOP-feedback=continuous&amp;JXOP-fixmode=undo&amp;JXOP-code=none&amp;JXOP-debug=true
