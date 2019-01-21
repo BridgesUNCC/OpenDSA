@@ -11,8 +11,6 @@
 
 .. index:: ! Selection Sort
 
-.. odsalink:: AV/Sorting/SelectionSortAnalysisCON.css
-
 Selection Sort
 ==============
 
@@ -50,6 +48,8 @@ Consider the example of the following array.
 
 .. inlineav:: selectionsortS1CON ss
    :long_name: Selection Sort Slideshow 1
+   :links: 
+   :scripts: AV/Sorting/selectionsortS1CON.js
    :output: show
 
 Now we continue with the second pass.
@@ -58,6 +58,8 @@ we will not need to look at it again.
 
 .. inlineav:: selectionsortS2CON ss
    :long_name: Selection Sort Slideshow 2
+   :links: 
+   :scripts: AV/Sorting/selectionsortS2CON.js
    :output: show
 
 Selection Sort continues in this way until the entire array is sorted.
@@ -91,6 +93,8 @@ comparisons and swaps required by Selection Sort.
 
 .. inlineav:: SelectionSortAnalysisCON ss
    :long_name: Selection Sort Analysis Slideshow
+   :links: AV/Sorting/SelectionSortAnalysisCON.css
+   :scripts: AV/Sorting/SelectionSortAnalysisCON.js
    :output: show
 
 There is another approach to keeping the cost of swapping records low,
@@ -101,37 +105,20 @@ rather than store the record itself.
 In this implementation, a swap operation need only exchange the
 pointer values.
 The large records do not need to move.
-This technique is illustrated by Figure :num:`Figure #PointerSwap`.
+This technique is illustrated by the following visualization.
 Additional space is needed to store the pointers, but the
 return is a faster swap operation.
 
 .. _PointerSwap:
 
-.. odsafig:: Images/PtrSwap.png
-   :width: 300
-   :align: center
-   :capalign: justify
-   :figwidth: 90%
-   :alt: Swapping pointers to records
-
-   An example of swapping pointers to records.
-   (a) A series of four records.
-   The record with key value 42 comes before the record with key value 5.
-   (b) The four records after the top two pointers have been swapped.
-   Now the record with key value 5 comes before the record with key
-   value 42.
-
-.. TODO::
-   :type: Figure
-
-   Replace with with a JSAV version of the figure
+.. inlineav:: ptrSwapCON ss
+   :long_name: Selection Sort Pointer Swap
+   :links: AV/Sorting/ptrSwapCON.css
+   :scripts: AV/Sorting/ptrSwapCON.js
+   :output: show
 
 Here are some review questions to check how well you understand
 Selection Sort.
 
 .. avembed:: Exercises/Sorting/SelsortSumm.html ka
    :long_name: Selection Sort Summary Exercise
-
-.. odsascript:: AV/Sorting/selectionsortS1CON.js
-.. odsascript:: AV/Sorting/selectionsortS2CON.js
-.. odsascript:: AV/Sorting/SelectionSortAnalysisCON.js

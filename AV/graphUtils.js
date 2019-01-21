@@ -1,7 +1,12 @@
-"use strict";
-/*global alert: true, ODSA */
+// So far as I can tell, this file is obsolete. I cannot find anything
+// that references it except some old files in Development.
+// If this does have anything useful, then it needs to get combined
+// with the other graphUtils files, and all put in DataStructures.
 
 (function ($) {
+//(function() {
+"use strict";
+/*global alert: true, ODSA */
 
   function randomGraphGen(graph, numberOfNodes, numberOfEdges) {
   var one, two;
@@ -33,5 +38,7 @@
    //graph.recorded();
  }
  ODSA.AV.randomGraphGen = randomGraphGen;
+ //window.randomGraphGen = window.randomGraphGen || randomGraphGen;
 
 }(jQuery));
+//}());

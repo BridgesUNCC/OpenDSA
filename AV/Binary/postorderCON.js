@@ -1,11 +1,44 @@
+// Postorder traversal in detail
 /*global ODSA */
-"use strict";
-// Remove slideshow
-$(document).ready(function () {
+$(document).ready(function() {
+  "use strict";
+
+  var av_name = "postorderCON";
+  var config = ODSA.UTILS.loadConfig({av_name: av_name}),
+      interpret = config.interpreter,       // get the interpreter
+      code = config.code;                   // get the code object
+  var av = new JSAV(av_name);
+  var pseudo = av.code(code[0]);
+  var labelTop = 370;
+
+  var bt = av.ds.binarytree({visible: true, nodegap: 15});
+  bt.root("A");
+  var rt = bt.root();
+  rt.left("B");
+  rt.left().right("D");
+  rt.right("C");
+  rt.right().left("E");
+  rt.right().left().left("G");
+  rt.right().right("F");
+  rt.right().right().left("H");
+  rt.right().right().right("I");
+  bt.layout();
+
+  var rt1 = av.pointer("rt", bt.root(), {anchor: "left top", top: -10});
+  var btLeft =  250;
+
+  av.umsg(interpret("av_postorder"));
+  pseudo.setCurrentLine("sig");
+  av.displayInit();
+
+  postorder(rt);
+
+  av.recorded();
+
 
   function postorder(node) {
     //check if null
-    if (typeof node === 'undefined') {
+    if (typeof node === "undefined") {
       rt1.arrow.hide();
       av.umsg(interpret("av_isnull"));
       pseudo.setCurrentLine("checknull");
@@ -41,7 +74,7 @@ $(document).ready(function () {
     pseudo.setCurrentLine("visit");
     node.addClass("thicknode");
     btLeft += 35;
-    av.label("" + node.value(), {left: btLeft, top: labelTop}).show();
+    av.label(String(node.value()), {left: btLeft, top: labelTop}).show();
     av.step();
 
     //finish
@@ -51,37 +84,4 @@ $(document).ready(function () {
     pseudo.setCurrentLine("end");
     av.step();
   }
-
-  var av_name = "postorderCON";
-  JSAV_EXERCISE_OPTIONS.code = "processing";
-  var config = ODSA.UTILS.loadConfig({"av_name": av_name}),
-      interpret = config.interpreter,       // get the interpreter
-      code = config.code;                   // get the code object
-  var av = new JSAV(av_name);
-  var pseudo = av.code(code[0]);
-  var labelTop = 370;
-
-  var bt = av.ds.binarytree({visible: true, nodegap: 15});
-  bt.root("A");
-  var rt = bt.root();
-  rt.left("B");
-  rt.left().right("D");
-  rt.right("C");
-  rt.right().left("E");
-  rt.right().left().left("G");
-  rt.right().right("F");
-  rt.right().right().left("H");
-  rt.right().right().right("I");
-  bt.layout();
-
-  var rt1 = av.pointer("rt", bt.root(), {anchor: "left top", top: -10});
-  var btLeft =  250;
-
-  av.umsg(interpret("av_postorder"));
-  pseudo.setCurrentLine("sig");
-  av.displayInit();
-
-  postorder(rt);
-
-  av.recorded();
 });

@@ -8,8 +8,6 @@
    :satisfies: disk drives
    :topic: File Processing
 
-.. odsalink:: AV/Development/sectorLayoutCON.css
-
 Disk Drives
 ===========
 
@@ -265,6 +263,7 @@ fragmentation.
 .. _Layout:
 
 .. inlineav:: diskSector dgm
+   :scripts: AV/Files/diskSectorCON.js
    :align: center
 
    An illustration of sector gaps within a track.
@@ -441,6 +440,3 @@ Notes
 
        To complicate matters further, Solid State Drives (SSD) work
        rather differently.
-
-.. odsascript:: AV/Files/diskSectorCON.js
-

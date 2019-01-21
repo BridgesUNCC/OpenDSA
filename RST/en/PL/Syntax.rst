@@ -94,7 +94,7 @@ in one of three flavors:
      Note that in the lambda calculus, the parentheses
      surround both the function and its argument, while in many modern
      programming languages (and in mathematical notation), the
-     function would come first and be followed by the formal parameter
+     function would come first and be followed by the argument
      in parentheses, like this: :math:`f(x)`. In the lambda calculus,
      the parentheses are not optional around function
      calls. Furthermore, the grammar above makes it clear that they
@@ -112,6 +112,8 @@ to build the parse tree for a given lambda expression.
 
 .. inlineav:: parseTree ss
    :long_name: Slideshow for how to build a parse tree
+   :links: AV/PL/AV/parseTree.css AV/PL/main.css
+   :scripts: AV/PL/AV/parseTree.js
    :output: show
 
 
@@ -130,26 +132,24 @@ Q2. How many terminals does this grammar contain?
 Q3. Is this grammar ambiguous, since the third production is doubly recursive?
 
 
-RP 14 part 1
-------------
+Mastering Lambda Calculus Syntax (1)
+------------------------------------
 
 Test your mastery of the syntax of the lambda calculus with this
 exercise.  To get credit for this randomized exercise, you must solve
 it correctly three times in a row.
 
-.. avembed:: Exercises/PL/RP14part1.html ka
-   :long_name: RP set #14, question #1
+.. avembed:: Exercises/PL/LambdaCalcSyntax1.html ka
+   :long_name: Lambda Calc Syntax 1
 
 
-RP 14 part 2
-------------
+Mastering Lambda Calculus Syntax (2)
+------------------------------------
 
 Once you can consistently solve the previous problem, try this more
 intense exercise, in which you have to analyze four expressions each
 time.  To get credit for this randomized exercise, you must solve it
 correctly three times in a row.
 
-.. avembed:: Exercises/PL/RP14part2.html ka
-   :long_name: RP set #14, question #2
-
-.. odsascript:: AV/PL/AV/parseTree.js   	     
+.. avembed:: Exercises/PL/LambdaCalcSyntax2.html ka
+   :long_name: Lambda Calc Syntax 2

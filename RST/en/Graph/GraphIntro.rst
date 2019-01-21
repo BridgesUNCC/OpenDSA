@@ -8,9 +8,6 @@
    :satisfies: graph terminology
    :topic: Graphs
 
-
-.. odsalink:: AV/Graph/GraphDefCON.css
-
 Graphs Chapter Introduction
 ===========================
 
@@ -31,7 +28,7 @@ routinely used for.
 #. Modeling connectivity in computer and communications networks.
 
 #. Representing an abstract map as a set of locations with distances
-   between locations. This can used to compute shortest routes between
+   between locations. This can be used to compute shortest routes between
    locations such as in a GPS routefinder.
 
 #. Modeling flow capacities in transportation networks to find which
@@ -59,14 +56,6 @@ Besides being useful and interesting in their own right, these
 algorithms illustrate the use of many other data structures presented
 throughout the course.
 
-.. [#] Some graph applications require that a given pair of vertices
-       can have multiple or parallel edges connecting them, or that a
-       vertex can have an edge to itself.
-       However, the applications discussed here do not require
-       either of these special cases.
-       To simplify our graph API, we will assume that there are no
-       dupicate edges, and no edges that connect a node to itself.
-
 A :term:`graph` :math:`\mathbf{G} = (\mathbf{V}, \mathbf{E})` consists
 of a set of :term:`vertices <vertex>` :math:`\mathbf{V}` and a set of
 :term:`edges <edge>` :math:`\mathbf{E}`,
@@ -76,6 +65,14 @@ The number of vertices is written :math:`|\mathbf{V}|`, and the number
 of edges is written :math:`|\mathbf{E}|`.
 :math:`|\mathbf{E}|` can range from zero to a maximum of
 :math:`|\mathbf{V}|^2 - |\mathbf{V}|`.
+
+.. [#] Some graph applications require that a given pair of vertices
+       can have multiple or parallel edges connecting them, or that a
+       vertex can have an edge to itself.
+       However, the applications discussed here do not require
+       either of these special cases.
+       To simplify our graph API, we will assume that there are no
+       dupicate edges, and no edges that connect a node to itself.
 
 A graph whose edges are not directed is called an
 :term:`undirected graph`, as shown in part (a) of the following figure.
@@ -89,7 +86,9 @@ A graph whose edges have weights
 
 .. _GraphTerms:
 
-.. inlineav:: GdirundirCON dgm 
+.. inlineav:: GdirundirCON dgm
+   :links: AV/Graph/GraphDefCON.css
+   :scripts: AV/Graph/GdirundirCON.js
    :output: show
 
    Some types of graphs.
@@ -101,7 +100,7 @@ and :math:`b`.
 The two vertices are said to be :term:`adjacent`.
 If the edge is directed from :math:`a` to :math:`b`,
 then we say that :math:`a` is adjacent to :math:`b`,
-and :math:`b` is adjacent from :math:`a`. 
+and :math:`b` is adjacent from :math:`a`.
 The :term:`degree` of a vertex is the number of edges it is incident
 with.
 For example, Vertex :math:`e` below has a degree of three.
@@ -114,6 +113,8 @@ In (c) above, the in degree of Vertex 1 is two,
 and its out degree is one.
 
 .. inlineav:: GneighborCON dgm
+   :links: AV/Graph/GraphDefCON.css
+   :scripts: AV/Graph/GneighborCON.js
    :output: show
 
 A sequence of vertices :math:`v_1, v_2, ..., v_n`
@@ -127,8 +128,10 @@ some vertex :math:`v_1` to itself.
 A cycle is a :term:`simple cycle` if the path is simple, except for
 the first and last vertices being the same.
 
-.. inlineav:: GpathDefCON dgm 
-   :output: show 
+.. inlineav:: GpathDefCON dgm
+   :links: AV/Graph/GraphDefCON.css
+   :scripts: AV/Graph/GpathDefCON.js
+   :output: show
 
 An undirected graph is a :term:`connected graph` if there is at least
 one path from any vertex to any other.
@@ -140,6 +143,8 @@ with three connected components.
 .. _ConCom:
 
 .. inlineav:: GconcomCON dgm
+   :links: AV/Graph/GraphDefCON.css
+   :scripts: AV/Graph/GconcomCON.js
    :output: show
 
 A graph with relatively few edges is called a :term:`sparse graph`,
@@ -148,7 +153,7 @@ A graph containing all possible edges is said to be a
 :term:`complete graph`.
 A :term:`subgraph` :math:`\mathbf{S}` is formed from graph
 :math:`\mathbf{G}` by selecting a subset :math:`\mathbf{V}_s` of
-:math:`\mathbf{G}`'s vertices and a subset 
+:math:`\mathbf{G}`'s vertices and a subset
 :math:`\mathbf{E}_s` of :math:`\mathbf{G}` 's edges such that for every
 edge :math:`e  \in \mathbf{E}_s`,
 both vertices of :math:`e` are in :math:`\mathbf{V}_s`.
@@ -156,17 +161,19 @@ Any subgraph of :math:`V` where all vertices in the graph connect to
 all other vertices in the subgraph is called a :term:`clique`.
 
 .. inlineav:: GsparseDefCON dgm
+   :links: AV/Graph/GraphDefCON.css
+   :scripts: AV/Graph/GsparseDefCON.js
    :output: show
-
-.. TODO::
-   :type: Diagram
-
-   Make a diagram for the following terms.
 
 A graph without cycles is called an :term:`acyclic graph`.
 Thus, a directed graph without cycles is called a
 :term:`directed acyclic graph` or :term:`DAG`.
 
+.. inlineav:: GacyclicDefCON dgm
+    :links: AV/Graph/GraphDefCON.css
+    :scripts: AV/Graph/GacyclicDefCON.js
+    :output: show
+    
 A :term:`free tree` is a connected, undirected graph with no simple
 cycles.
 An equivalent definition is that
@@ -206,7 +213,9 @@ because this edge comes into Vertex 2 rather than going out.
 
 .. _Directed:
 
-.. inlineav:: GdirRepCON dgm 
+.. inlineav:: GdirRepCON dgm
+   :links: AV/Graph/GraphDefCON.css
+   :scripts: AV/Graph/GdirRepCON.js
    :output: show
 
    Representing a directed graph.
@@ -224,8 +233,10 @@ entry for both Vertex 3 and Vertex 4.
 
 .. _Undirected:
 
-.. inlineav:: GundirRepCON dgm 
-   :output: show 
+.. inlineav:: GundirRepCON dgm
+   :links: AV/Graph/GraphDefCON.css
+   :scripts: AV/Graph/GundirRepCON.js
+   :output: show
 
    Representing an undirected graph.
 
@@ -260,7 +271,9 @@ The second is the value for the weight.
 As with the adjacency matrix, this value requires space to represent,
 typically an integer.
 
-.. inlineav:: GweightedCON dgm 
+.. inlineav:: GweightedCON dgm
+   :links: AV/Graph/GraphDefCON.css
+   :scripts: AV/Graph/GweightedCON.js
    :output: show
 
 Which graph representation is more space efficient depends on the
@@ -280,15 +293,17 @@ be more space efficient.
 
    Assume that a vertex index requires two bytes, a pointer requires
    four bytes, and an edge weight requires two bytes.
-   Then the adjacency matrix for the directed graph above
+   Then, each link node in the adjacency list needs
+   :math:`2 + 2 + 4 = 8` bytes.
+   The adjacency matrix for the directed graph above
    requires :math:`2 |\mathbf{V}^2| = 50` bytes while the adjacency list
-   requires :math:`4 |\mathbf{V}| + 6 |\mathbf{E}| = 56` bytes.
+   requires :math:`4 |\mathbf{V}| + 8 |\mathbf{E}| = 68` bytes.
    For the undirected version of the graph above, the adjacency
    matrix requires the same space as before, while the adjacency list
-   requires :math:`4 |\mathbf{V}| + 6 |\mathbf{E}| = 92` bytes
+   requires :math:`4 |\mathbf{V}| + 8 |\mathbf{E}| = 116` bytes
    (because there are now 12 edges represented instead of 6).
 
-.. avembed:: Exercises/Graph/GspaceCalcSumm.html ka 
+.. avembed:: Exercises/Graph/GspaceCalcSumm.html ka
    :long_name: Graph Space Requirements Exercise
 
 The adjacency matrix often requires a higher asymptotic cost for an
@@ -310,14 +325,5 @@ but not when the graph is closer to full.
 Graph Terminology Questions
 ---------------------------
 
-.. avembed:: Exercises/Graph/GraphIntroSumm.html ka 
+.. avembed:: Exercises/Graph/GraphIntroSumm.html ka
    :long_name: Graph Terminology Summary Exercise
-
-.. odsascript:: AV/Graph/GdirundirCON.js
-.. odsascript:: AV/Graph/GneighborCON.js
-.. odsascript:: AV/Graph/GpathDefCON.js
-.. odsascript:: AV/Graph/GconcomCON.js
-.. odsascript:: AV/Graph/GsparseDefCON.js
-.. odsascript:: AV/Graph/GdirRepCON.js
-.. odsascript:: AV/Graph/GundirRepCON.js
-.. odsascript:: AV/Graph/GweightedCON.js

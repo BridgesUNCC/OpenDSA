@@ -9,10 +9,6 @@
    :satisfies: Bintree
    :topic: Spatial Data Structures
 
-.. odsalink:: AV/Spatial/bintreeCON.css
-.. odsalink:: DataStructures/PrQuadAv.css
-.. odsalink:: DataStructures/PrQuadAvC.css
-
 The Bintree
 ===========
 
@@ -20,7 +16,7 @@ The Bintree
 -----------
 
 This module presents a spatial data structure for storing
-point data in two or more dimensions, called the Bintree.
+point data in two or more dimensions, called the :term:`Bintree`.
 The Bintree is a natural extension of the BST to
 multiple dimensions.
 The Bintree differs from the BST in two important ways.
@@ -29,19 +25,25 @@ of the tree the Bintree
 makes branching decisions based on a particular search key associated
 with that level, called the :term:`discriminator`.
 Its splitting decisions alternate among the key dimensions.
+(Splitting in one dimension at a time is what distinguishes the
+Bintree from the :term:`PR Quadtree`.)
 Another difference from the BST is that the Bintree uses what is known
-as :term:`key-space decomposition`, and so is a form of :term:`trie`.
-A key-space decomposition splits the key space into equal halves,
+as :term:`image-space decomposition`, and so is a form of :term:`trie`.
+An image-space decomposition splits the key space into equal halves,
 rather than splitting at the key value of the object being stored.
+(Using the image-space decomposition is what distinguishes the Bintree
+from the :term:`kd tree`, which splits at the location of the data point.)
 
-In theory, the Bintree could be used to unify search across any
-arbitrary set of keys such as name and zipcode.
+In theory the Bintree could be used to unify search across any
+arbitrary set of keys, such as name and zipcode.
 But in practice, it is nearly always used to support search on
 multidimensional coordinates, such as locations in 2D or 3D space.
 
 .. _BintreeFig:
 
 .. inlineav:: bintreeCON dgm
+   :links: AV/Spatial/bintreeCON.css
+   :scripts: AV/Spatial/bintreeCON.js
    :align: justify
 
    Example of a Bintree.
@@ -206,8 +208,8 @@ If the node is internal, it passes the city record to the appropriate
 child (recursively).
 If the node is a flyweight, it replaces itself with a new leaf node.
 If the node is a full node, it replaces itself with a subtree.
-This is an example of the :term:`composite design pattern`,
-discussed in Module :numref:`Composite`.
+This is an example of the
+:ref:`Composite design pattern <Composite design pattern> <Composite>`.
 Use of the composite design would be difficult if null pointers are
 used to represent empty leaf nodes.
 It turns out that the Bintree insert and delete methods are easier to
@@ -216,8 +218,6 @@ implement when using the composite design.
 .. [#] A more efficient computation is
        :math:`(P_x - N_x)^2 + (P_y - N_y)^2 \leq d^2`.
        This avoids performing a square root function.
-
-.. odsascript:: AV/Spatial/bintreeCON.js
 
 .. 
    Saved as a comment in case we need to find this later.

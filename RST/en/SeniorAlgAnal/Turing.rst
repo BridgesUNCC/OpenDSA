@@ -7,15 +7,6 @@
    :author: Cliff Shaffer
    :topic: Turing Machines
 
-.. odsalink:: AV/SeniorAlgAnal/Turing1CON.css
-.. odsalink:: AV/SeniorAlgAnal/Turing2CON.css
-.. odsalink:: AV/SeniorAlgAnal/Turing3CON.css
-.. odsalink:: AV/SeniorAlgAnal/TuringCopyCON.css
-.. odsalink:: AV/SeniorAlgAnal/TuringShiftCON.css
-.. odsalink:: AV/SeniorAlgAnal/TuringExt1CON.css
-.. odsalink:: AV/SeniorAlgAnal/TuringExt2CON.css
-.. odsalink:: AV/SeniorAlgAnal/TuringExt3CON.css
-
 Turing Machines
 ===============
 
@@ -53,7 +44,7 @@ Each square can store one character.
 The machine has a single I/O head that at any instant in time is "on"
 one of the squares.
 The control unit of the machine is defined by a set of abstract
-:term:`states`.
+:term:`states <state>`.
 At any given instant, the machine is said to be
 "in" one of the states, and has a set of actions that can be performed
 when in that state.
@@ -83,7 +74,7 @@ A Turing machine is formally defined as a quadruple
   halt state).
 * :math:`\Sigma` is an alphabet (containing :math:`\#`, not :math:`L`
   or :math:`R`).
-* :math:`s \in K` is the :term`initial state`.
+* :math:`s \in K` is the :term:`initial state`.
 * :math:`\delta` is a function from :math:`K \times \Sigma` to
   :math:`(K \cup \{h\}) \times (\Sigma \cup \{L, R\})`.
 
@@ -279,8 +270,8 @@ One is functions mapping input to output
 strings to strings, for examples).
 Another is deciding if a string is in a language.
 
-:math:`M` :term:`accepts` a string :math:`w` if :math:`M` halts on
-input :math:`w`.
+:math:`M` :term:`accepts <accept>` a string :math:`w` if :math:`M`
+halts on input :math:`w`.
 
 * :math:`M` accepts a language iff :math:M` halts on :math:`w` iff
   :math:`w \in L`.
@@ -375,6 +366,8 @@ Here are some basic machines and notation
 
 
 .. inlineav:: Turing1CON dgm
+   :links: AV/SeniorAlgAnal/Turing1CON.css
+   :scripts: AV/SeniorAlgAnal/Turing1CON.js
    :align: center
 
    First do :math:`M_1`, then do :math:`M_2` or :math:`M_3` depending
@@ -383,6 +376,8 @@ Here are some basic machines and notation
 |
 
 .. inlineav:: Turing2CON dgm
+   :links: AV/SeniorAlgAnal/Turing2CON.css
+   :scripts: AV/SeniorAlgAnal/Turing2CON.js
    :align: center
 
    (For :math:`\Sigma = \{a, b,c\}`) Move head to the right until a
@@ -392,6 +387,8 @@ Here are some basic machines and notation
 |
 
 .. inlineav:: Turing3CON dgm
+   :links: AV/SeniorAlgAnal/Turing3CON.css
+   :scripts: AV/SeniorAlgAnal/Turing3CON.js
    :align: center
 
    Two views of a simple machine to find the first blank square to the
@@ -404,6 +401,8 @@ Here are some basic machines and notation
 |
 
 .. inlineav:: TuringCopyCON dgm
+   :links: AV/SeniorAlgAnal/TuringCopyCON.css
+   :scripts: AV/SeniorAlgAnal/TuringCopyCON.js
    :align: center
 
    Copy Machine: Transform :math:`\#w\underline{\#}` into
@@ -416,6 +415,8 @@ Here are some basic machines and notation
 |
 
 .. inlineav:: TuringShiftCON dgm
+   :links: AV/SeniorAlgAnal/TuringShiftCON.css
+   :scripts: AV/SeniorAlgAnal/TuringShiftCON.js
    :align: center
 
    Shift a string right.
@@ -441,6 +442,8 @@ Machines.
 * Provide a two-way infinite tape
 
   .. inlineav:: TuringExt1CON dgm
+     :links: AV/SeniorAlgAnal/TuringExt1CON.css
+     :scripts: AV/SeniorAlgAnal/TuringExt1CON.js
      :align: center
 
   This does not give Turing machines new capability.
@@ -463,6 +466,8 @@ Machines.
   the two tapes.
 
   .. inlineav:: TuringExt2CON dgm
+     :links: AV/SeniorAlgAnal/TuringExt2CON.css
+     :scripts: AV/SeniorAlgAnal/TuringExt2CON.js
      :align: center
 
 * Multiple heads on one tape
@@ -479,6 +484,8 @@ Machines.
   (1, 0), (0, 2), (1, 1), (2, 0), and so on.
 
   .. inlineav:: TuringExt3CON dgm
+     :links: AV/SeniorAlgAnal/TuringExt3CON.css
+     :scripts: AV/SeniorAlgAnal/TuringExt3CON.js
      :align: center
 
 * Non-determinism
@@ -489,11 +496,3 @@ Machines.
   So we see that while non-determinism can save a lot of time, it does
   not change what can (eventually) be done.
 
-.. odsascript:: AV/SeniorAlgAnal/Turing1CON.js
-.. odsascript:: AV/SeniorAlgAnal/Turing2CON.js
-.. odsascript:: AV/SeniorAlgAnal/Turing3CON.js
-.. odsascript:: AV/SeniorAlgAnal/TuringCopyCON.js
-.. odsascript:: AV/SeniorAlgAnal/TuringShiftCON.js
-.. odsascript:: AV/SeniorAlgAnal/TuringExt1CON.js
-.. odsascript:: AV/SeniorAlgAnal/TuringExt2CON.js
-.. odsascript:: AV/SeniorAlgAnal/TuringExt3CON.js

@@ -9,13 +9,12 @@
    :satisfies: iteration
    :topic: programming concepts
 
-.. odsalink:: AV/CT/iterationCON.css
-
 List Iteration
 ==============
 
 List Iteration
 --------------
+
 To understand how algorithms can manipulate large-scale real-world
 abstractions we need to understand the combination of two concepts:
 
@@ -380,21 +379,3 @@ instance of an abstraction one instance at a time.**
 
 To fully realize this idea of processing an abstraction we will need
 to learn a bit more |---| but not much more.
-
-.. inlineav:: iteration1CON ss
-   :long_name: Iteration 1
-   :output: show
-
-.. inlineav:: iteration2CON ss
-   :long_name: Iteration 2
-   :output: show
-
-.. inlineav:: iteration3CON ss
-   :long_name: Iteration 3
-   :output: show
-
-.. avembed:: Exercises/CT/IterationEX1PRO.html ka
-
-.. odsascript:: AV/CT/iteration1CON.js
-.. odsascript:: AV/CT/iteration2CON.js
-.. odsascript:: AV/CT/iteration3CON.js

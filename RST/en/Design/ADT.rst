@@ -9,8 +9,6 @@
    :satisfies: ADT; metaphor
    :topic: Abstract Data Types
 
-.. odsalink:: AV/Design/ADTCON.css
-
 Abstract Data Types
 ===================
 
@@ -132,6 +130,8 @@ as a disk drive or CD.
    #. Reinitialize the list.
 
    #. Return the number of integers currently in the list.
+
+   #. Retrieve the integer at a particular position in the list.
 
    #. Delete the integer at a particular position in the list.
 
@@ -276,6 +276,8 @@ context of a higher-level task.
 .. _DataType:
 
 .. inlineav:: ADTCON dgm
+   :links: AV/Design/ADTCON.css
+   :scripts: AV/Design/ADTCON.js
    :align: justify
 
    The relationship between data items, abstract data types, and data
@@ -304,5 +306,3 @@ The interface becomes a form of communication between the two programmers.
 
 .. avembed:: Exercises/Design/IntroADTSumm.html ka
    :long_name: ADT Summary Questions
-
-.. odsascript:: AV/Design/ADTCON.js

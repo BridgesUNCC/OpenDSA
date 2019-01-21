@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/local/bin/python2
 #
 # Defines an object which represents an OpenDSA modules
 #   - Checks to see if the RST module file exists
@@ -31,6 +31,7 @@ import re
 import codecs
 from string import whitespace as ws
 from config_templates import *
+from collections import OrderedDict
 
 # Prints the given string to standard error
 def print_err(err_msg):
@@ -45,7 +46,7 @@ def format_mod_options(options):
     if str(value) in ['True', 'False']:
       value = str(value).lower()
     elif isinstance(value, basestring):
-      value = "'%s'" % value;
+      value = "'%s'" % value
 
     # Set JSAV options as necessary and set all others as standard variables
     if option.startswith('JXOP-'):
@@ -102,6 +103,24 @@ def parse_directive_args(line, line_num, expected_num_args = -1, console_msg_pre
 
   return args
 
+# Parses the options from a Sphinx directive
+def parse_directive_options(mod_data, line_num):
+  line_num += 1
+  mod_len = len(mod_data)
+  rxp = re.compile('^[\t ]+:([^:]+): (.+)$')
+  options = {}
+  while True:
+    if line_num >= mod_len:
+      break
+    line = mod_data[line_num]
+    match = rxp.match(line)
+    if match == None:
+      break
+    options[match.group(1)] = match.group(2)
+    line_num += 1
+
+  return options
+
 #parses the glossary terms relationships. prints error message if the format is not correct
 #format    :to-term: term1 :lable: label :alt-text: alternate text in case the to-term is not a glossary term
 def parse_term_relationship(line, term, line_num, cmap_dict, console_msg_prefix = ''):
@@ -114,14 +133,15 @@ def parse_term_relationship(line, term, line_num, cmap_dict, console_msg_prefix 
       if len(args) == 3:
         args[1] = args[1].strip().rstrip('\n')
         cmap_dict['concepts'][args[1]] = ''
-    if args[2].replace(" ", "") not in cmap_dict['linking_phrase']:
+    if args[2].replace(" ", "").strip().strip('\n') not in cmap_dict['linking_phrase']:
       #size_lp = len(cmap_dict['linking_phrase'])
       #cmap_dict['linking_phrase']['lp-' + str(size_lp + 1)] = args[2]
       cmap_dict['linking_phrase'][args[2].replace(" ", "").strip().rstrip('\n')] = args[2]
-    size_c = len(cmap_dict['connections'])
-    #cmap_dict['linking_phrase']['lp-' + str(size_lp + 1)] = args[2]
-    cmap_dict['connections']['con-' + str(size_c + 1)] = {'from': term, 'to': args[2].replace(" ", "").strip().rstrip('\n')}
-    cmap_dict['connections']['con-' + str(size_c + 2)] = {'from': args[2].replace(" ", "").strip().rstrip('\n'), 'to': args[1]}
+    if args[1].replace(" ", "").strip().strip('\n') not in cmap_dict['linking_phrase']:
+      size_c = len(cmap_dict['connections'])
+      #cmap_dict['linking_phrase']['lp-' + str(size_lp + 1)] = args[2]
+      cmap_dict['connections']['con-' + str(size_c + 1)] = {'from': term, 'to': args[1], 'label': args[2]}
+      #cmap_dict['connections']['con-' + str(size_c + 2)] = {'from': args[2].replace(" ", "").strip().rstrip('\n'), 'to': args[1]}
   else:
     print_err("%sWARNING: Glossary terms relationship declaration on line %d" % (console_msg_prefix, line_num))
 
@@ -319,6 +339,9 @@ class ODSA_RST_Module:
 
       avmetadata_found = False
 
+      links = OrderedDict()
+      scripts = OrderedDict()
+
       # Alter the contents of the module based on the config file
       i = 0
       module_title_found = False
@@ -335,7 +358,7 @@ class ODSA_RST_Module:
              break
 
         line = mod_data[i].strip()
-        next_line =  mod_data[i+1].strip() if i+1 < len(mod_data) else ''
+        next_line =  mod_data[i+1] if i+1 < len(mod_data) else ''
         if next_line.startswith("=") or next_line.startswith("-"):
           next_line = next_line.strip()
           is_chapter = next_line == "="*len(next_line) and len(next_line) > 0
@@ -344,7 +367,7 @@ class ODSA_RST_Module:
           next_line = next_line.strip()
           is_chapter = False
           is_section = False
-
+          
         if is_chapter or is_section:
           processed_sections.append(line)
           module_title_found = True
@@ -354,7 +377,29 @@ class ODSA_RST_Module:
           and not (line == '' or line.startswith('.. ') or line.startswith(':')) \
           and not is_index_option(mod_data, i, line):
             content_before_module = True
-            errors.append(("%sERROR: line %s ('%s') - should not have content before module title" % (console_msg_prefix, i, line), True))
+            errors.append(("%sERROR: %s: line %s ('%s') - should not have content before module title" % (console_msg_prefix, mod_path, i, line), True))
+
+        # check if the current line is a section title
+        # and if so, check if the configuration and remove the section
+        # if the configuration indicates to do so
+        if is_section \
+        and mod_attrib["sections"] != None \
+        and line in mod_attrib["sections"] \
+        and "showsection" in mod_attrib["sections"][line] \
+        and not mod_attrib["sections"][line]["showsection"]:
+          print '%sRemoving section: %s' % (console_msg_prefix, line)
+          del mod_data[i]
+          del mod_data[i]
+          line = mod_data[i].strip()
+          next_line =  mod_data[i+1].strip() if i+1 < len(mod_data) else ''
+          while (len(next_line) == 0 or next_line != "-"*len(next_line)) and i < len(mod_data):
+            del mod_data[i]
+            if i < len(mod_data):
+              del mod_data[i]
+            if i < len(mod_data):
+              line = mod_data[i].strip()
+              next_line =  mod_data[i+1].strip() if i+1 < len(mod_data) else ''
+          continue
 
         if is_chapter:
           module_title_found = True
@@ -365,7 +410,7 @@ class ODSA_RST_Module:
           and not content_before_section \
           and re.match('(^\.\. (?!\w+::).+)|(^$)|(^=+$)', line) == None:
               content_before_section = True
-              errors.append(("%sERROR: line %s ('%s') - should not have content between module title and first section" % (console_msg_prefix, i, line), False))
+              errors.append(("%sERROR: %s: line %s ('%s') - should not have content between module title and first section" % (console_msg_prefix, mod_path, i, line), False))
           
         # Determine the type of directive
         dir_type = get_directive_type(line)
@@ -487,6 +532,38 @@ class ODSA_RST_Module:
           if args:
             (av_name, av_type) = args
 
+            if av_type in ['ss','ff', 'dgm']:
+              j = i + 1
+              opt_line = next_line
+              links_found = False
+              scripts_found = False
+              while opt_line.startswith(':'):
+                if opt_line.startswith(':links:'):
+                  link_opts = opt_line[len(':links:'):].split()
+                  if len(link_opts) > 0:
+                    links_found = True
+                    for link in link_opts:
+                      if link not in links:
+                        links[link] = False 
+                  del mod_data[j]
+                  j -= 1
+
+                elif opt_line.startswith(':scripts:'):
+                  script_opts = opt_line[len(':scripts:'):].split()
+                  if len(script_opts) > 0:
+                    scripts_found = True
+                    for script in script_opts:
+                      if script not in scripts:
+                        scripts[script] = False
+                  del mod_data[j]
+                  j -=1
+
+                j += 1
+                opt_line = mod_data[j].strip() if j < len(mod_data) else ''
+
+              if not scripts_found and os.environ['SLIDES'] == 'no':
+                print_err("{0}WARNING: Module '{1}' -- inlineav '{2}' missing :scripts: option".format(console_msg_prefix, mod_path, av_name))
+
             if av_type == 'ss':
               if av_name not in exercises:
                 # If the SS is not listed in the config file, add its name to a list of missing exercises, ignore missing diagrams
@@ -497,14 +574,32 @@ class ODSA_RST_Module:
                 exer_conf = exercises[av_name]
 
                 # List of valid options for inlineav directive
-                options = ['points', 'required', 'threshold']
+                options = ['points', 'required', 'threshold', 'id']
 
                 rst_options = [' '*start_space + '   :%s: %s\n' % (option, str(exer_conf[option])) for option in options if option in exer_conf]
                 mod_data[i] += ''.join(rst_options)
+
+            if av_type == 'ff':
+              if av_name not in exercises:
+                # If the SS is not listed in the config file, add its name to a list of missing exercises, ignore missing diagrams
+                missing_exercises.append(av_name)
+              else:
+                # Add the necessary information from the slideshow from the configuration file
+                # Diagrams (av_type == 'dgm') do not require this extra information
+                exer_conf = exercises[av_name]
+
+                # List of valid options for inlineav directive
+                options = ['points', 'required', 'threshold', 'id']
+
+                rst_options = [' ' * start_space + '   :%s: %s\n' % (option, str(exer_conf[option])) for option in
+                               options if option in exer_conf]
+                mod_data[i] += ''.join(rst_options)
+
+
             elif av_type == 'dgm' and av_name in exercises and exercises[av_name] != {}:
               # If the configuration file contains attributes for diagrams, warn the user that attributes are not supported
               print_err("%sWARNING: %s is a diagram (attributes are not supported), line %d" %(console_msg_prefix, av_name, i + 1))
-            elif av_type not in ['ss', 'dgm']:
+            elif av_type not in ['ff', 'ss', 'dgm']:
               # If a warning if the exercise type doesn't match something we expect
               print_err("%sWARNING: Unsupported type '%s' specified for %s, line %d" % (console_msg_prefix, av_type, av_name, i + 1))
         elif line.startswith('.. avembed::'):
@@ -535,7 +630,7 @@ class ODSA_RST_Module:
                 exer_conf = exercises[av_name]
 
                 # List of valid options for avembed directive
-                options = ['points', 'required', 'showhide', 'threshold', 'external_url']
+                options = ['points', 'required', 'showhide', 'threshold', 'external_url', 'id']
 
                 rst_options = [' '*start_space + '   :%s: %s\n' % (option, str(exer_conf[option])) for option in options if option in exer_conf]
 
@@ -569,8 +664,10 @@ class ODSA_RST_Module:
               # Add the necessary information from the configuration file
               exer_conf = exercises[external_tool_name]
               # List of valid options for avembed directive
-              options = ['long_name', 'learning_tool']
-
+              options = ['long_name', 'learning_tool', 'launch_url', 'id']
+              dir_opts = parse_directive_options(mod_data, i)
+              options = [option for option in options if option not in dir_opts]
+             
               rst_options = [' '*start_space + '   :%s: %s\n' % (option, str(exer_conf[option])) for option in options if option in exer_conf]
 
               mod_data[i] += ''.join(rst_options)
@@ -622,15 +719,41 @@ class ODSA_RST_Module:
           trgt = "".join(trgt.split())
           num_ref_map[trgt] = mod_num + '.%s#' % counters['figure']
           counters['figure'] += 1
+        elif line.startswith('.. odsalink::'):
+          args = parse_directive_args(line, i, 1, console_msg_prefix)
+          if args:
+            links[args[0]] = True
+        elif line.startswith('.. odsascript::'):
+          args = parse_directive_args(line, i, 1, console_msg_prefix)
+          if args:
+            scripts[args[0]] = True
 
         i = i + 1
 
+      error_shown = False
       for (msg, module_error) in errors:
-        if module_error or (section_title_found and not module_error):
+        if module_error or section_title_found:
           print_err(msg)
+          error_shown = True
 
       if not avmetadata_found:
         print_err("%sWARNING: %s does not contain an ..avmetadata:: directive" % (console_msg_prefix, mod_name))
+
+      # the odsascript directive needs to be indented when compiling slides, otherwise
+      # the directive will be stripped during compilation
+      indent = '' if os.environ['SLIDES'] == 'no' else '   '
+      mod_data.append('\n')
+      for script, has_directive in scripts.iteritems():
+        if not os.path.exists('{0}/{1}'.format(config.odsa_dir,script)):
+          print_err('%sWARNING: "%s" does not exist.' % (console_msg_prefix, script))
+        if not has_directive:
+          mod_data.append('{0}.. odsascript:: {1}\n'.format(indent, script))
+
+      for link, has_directive in reversed(links.items()):
+        if not os.path.exists('{0}/{1}'.format(config.odsa_dir, link)):
+          print_err('%sWARNING: "%s" does not exist.' % (console_msg_prefix, link))
+        if not has_directive:
+          mod_data.insert(1, '\n.. odsalink:: {0}\n'.format(link))
 
       mod_sections = mod_attrib['sections'].keys() if 'sections' in mod_attrib and mod_attrib['sections'] != None else []
 
@@ -638,10 +761,12 @@ class ODSA_RST_Module:
       missing_sections = list(set(mod_sections) - set(processed_sections))
 
       for section in missing_sections:
-        print_err('%sWARNING: Section "%s" not found in module' % (console_msg_prefix, section))
+        print_err('%sWARNING: Section "%s" not found in module "%s"' % (console_msg_prefix, section, mod_path))
 
       # TODO: Should we print the missing exercises with each module or at the end like we do now?
 
+      if error_shown:
+        sys.exit(1)
 
       # Write the contents of the module file to the output src directory
       with codecs.open(''.join([config.book_src_dir, mod_name, '.rst']),'w', 'utf-8') as mod_file:

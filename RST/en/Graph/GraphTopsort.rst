@@ -30,7 +30,9 @@ meet the prerequisite rules is called a :term:`topological sort`.
 
 .. _TopSort:
 
-.. inlineav:: topsortCON dgm
+.. inlineav:: topSortCON dgm
+   :links:
+   :scripts: AV/Graph/topSortCON.js
    :align: center
 
    An example graph for topological sort. Seven tasks have
@@ -61,7 +63,7 @@ It does not matter where the sort starts, as long as all vertices
 are visited in the end.
 Here is implementation for the DFS-based algorithm.
 
-.. codeinclude:: Graphs/TopsortDFS 
+.. codeinclude:: Graphs/TopsortDFS
    :tag: TopsortDFS
 
 .. TODO::
@@ -78,8 +80,11 @@ J1, J3, J2, J6, J4, J5, J7.
 
 Here is another example.
 
-.. avembed:: AV/Graph/topSort.html ss
-   :long_name: Topological Sort (DFS) visualization
+.. inlineav:: topSortDFSCON ss
+   :long_name: TopSort Slideshow
+   :links: AV/Graph/topSortDFSCON.css
+   :scripts: AV/Graph/topSortDFSCON.js
+   :output: show
 
 
 Queue-based Solution
@@ -112,21 +117,34 @@ Here is an implementation for the algorithm.
 
 Here is the code to implement the queue-based topological sort:
 
-.. codeinclude:: Graphs/TopsortBFS 
+.. codeinclude:: Graphs/TopsortBFS
    :tag: TopsortBFS
 
-.. avembed:: AV/Graph/qTopSort.html ss
-   :long_name: Topological Sort (Queue) visualization
+.. inlineav:: topSortQCON ss
+   :long_name: topSortQCON Slideshow
+   :links: AV/Graph/topSortQCON.css
+   :scripts: AV/Graph/topSortQCON.js
+   :output: show
 
 .. TODO::
    :type: Proficiency Exercise
 
    Provide a proficiency exercise that randomly alternates between
    proficiency for DFS-based and queue-based Topsort.
+   The bare beginnings of an exercise can be found in
+   ``AV/Development/topSortDFSPE.*``
+
+.. TODO::
+   :type: AV
+
+   Provide a unified AV that can allow the user to pick which topsort
+   (DFS or Queue), with or without cycles in the graph. The start of
+   this is in ``AV/Development/topSortAV*`` (for just random DFS),
+   ``AV/Development/qTopSortAV.*`` (for just random queue-based
+   topsort), and ``AV/Development/topsortAVs*`` (tries to unify).
+
 
 .. TODO::
    :type: Summary Questions
 
    Provide a summary battery of questions.
-
-.. odsascript:: AV/Graph/topsortCON.js

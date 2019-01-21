@@ -10,8 +10,6 @@
 
 .. index:: ! hashing
 
-.. odsalink:: AV/Hashing/hashIntroCON.css
-
 Introduction
 ============
 
@@ -83,8 +81,10 @@ A record with key ``k`` can be stored in
 To find the record with key value ``k``, look in
 ``HT[k]``.
 
-.. inlineav:: hashIntroCON1 ss
+.. inlineav:: hashIntroCON ss
    :long_name: Hashing Intro Slideshow
+   :links: AV/Hashing/hashIntroCON.css
+   :scripts: AV/Hashing/hashIntroCON.js
    :output: show
 
 In most applications, there are many more values in the key range
@@ -116,4 +116,3 @@ follows a two-step procedure:
    :ref:`collision resolution <collision resolution> <HashCSimple>`
    policy .
 
-.. odsascript:: AV/Hashing/hashIntroCON.js

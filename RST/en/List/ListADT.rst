@@ -9,8 +9,6 @@
    :satisfies: list ADT
    :topic: Lists
 
-.. odsalink:: AV/List/listADTCON.css
-
 The List ADT
 ============
 
@@ -34,7 +32,7 @@ position in the list.
 So the term "ordered" in this context does **not** mean that the list
 elements are sorted by value.
 (Of course, we can always choose to sort the elements on the list if
-we want, its just that keeping the elements sorted is not an inherent
+we want; it's just that keeping the elements sorted is not an inherent
 property of being a list.)
 
 Each list element must have some data type.
@@ -130,6 +128,8 @@ object, sometimes referred to as an :term:`iterator`.
 
 .. inlineav:: listADTposCON ss
    :long_name: List ADT Positions Slideshow
+   :links: AV/List/listADTCON.css
+   :scripts: AV/List/listADTposCON.js
    :output: show
 
 The ``List`` member functions allow you to build a list with elements
@@ -138,7 +138,7 @@ You might notice that the ``clear`` method is a "convenience" method,
 since it could be implemented by means of the other
 member functions in the same asymptotic time.
 
-A list can be iterated through follows:
+A list can be iterated through as follows:
 
 .. codeinclude:: Lists/ListTest
    :tag: listiter
@@ -195,5 +195,3 @@ List ADT Programming Exercise
 
    This exercise ought to get expanded to a much richer set of
    variations on the question.
-
-.. odsascript:: AV/List/listADTposCON.js

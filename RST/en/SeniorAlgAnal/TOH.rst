@@ -9,8 +9,6 @@
    :satisfies:
    :topic:
 
-.. odsalink:: AV/RecurTutor/TOHfigCON.css
-
 Introduction to Analyzing a Problem
 ===================================
 
@@ -72,6 +70,8 @@ completely independent.
    **Output:** A series of moves that solves the problem.
 
 .. inlineav:: TOHfigCON dgm
+   :links: AV/RecurTutor/TOHfigCON.css
+   :scripts: AV/RecurTutor/TOHfigCON.js
    :output: show
 
 
@@ -263,7 +263,8 @@ This really is a common way to go about figuring out the closed-form
 solution for many recurrence relations and summation:
 Look at what happens, try to find (or guess) a pattern, and then test
 the pattern.
-This is so common that it has its own  name: :term:`Guess and test`.
+This is so common that it has its own  name:
+:term:`Guess and Test <guess-and-test>`.
 We will use this a lot to help us with analysis.
 
 Now that we have a pretty good guess,
@@ -456,5 +457,3 @@ So, is it an algorithm?
 
 .. [#] This is a minor reformulation of the "algorithm" given by
        Gregory J.E. Rawlins in his book *Compared to What?*
-
-.. odsascript:: AV/RecurTutor/TOHfigCON.js

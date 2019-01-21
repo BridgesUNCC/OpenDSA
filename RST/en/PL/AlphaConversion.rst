@@ -124,8 +124,8 @@ this version and the original version of the application, the final
 value of the application will be :math:`y`, since the function being
 called ignores its argument and always returns :math:`y`.
 
-However, if we :math:`\alpha`-convert the lambda abstraction with the
-variable :math:`y`, we get:
+However, if we :math:`\alpha`-converted the lambda abstraction with the
+variable :math:`y`, we would get:
 
 .. math::
 
@@ -157,15 +157,15 @@ using the following rule:
     a *new* variable, that is, a variable that does not occur in the body
     of the function being :math:`\alpha`-converted.
 
-RP 15 part 1
-------------
+Mastering Alpha Conversion
+--------------------------
 
 To practice the process of :math:`\alpha`-conversion, complete the
 following exercise. To earn credit for it, you will have to solve it
 correctly three times in a row.
 
-.. avembed:: Exercises/PL/RP15part1.html ka
-   :long_name: RP set #15, question #1
+.. avembed:: Exercises/PL/AlphaConversionNew.html ka
+   :long_name: Alpha Conversion
 
 In conclusion, :math:`\alpha`-conversion simply replaces the name of a
 function parameter with a completely new name in order to avoid

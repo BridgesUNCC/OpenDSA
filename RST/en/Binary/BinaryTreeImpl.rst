@@ -9,10 +9,6 @@
    :satisfies: binary tree node implementation; expression tree
    :topic: Binary Trees
 
-.. odsalink:: AV/Binary/BTCON.css
-.. odsalink:: AV/Binary/BTnullpointerCON.css
-.. odsalink:: AV/Binary/expressionTreeCON.css
-
 Binary Tree Node Implementations
 ================================
 
@@ -29,7 +25,7 @@ The most common node implementation includes a value field and
 pointers to the two children.
 
 Here is a simple implementation for the
-``BinNode`` abstract class, which we will name ``BSTNode``.
+``BinNode`` interface, which we will name ``BSTNode``.
 Its element type is an Object.
 When we need to support search structures such as the
 :ref:`Binary Search Tree <binary search tree> <BST>`,
@@ -46,6 +42,8 @@ one to its left child and another to its right child.
 .. _BinLink:
 
 .. inlineav:: BTnullpointerCON dgm
+   :links: AV/Binary/BTCON.css AV/Binary/BTnullpointerCON.css
+   :scripts: AV/Binary/BTnullpointerCON.js
    :align: center
 
    Illustration of a typical pointer-based binary tree implementation,
@@ -86,6 +84,8 @@ implementations for internal and leaf nodes.
 .. _DiffNodes:
 
 .. inlineav:: expressionTreeCON dgm
+   :links: AV/Binary/BTCON.css AV/Binary/expressionTreeCON.css
+   :scripts: AV/Binary/expressionTreeCON.js
    :align: center
 
    An expression tree for :math:`4x(2x + a) - c`.
@@ -133,6 +133,8 @@ the node's subclass.
 
 .. inlineav:: expressionTraversalCON ss
    :long_name: Expression Tree Traversal Slideshow
+   :links: AV/Binary/BTCON.css
+   :scripts: AV/Binary/expressionTraversalCON.js
    :output: show
 
 The Expression Tree implementation includes two subclasses derived
@@ -150,7 +152,3 @@ caller.
 The other member functions for the derived subclasses are accessed by
 type-casting the base class pointer as appropriate, as shown in
 function ``traverse``.
-
-.. odsascript:: AV/Binary/BTnullpointerCON.js
-.. odsascript:: AV/Binary/expressionTreeCON.js
-.. odsascript:: AV/Binary/expressionTraversalCON.js

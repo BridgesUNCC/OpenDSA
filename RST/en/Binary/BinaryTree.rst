@@ -9,10 +9,6 @@
    :satisfies: binary tree terminology
    :topic: Binary Trees
 
-.. odsalink:: AV/Binary/BinExampCON.css
-.. odsalink:: AV/Binary/BinDiffCON.css
-.. odsalink:: AV/Binary/FullCompCON.css
-
 Binary Trees
 ============
 
@@ -46,7 +42,7 @@ Thus, all nodes in the tree are descendants of the root of the tree,
 while the root is the ancestor of all nodes.
 The :term:`depth` of a node :math:`M` in the tree is the length
 of the path from the root of the tree to :math:`M`.
-The :term:`height` of a tree is one more than the depth of the
+The :term:`height` of a tree is the depth of the
 deepest node in the tree.
 All nodes of depth :math:`d` are at
 :term:`level` :math:`d` in the tree.
@@ -58,6 +54,8 @@ any node that has at least one non-empty child.
 .. _BinExample:
 
 .. inlineav:: BinExampCON dgm
+   :links: AV/Binary/BinExampCON.css
+   :scripts: AV/Binary/BinExampCON.js
    :align: justify
 
    A binary tree.
@@ -77,11 +75,13 @@ any node that has at least one non-empty child.
    Nodes :math:`A`, :math:`B`, :math:`C`, :math:`E`, and
    :math:`F` are internal nodes.
    The depth of :math:`I` is 3.
-   The height of this tree is 4.
+   The height of this tree is 3.
 
 .. _BinDiff:
 
 .. inlineav:: BinDiffCON dgm
+   :links: AV/Binary/BinDiffCON.css
+   :scripts: AV/Binary/BinDiffCON.js
    :align: justify
 
    Two different binary trees.
@@ -107,12 +107,14 @@ A :term:`complete binary tree` has a restricted shape obtained by
 starting at the root and filling the tree by levels from left to
 right.
 In the complete binary tree of height :math:`d`, all levels
-except possibly level :math:`d-1` are completely full.
+except possibly level :math:`d` are completely full.
 The bottom level has its nodes filled in from the left side.
 
 .. _FullComplete:
 
 .. inlineav:: FullCompCON dgm
+   :links: AV/Binary/FullCompCON.css
+   :scripts: AV/Binary/FullCompCON.js
    :align: center
 
    Examples of full and complete binary trees.
@@ -149,7 +151,3 @@ Practice Questions
 
 .. avembed:: Exercises/Binary/Treeprobs.html ka
    :long_name: Tree/Node Exercises
-
-.. odsascript:: AV/Binary/BinExampCON.js
-.. odsascript:: AV/Binary/BinDiffCON.js
-.. odsascript:: AV/Binary/FullCompCON.js

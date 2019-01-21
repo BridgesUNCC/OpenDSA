@@ -43,7 +43,7 @@ defined and usable. In the example above, the scope of the variable
 say that the former is :term:`bound` to the latter, and the latter is
 the :term:`binding occurrence` of the variable. So, in the example
 above, the declaration of :math:`x` in parentheses is the binding
-occurrence of this variable and the use :math:`x` on the next line is
+occurrence of this variable and the use of :math:`x` on the next line is
 bound to this binding occurrence. A variable that is not bound is said
 to be :term:`free`.  In the example above, the occurrence of :math:`y`
 is free in the body of the function, since this function does not
@@ -55,7 +55,7 @@ of the variable each use of it is bound to. This is why each
 programming language must define a binding scheme. The lambda
 calculus, like JavaScript and most other modern programming languages,
 uses static binding (also known as "static scoping" or "lexical
-binding"; see <some section in previous chapter>), which means that
+binding"; see :ref:`scope`), which means that
 each variable use is bound to the variable declaration by the same
 name in the smallest lambda abstraction that contains the variable
 use.
@@ -93,26 +93,26 @@ expression. It is preferable to ask this question about each
 particular *occurrence* of a variable, keeping in mind that a binding
 occurrence is never free since its role is to define a new variable.
 
-RP 14 part 4
-------------
+Identifying Free Variables
+--------------------------
 
 This exercise will be good practice for identifying free
 variables in lambda expressions. To get credit for this randomized
 problem, you must solve it correctly three times in a row.
 
-.. avembed:: Exercises/PL/RP14part4.html ka
-   :long_name: RP set #14, question #4
+.. avembed:: Exercises/PL/IdentifyingFreeVars.html ka
+   :long_name: Identifying Free Variables
 
-RP 14 part 5
-------------
+Identifying Bound Variables
+---------------------------
 
 This exercise will be good practice for identifying bound
 variables in lambda expressions. To get credit for this randomized
 problem, you must solve it correctly three times in a row.
 
 
-.. avembed:: Exercises/PL/RP14part5.html ka
-   :long_name: RP set #14, question #5
+.. avembed:: Exercises/PL/IdentifyingBoundVars.html ka
+   :long_name: Identifying Bound Variables
 
 
 Formal Definition of Free Variables

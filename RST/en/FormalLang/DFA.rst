@@ -6,16 +6,55 @@
 .. avmetadata::
    :author: Susan Rodger and Cliff Shaffer
    :requires: FL Concepts
-   :satisfies: Deterministic Finite Automata
+   :satisfies: Deterministic Finite Acceptor
    :topic: Finite Automata
 
-Deterministic Finite Automata
-=============================
+Deterministic Finite Acceptors
+==============================
 
-DFA: Deterministic Finite Automata
+DFA: Deterministic Finite Acceptor
 ----------------------------------
 
-(Also called Deterministic Finite Acceptor)
+We start with the simplest of our machines:
+The :term:`Deterministic Finite Acceptor` (:term:`DFA`).
+This machine can process an input string (shown on a tape) from left
+to right.
+There is a control unit (with states), behavior defined for what to do
+when in a given state and with a given symbol on the current square of
+the tape.
+All that we can "do" is change state before going to the next letter
+to the right.
+That is, an acceptor does not modify the contents of the tape.
+
+:term:`Deterministic` in this context has a particular meaning:
+When the DFA is in a given state, there is only one thing that
+it can do for any given input symbol. 
+This is in contrast to a :term:`non-deterministic` machine,
+that might have some range of options on how to proceed when in a
+given state with a given symbol.
+We'll talk about non-deterministic automata later.
+
+
+At the end of processing the letters of the string, the DFA can answer
+"yes" or "no".
+For example, "yes" if 6789 is a valid integer,
+or if SUM is a valid variable name in C++.
+
+.. odsafig:: Images/DFAexample.png
+   :width: 350
+   :align: center
+   :capalign: justify
+   :figwidth: 90%
+   :alt: Basic DFA
+
+   Example of DFA
+
+.. note::
+
+   Think about this before you read on: What information do we need to
+   characterize/describe/define a given DFA?
+   We want enough information so that we can "build" the machine.
+   But no more.
 
 Define a DFA as :math:`(Q, \Sigma, \delta, q_0, F)` where
 
@@ -28,38 +67,20 @@ Define a DFA as :math:`(Q, \Sigma, \delta, q_0, F)` where
 * :math:`q_0` is the initial state (:math:`q_0 \in Q`)
 * :math:`F \subseteq Q` is a set of final states
 
-.. odsafig:: Images/DFAexample.png
-   :width: 400
-   :align: center
-   :capalign: justify
-   :figwidth: 90%
-   :alt: Basic DFA
-
-   Example of DFA
-
 A DFA is a simple machine with not a lot of power.
+We will see that there are many questions that it cannot answer about
+strings.
+For example, it cannot tell whether :math:`((9+5)+a)` is a valid
+arithmetic expression or not.
 
-It can answer yes or no (for example, if 6789 is a valid integer, or
-SUM is a valid variable name in C++). 
-
-It cannot tell whether ((9+5)+a) is a valid arithmetic expression. 
 
 Example
 ~~~~~~~
 
 DFA that accepts even binary numbers.
 
-.. note::
-
-   At this point, should demonstrate building the machine in JFLAP or
-   OpenDSA.
-
-Assign meaning to the states: q0 - odd numbers, q1 - even numbers, 
-
-Transition Diagram:
-
 .. odsafig:: Images/stnfaEx1.png
-   :width: 400
+   :width: 250
    :align: center
    :capalign: justify
    :figwidth: 90%
@@ -67,35 +88,43 @@ Transition Diagram:
 
    DFA Example: Odd numbers
 
-:math:`M = (Q, \Sigma, \delta, q0, F) =`
+We can assign meaning to the states:
+:math:`q_0` for odd numbers, :math:`q_1` for even numbers, 
 
 .. note::
+
+   At this point, you should try building this machine in JFLAP.
+
+Formal definition:
+
+:math:`M = (Q, \Sigma, \delta, q0, F) =`
 
    :math:`(\{q0,q1\}, \{0,1\}, \delta, q0, \{q1\})`
 
-Tabular Format
-
-.. math::
-
-   \begin{array}{r|cc}
-   & 0  & 1 \\
-   \hline
-   q0 &  &  \\
-   q1 &  &  \\
-   \end{array}
+Tabular Format for :math:`\delta`:
 
 .. note::
 
-   Answer:
+   See if you can write this table without looking at the answer.
 
    .. math::
 
-      \begin{array}{r|cc} 
-      & 0 & 1 \\
-      \hline 
-      q0 & q1 & q0 \\ 
-      q1 & q1 & q0 \\ 
-      \end{array} 
+      \begin{array}{r|cc}
+      & 0  & 1 \\
+      \hline
+      q0 &  &  \\
+      q1 &  &  \\
+      \end{array}
+
+
+.. math::
+
+   \begin{array}{r|cc} 
+   & 0 & 1 \\
+   \hline 
+   q0 & q1 & q0 \\ 
+   q1 & q1 & q0 \\ 
+   \end{array} 
 
 Example of a move: :math:`\delta(q0, 1) = q0`
 
@@ -103,7 +132,7 @@ Example of a move: :math:`\delta(q0, 1) = q0`
 Algorithm for DFA:
 ~~~~~~~~~~~~~~~~~~
 
-| Start in start state with input on tape
+| Start in :term:`start state` with input on tape
 | q = current state
 | s = current symbol on tape
 | while (s != blank) do
@@ -116,13 +145,13 @@ Example of a trace: 11010
 Pictorial Example of a trace for 100:
 
 .. odsafig:: Images/stnfapict.png
-   :width: 400
+   :width: 450
    :align: center
    :capalign: justify
    :figwidth: 90%
    :alt: DFA Example
 
-   DFA Example: Odd numbers
+   DFA Example: Odd numbers trace
 
 
 Definitions
@@ -151,7 +180,7 @@ Definitions
      Draw a picture: q0 arc ... some final state, any path to a final
      state is a string that is accepted. 
 
-     Say this: This is the language accepted by DFA M.
+     This is the language accepted by DFA M.
      All strings formed of the alphabet such that if you start in q0
      and process all the symbols in w, then you end up in a final (or
      accepting) state
@@ -170,8 +199,8 @@ Example: Consider the language :math:`L(M) = \{b^na | n > 0\}`
 
 .. note::
 
-   Ask what language this is. Answer: One or more "b" followed by one
-   "a".
+   What language is this?
+   Answer: One or more "b" followed by one "a".
 
 So, here is one way to make a drawing:
 
@@ -191,7 +220,7 @@ To be complete, we can add one or more "trap" states, and put in all
 of the "extra" transitions. As follows.
 
 .. odsafig:: Images/stnfaEx3.png
-   :width: 400
+   :width: 350
    :align: center
    :capalign: justify
    :figwidth: 90%
@@ -199,30 +228,29 @@ of the "extra" transitions. As follows.
 
    DFA Example: Complete
 
-.. note::
+Note that there is nothing "special" about the trap state.
 
-   Its a good idea to have states with meaningful names!
+Its a good idea to have states with meaningful names!
 
 Example: :math:`L = \{ w \in \Sigma^* | w` has an even number of a's
 and an even number of b's }.
 
 .. note::
 
-   Other examples to mention: Can create a DFA for real numbers,
+   Other examples to consider: Can create a DFA for real numbers,
    integers, variable names (depending on the rules), etc.
 
-Example: Create a DFA that accepts even binary numbers that have an even number of 1's.
+Example: Create a DFA that accepts even binary numbers that have an
+even number of 1's.
 
-assign labels: q0 - start, 
-
-q1 - even binary number, even no. 1's, 
-
-q2 - odd number, odd number of 1's, 
-
-q3 - odd number, even number of 1's 
+| Assign labels:
+|   :math:`q_0` - start, 
+|   :math:`q_1` - even binary number: even number of 1's, 
+|   :math:`q_2` - odd number, odd number of 1's, 
+|   :math:`q_3` - odd number, even number of 1's 
 
 .. odsafig:: Images/stnfaEx2.png
-   :width: 400
+   :width: 375
    :align: center
    :capalign: justify
    :figwidth: 90%
@@ -230,12 +258,18 @@ q3 - odd number, even number of 1's
 
    More complicated DFA Example
 
+Determinism means that there is only one choice about what to do when
+in a given state and the machine sees a given character.
 
 
-
-.. note::
-
-   Talk about determinism: There is only one choice
-
-**Definition**: A language is :term:`regular` iff there exists a DFA
-:math:`M` such that :math:`L = L(M)`.
+Concept: Power of DFAs
+~~~~~~~~~~~~~~~~~~~~~~
+           
+A given DFA can accept a set of strings (which is all that a language is).
+All of the possible DFAs form a class of machines.
+Given some class or type of Finite Automata, the
+set of languages accepted by that class of Finite Automata is
+called a :term:`family <family of languages>`.
+Therefore, the DFAs define a family of languages that they accept.
+A language is :term:`regular <regular language>` if and only iff
+there exists a DFA :math:`M` such that :math:`L = L(M)`.

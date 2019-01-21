@@ -31,7 +31,7 @@ optional_fields = ['assumes', 'av_origin', 'av_root_dir', 'build_cmap', 'build_d
 'exercise_origin', 'exercises_root_dir', 'glob_mod_options', 'glob_exer_options', 'lang','req_full_ss', 'start_chap_num',
 'suppress_todo', 'tabbed_codeinc', 'theme', 'theme_dir', 'dispModComp', 'tag', 'local_mode', 'title', 'desc', 'av_origin',
 'av_root_dir', 'code_lang', 'course_id', 'LMS_url', 'module_map', 'inst_book_id','module_position','inst_exercise_id',
-'inst_chapter_id','options','inst_module_id','id', 'total_points', 'last_compiled' ]
+'inst_chapter_id','options','inst_module_id','id', 'total_points', 'last_compiled', 'narration_enabled' ]
 
 
 listed_modules = []
@@ -157,7 +157,7 @@ def validate_module(mod_name, module, conf_data):
     required_fields = []
     optional_fields = ['codeinclude', 'dispModComp', 'long_name', 'mod_options', 'sections', 'exercises',
                         'lms_module_item_id', 'lms_section_item_id','inst_book_id','module_position','inst_exercise_id',
-                        'inst_chapter_id','options','inst_module_id','id', 'total_points']
+                        'inst_chapter_id','options','inst_module_id','id', 'total_points', 'lms_assignment_id']
 
     # Get module name
     get_mod_name(mod_name)
@@ -189,7 +189,7 @@ def validate_module(mod_name, module, conf_data):
                 print('ERROR: Language directory %s does not exist' % lang_dir)
                 error_count += 1
 
-    sections = module['sections']
+    sections = module.get('sections')
 
     if sections != None:
         for section in sections:
@@ -327,6 +327,9 @@ def set_defaults(conf_data):
 
     if 'theme_dir' not in conf_data:
         conf_data['theme_dir'] = '%sRST/_themes' % odsa_dir
+        
+    if 'narration_enabled' not in conf_data:
+        conf_data['narration_enabled'] = True
 
     conf_data['av_origin'] = ''
     conf_data['av_root_dir'] = odsa_dir
@@ -375,6 +378,9 @@ def group_exercises(conf_data, no_lms):
                         exercise_obj = {}
                         exercise_obj['long_name'] = section
                         exercise_obj['learning_tool'] = section_obj['learning_tool']
+                        if 'launch_url' in section_obj:
+                            exercise_obj['launch_url'] = section_obj['launch_url']
+                            exercise_obj['id'] = section_obj['id']
                         conf_data['chapters'][chapter][module]['exercises'][section] = exercise_obj
 
 def get_translated_text(lang_):
@@ -481,11 +487,12 @@ class ODSA_Config:
     def __setitem__(self, key, value):
         self.__dict__[key] = value
 
-    def __init__(self, config_file_path, output_directory=None, no_lms=None):
+    def __init__(self, config_file_path, output_directory=None, no_lms=None, conf_data=None):
 
         """Initializes an ODSA_Config object by reading in the JSON config file, setting default values, and validating the configuration"""
 
-        conf_data = read_conf_file(config_file_path)
+        if conf_data is None:
+            conf_data = read_conf_file(config_file_path)
 
         # group exercises
         group_exercises(conf_data, no_lms)
@@ -498,6 +505,7 @@ class ODSA_Config:
         validate_config_file(config_file_path, conf_data)
 
         conf_data['req_full_ss'] = str(conf_data['req_full_ss']).lower()
+        conf_data['narration_enabled'] = str(conf_data['narration_enabled']).lower()
 
         # Make conf_data publicly available
         for field in required_fields:

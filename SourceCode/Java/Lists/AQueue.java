@@ -2,24 +2,23 @@
 /* *** ODSATag: AQueue1 *** */
 class AQueue implements Queue {
   private Object queueArray[]; // Array holding queue elements
-  private static final int defaultSize = 10;
+  private static final int DEFAULT_SIZE = 10;
   private int maxSize;         // Maximum size of queue
   private int front;           // Index of front element
   private int rear;            // Index of rear element
 
   // Constructors
   AQueue(int size) {
-    maxSize = size+1;          // One extra space is allocated
+    maxSize = size + 1;          // One extra space is allocated
     rear = 0; front = 1;
     queueArray = new Object[maxSize];  // Create queueArray
   }
-  AQueue() { this(defaultSize); }
+  AQueue() { this(DEFAULT_SIZE); }
 /* *** ODSAendTag: AQueue1 *** */
 
   public String toString() {
     StringBuffer out = new StringBuffer(length() * 4);
-    for (int i=front; i != (rear+1)%maxSize; i++) {
-      i = i % maxSize;                 // Adjust for wrap-around
+    for (int i = front; i != (rear + 1) % maxSize; i = (i + 1) % maxSize) { // Adjust for wrap-around
       out.append(queueArray[i]);
       out.append(" ");
     }
@@ -54,5 +53,8 @@ class AQueue implements Queue {
 
   // Return queue size
   public int length() { return ((rear+maxSize) - front + 1) % maxSize; }
+
+  // Check if the queue is empty
+  public boolean isEmpty() { return front - rear == 1; }
 }
 /* *** ODSAendTag: AQueue2 *** */

@@ -5,14 +5,14 @@ import re
 
 rst_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), "..", "RST","en"))
 
-short_name_re = "^(\.\. )+(avembed|inlineav):: ([^\s]+/)*([^\s.]*)(\.html)? (ka|ss|pe)"
+short_name_re = "^(\.\. )+(avembed|inlineav):: ([^\s]+/)*([^\s.]*)(\.html)? (ka|ss|ff|pe)"
 
 # the directories to be processed
-include_dirs = ["AlgAnal", "Background", "Binary", "Bounds", "BTRecurTutor",
+include_dirs = {"AlgAnal", "Background", "Binary", "Bounds", "BTRecurTutor",
                 "Design", "Development", "Files", "General", "Graph", "Hashing", 
                 "Indexing", "List", "MemManage", "NP", "PL", "PointersJava", 
                 "RecurTutor", "Searching", "SearchStruct", "SeniorAlgAnal", 
-                "Sorting", "Spatial", "Tutorials"]
+                "Sorting", "Spatial", "Tutorials"}
 
 def strip_rst_file(filename, root_dir):
     src = open(os.path.join(root_dir, filename), "r")
@@ -50,7 +50,8 @@ def strip_rst_file(filename, root_dir):
             i -= 1
         else:
             # check for exercises (ss, ka, pe)
-            matches = re.match("^(\.\. )+(avembed|inlineav):: .+ (ss|pe|ka)", sline)
+            #added support for (ff) option
+            matches = re.match("^(\.\. )+(avembed|inlineav):: .+ (ff|ss|pe|ka)", sline)
             if matches != None:
                 exercise_count += 1
                 # now try to figure out what we should name the section
@@ -78,6 +79,9 @@ def strip_rst_file(filename, root_dir):
                             out.write("-" * len(ex_name) + "\n")
                         out.write(line)
                     if matches.group(3) == "ss":
+                        out.write("   :output: show\n")
+                        i += 1
+                    if matches.group(3) == "ff":
                         out.write("   :output: show\n")
                         i += 1
         i += 1

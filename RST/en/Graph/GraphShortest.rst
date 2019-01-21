@@ -49,7 +49,7 @@ In Figure :num:`Figure #DistExamp`, there is no path from :math:`E` to
 :math:`B`, so we set :math:`\mathbf{d}(E, B) = \infty`.
 We define :math:`\mathbf{w}(A, D) = 20` to be the weight of edge
 :math:`(A, D)`, that is, the weight of the direct connection
-from :math:`A` to :math:`D`. 
+from :math:`A` to :math:`D`.
 Because there is no edge from :math:`E` to :math:`B`,
 :math:`\mathbf{w}(E, B) = \infty`.
 Note that :math:`\mathbf{w}(D, A) = \infty` because the graph of
@@ -58,7 +58,9 @@ We assume that all weights are positive.
 
 .. _DistExamp:
 
-.. inlineav:: dijkstraCON dgm
+.. inlineav:: DistanceExampCON dgm
+   :links:
+   :scripts: AV/Graph/DistanceExampCON.js
    :align: center
 
    Example graph for shortest-path definitions.
@@ -116,7 +118,7 @@ When processing Vertex :math:`v_i`, we consider the shortest
 path for Vertices :math:`v_0` through :math:`v_{i-1}` that have
 already been processed.
 Unfortunately, the true shortest path to :math:`v_i` might go
-through Vertex `v_j` for :math:`j > i`.
+through Vertex :math:`v_j` for :math:`j > i`.
 Such a path will not be considered by this algorithm.
 However, the problem would not occur if we process the vertices in
 order of distance from :math:`S`.
@@ -127,7 +129,7 @@ We are now about to process the :math:`i` th closest vertex; call
 it :math:`X`.
 
 A shortest path from :math:`S` to :math:`X` must have its next-to-last
-vertex in :math:`S`. 
+vertex in :math:`S`.
 Thus,
 
 .. math::
@@ -151,12 +153,21 @@ Here is an implementation for Dijkstra's
 algorithm.
 At the end, array ``D`` will contain the shortest distance values.
 
-.. codeinclude:: Graphs/Dijkstra 
+.. codeinclude:: Graphs/Dijkstra
    :tag: GraphDijk1
 
-.. avembed:: AV/Graph/DijkstraAV.html ss
-   :long_name: Dijkstra's Algorithm Visualization
+.. inlineav:: DijkstraCON ss
+   :long_name: Dijkstra Slideshow
+   :links: AV/Graph/DijkstraCON.css
+   :scripts: AV/Graph/DijkstraCON.js
+   :output: show
 
+.. TODO::
+   :type: AV
+
+   Provide an AV that runs on a random graph. An initial version is in 
+   ``AV/Development/dijkstraAV.*``.
+   
 There are two reasonable solutions to the key issue of finding the
 unvisited vertex with minimum distance value during each pass through
 the main ``for`` loop.
@@ -164,7 +175,7 @@ The first method is simply to scan through the list of
 :math:`|\mathbf{V}|` vertices searching for the minimum value, as
 follows:
 
-.. codeinclude:: Graphs/Dijkstra 
+.. codeinclude:: Graphs/Dijkstra
    :tag: MinVertex
 
 .. TODO::
@@ -175,7 +186,7 @@ follows:
 
 Because this scan is done :math:`|\mathbf{V}|` times,
 and because each edge requires a constant-time update to ``D``,
-the total cost for this approach 
+the total cost for this approach
 is :math:`\Theta(|\mathbf{V}|^2 + |\mathbf{E}|) =
 \Theta(|\mathbf{V}|^2)`,
 because :math:`|\mathbf{E}|` is in :math:`O(|\mathbf{V}|^2)`.
@@ -215,7 +226,7 @@ We use the ``KVPair`` class to store key-value pairs in the heap, with
 the edge weight as the key and the target vertex as the value.
 here is the implementation for Dijkstra's algorithm using a heap.
 
-.. codeinclude:: Graphs/DijkstraPQ 
+.. codeinclude:: Graphs/DijkstraPQ
    :tag: DijkstraPQ
 
 .. TODO::
@@ -256,5 +267,3 @@ Now you can practice using Dijkstra's algorithm.
    :type: Exercise
 
    Summary battery of questions for Dijkstra's algorithm
-
-.. odsascript:: AV/Graph/dijkstraCON.js

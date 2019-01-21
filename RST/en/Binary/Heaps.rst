@@ -9,8 +9,6 @@
    :satisfies: heap; priority queue
    :topic: Heaps
 
-.. odsalink:: AV/Binary/heapbuildProofCON.css
-
 Heaps and Priority Queues
 =========================
 
@@ -46,7 +44,7 @@ unbalanced, leading to bad performance.
 Instead, we would like to find a data structure that is guaranteed to
 have good performance for this special application.
 
-This section presents the :term:`heap` data structure. [#]_
+This section presents the :term:`heap` [#]_ data structure.
 A heap is defined by two properties.
 First, it is a complete binary tree,
 so heaps are nearly always implemented using the
@@ -57,6 +55,9 @@ This means that there is a relationship between the value stored at
 any node and the values of its children.
 There are two variants of the heap, depending on the definition of
 this relationship.
+
+.. [#] Note that the term "heap" is also sometimes used to refer to
+       :term:`free store`.
 
 A :term:`max heap` has the property that every node stores a
 value that is *greater* than or equal to the value of either of
@@ -133,15 +134,14 @@ and ``parent`` return the position (actually, the array index)
 for the left child, right child, and parent of the position passed,
 respectively.
 
-.. [#] Note that the term "heap" is also sometimes used to refer to
-       :term:`free store`.
-
 One way to build a heap is to insert the elements one at a time.
 Method ``insert`` will insert a new element :math:`V` into
 the heap.
 
 .. inlineav:: heapinsertCON ss
    :long_name: Heap insert Slideshow
+   :links: 
+   :scripts: DataStructures/binaryheap.js AV/Binary/heapinsertCON.js
    :output: show
 
 You might expect the heap insertion process to be similar to the
@@ -270,6 +270,8 @@ Here is a visualization of the heap build process.
 
 .. inlineav:: heapbuildCON ss
    :long_name: Heapbuild Slideshow
+   :links: 
+   :scripts: DataStructures/binaryheap.js AV/Binary/heapbuildCON.js
    :output: show
 
 Method ``buildHeap`` implements the building algorithm.
@@ -296,7 +298,7 @@ therefore
    \sum_{i=1}^{\log n} (i-1)\frac{n}{2^i}
    = \frac{n}{2}\sum_{i=1}^{\log n} \frac{i-1}{2^{i-1}}.
 
-This :ref:`summation is known <summation> <Summations>`
+The summation on the right :ref:`is known <summation> <Summations>`
 to have a closed-form solution of approximately 2,
 so this algorithm takes :math:`\Theta(n)` time in the worst case.
 This is far better than building the heap one element at a time,
@@ -307,14 +309,18 @@ BST.
 
 .. inlineav:: heapbuildProofCON ss
    :long_name: Heap build analysis proof Slideshow
+   :links: AV/Binary/heapbuildProofCON.css
+   :scripts: DataStructures/binaryheap.js AV/Binary/heapbuildProofCON.js
    :output: show
 
 
-Removing from the heap
-----------------------
+Removing from the heap or updating an object's priority
+-------------------------------------------------------
 
 .. inlineav:: heapmaxCON ss
    :long_name: Remove Max Slideshow
+   :links: 
+   :scripts: DataStructures/binaryheap.js AV/Binary/heapmaxCON.js
    :output: show
 
 Because the heap is :math:`\log n` levels deep, the cost of deleting
@@ -328,9 +334,24 @@ cases.
 
 .. inlineav:: heapremoveCON ss
    :long_name: Remove Any Slideshow
+   :links: 
+   :scripts: DataStructures/binaryheap.js AV/Binary/heapremoveCON.js
    :output: show
 
+For some applications, objects might get their priority modified.
+One solution in this case is to remove the object and reinsert it.
+To do this, the application needs to know the position of the object
+in the heap.
+Another option is to change the priority value of the object, and then
+update its position in the heap.
+Note that a remove operation implicitly has to do this anyway, since
+when the last element in the heap is swapped with the one being
+removed, that value might be either too small or too big for its new
+position.
+So we use a utility method called ``update`` in both the ``remove``
+and ``modify`` methods to handle this process.
 
+            
 Priority Queues
 ---------------
 
@@ -356,8 +377,7 @@ A typical implementation for priority queues requiring updating of
 priorities will need to use an auxiliary data structure that supports
 efficient search for objects (such as a BST).
 Records in the auxiliary data structure will store
-the object's heap index, so that the object can be
-deleted from the heap and reinserted with its new priority.
+the object's heap index, so that the object's priority can be updated.
 Priority queues can be helpful for solving graph problems such as
 :ref:`single-source shortest paths <single-source shortest paths problem> <GraphShortest>`
 and
@@ -371,10 +391,3 @@ For a story about Priority Queues and dragons, see |external_link|.
 .. |external_link| raw:: html
 
    <a href="http://computationaltales.blogspot.com/2011/04/stacks-queues-priority-queues-and.html" target="_blank">Computational Fairy Tales: Stacks, Queues, Priority Queues, and the Prince's Complaint Line</a>
-
-.. odsascript:: DataStructures/binaryheap.js
-.. odsascript:: AV/Binary/heapinsertCON.js
-.. odsascript:: AV/Binary/heapbuildCON.js
-.. odsascript:: AV/Binary/heapbuildProofCON.js
-.. odsascript:: AV/Binary/heapmaxCON.js
-.. odsascript:: AV/Binary/heapremoveCON.js
