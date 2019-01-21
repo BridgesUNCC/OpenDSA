@@ -5,7 +5,7 @@ $(document).ready(function () {
   function about() {
     alert(ODSA.AV.aboutstring(interpret(".avTitle"), interpret("av_Authors")));
   }
-  BST.turnAnimationOff();
+  //BST.turnAnimationOff();
 
   //recursive function to grayout the entire bst
   //@param root - is the root of the tree to start
@@ -74,7 +74,7 @@ $(document).ready(function () {
     //set the dynamic instructions as well
     document.getElementById("output").innerHTML = "Begin with tracing the path of insertion starting at the root node.";
 
-    BST.turnAnimationOff();//set the bst animations off because of bugs
+    //BST.turnAnimationOff();//set the bst animations off because of bugs
 
     //test if the data going into tree and stack is correct data
     function dataTest(array) {
@@ -118,6 +118,7 @@ $(document).ready(function () {
     jsavTree.layout();
 
     av.container.find(".jsavcanvas").css("min-height", 442);
+    av.displayInit();
 
     return jsavTree;
   }
@@ -149,10 +150,6 @@ $(document).ready(function () {
      for(i = 0; i < insertSize * 3; i++){
        var val = insertArray[i];
        var node = modelTree.root();
-       node.highlight();
-       modelTree.root().left().css({"background-color": "white"});
-       modelTree.root().right().css({"background-color": "white"});
-       modelTree.layout();
        //var rand = Math.floor(Math.random() * ((4-2)+1) + 2);
        console.log(rand[k])
        if (rand[k] == 2){
@@ -166,7 +163,6 @@ $(document).ready(function () {
                node.right("?");
                modelTree.layout();
              }
-             av.step();
            }
            if(val <= node.value()){
              if(node.left().value() == "?"){
@@ -202,11 +198,11 @@ $(document).ready(function () {
              if(!node.left() || !node.right()){
                if (!node.left()){
                  node.left("?");
-                 modelTree.layout();
+                 //modelTree.layout();
                }
                if (!node.right()){
                  node.right("?");
-                 modelTree.layout();
+                 //modelTree.layout();
                }
              }
              if(node.left()){
@@ -217,6 +213,7 @@ $(document).ready(function () {
              }
              node.edgeToParent().addClass("blueline");
              //av.gradeableStep();
+             modelTree.layout();
            }
            if(node.value() != "?"){
             av.gradeableStep();
@@ -276,8 +273,6 @@ $(document).ready(function () {
       node.value(val);
       //stepcount++;
       removeStyle(node);
-      // node.left("");
-      // node.right("");
       removeEmpty(modelTree.root());
       removeStyle(modelTree.root());
       grayOut(modelTree.root());
@@ -365,39 +360,21 @@ $(document).ready(function () {
     }
   }
 
-  //function to inhighlight all the lines in the psuedocode section
+  //function to unhighlight all the lines in the psuedocode section
   function unhighlightcode(){
     for( i = 0; i < 17; i++){
       pseudo.unhighlight([i]);
-      av.step();
     }
     return;
   }
 
-  //handel the click events
+  //handle the click events
   var clickHandler = function () {
     av._redo = [];
-    BST.turnAnimationOff();
+    //BST.turnAnimationOff();
     //make sure that there is a value in the stack to be inserted and that the parent is highlighted before clicking the node
       if (stack.size() && this.parent().isHighlight()) {
         //if there is not a left or right child of the current node, add the children
-        // if(clicks == 0){
-        //   this.highlight();
-        //   if(this.left()){
-        //     this.left().css({"background-color": "white"});
-        //   }
-        //   if(this.right()){
-        //     this.right().css({"background-color": "white"});
-        //   }
-        //   this.edgeToParent().addClass("blueline");
-        //   pseudo.unhighlight([2,3,4,5]);
-        //   pseudo.highlight([6,7,8]);
-        //   document.getElementById("output").innerHTML = "Choose the child to continue the correct path.";
-        //   jsavTree.layout();
-        //   clicks++;
-        //   //exercise.gradeableStep();
-        //   //exercise.gradeableStep();
-        // }
         if(!this.left() || !this.right()){
           if(!this.left()){
             this.edgeToParent().addClass("blueline");
@@ -428,12 +405,7 @@ $(document).ready(function () {
           pseudo.highlight([6,7,8]);
           document.getElementById("output").innerHTML = "Choose the child to continue the correct path.";
           jsavTree.layout();
-          //exercise.gradeableStep();
         }
-        // if(clicks == 0){
-        //   exercise.gradeableStep();
-        //   clicks++;
-        // }
         if(this.value() != "?"){
           exercise.gradeableStep();
         }
@@ -467,7 +439,6 @@ $(document).ready(function () {
           document.getElementById("output").innerHTML = "Begin with tracing the path of insertion starting at the root node.";
         }
         jsavTree.layout();
-        //exercise.gradeableStep();
       }
 
       //when enabled, this section of code will change the algorithm based on a certain amount of insertions
@@ -568,13 +539,14 @@ $(document).ready(function () {
   var interpret = config.interpreter;
   var code = config.code;
 
+  var settings = config.getSettings();
+
   var av = new JSAV($(".avcontainer"), {settings: settings}, av_name);
 
   av.recorded();
 
   var exercise = av.exercise(modelSolution, initialize,
-                              {controls: $(".jsavexercisecontrols")},
-                              {feedback: "undo"}, {compare: {class: "jsavhighlight"}});
+                              {controls: $(".jsavexercisecontrols"), compare: {class: "jsavhighlight"}});
 //{compare: $(".jsavtree")}
  // we are not recording an AV with an algorithm
   exercise.reset();

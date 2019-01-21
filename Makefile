@@ -50,6 +50,7 @@ lint: lintExe
 TODOlintAV:
 	@echo 'linting AVs'
 	-@$(LINT) AV/Binary/*.js
+	-@$(LINT) AV/UNCC/*.js
 	-@$(LINT) AV/General/*.js
 	-@$(LINT) AV/List/*.js
 	-@$(LINT) AV/Sorting/*.js
@@ -126,6 +127,9 @@ JFLAP: min
 
 FormalLang: min
 	python $(CONFIG_SCRIPT) config/FormalLang.json --no-lms
+
+uncc: min
+	python $(CONFIG_SCRIPT) config/uncc.json --no-lms
 
 VisFormalLang: min
 	python $(CONFIG_SCRIPT) config/VisFormalLang.json --no-lms

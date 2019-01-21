@@ -9,10 +9,23 @@ $(document).ready(function () {
   // Set click handlers
   $("#about").click(about);
 
+  //recursive function to grayout the entire bst
+  //@param root - is the root of the tree to start
+  function grayOut(root){
+    root.css({"background-color": "gray"});
+    if(!root.left() && !root.right()){
+      return;
+    }
+    if(root.left()){
+      grayOut(root.left());
+    }
+    if(root.right()){
+      grayOut(root.right());
+    }
+  }
+
 
   function initialize() {
-    BST.turnAnimationOff();
-
     function dataTest(array) {
       var bst = av.ds.binarytree();
       bst.insert(array);
@@ -45,6 +58,10 @@ $(document).ready(function () {
     } while (!dataTest(initialArray));
     jsavTree.insert(initialArray);
     jsavTree.click(clickHandler);
+    grayOut(jsavTree.root());
+    jsavTree.root().highlight();
+    jsavTree.root().left().css({"background-color": "white"});
+    jsavTree.root().right().css({"background-color": "white"});
     jsavTree.layout();
 
     av.container.find(".jsavcanvas").css("min-height", 442);
@@ -64,70 +81,126 @@ $(document).ready(function () {
 
     var modelTree = av.ds.binarytree({center: true, visible: true, nodegap: 20});
     modelTree.insert(initialArray);
+    grayOut(modelTree.root());
+    modelTree.root().highlight();
+    modelTree.root().left().css({"background-color": "white"});
+    modelTree.root().right().css({"background-color": "white"});
     modelTree.layout();
-
     av.displayInit();
-
 
      for (i = 0; i < insertSize; i++){
        var val = insertArray[i];
        var node = modelTree.root();
-       node.highlight();
-       while(node.value() != ""){
+       while(node.value() != "?"){
+         if(!node.left() || !node.right()){
            if (!node.left()){
-             node.left("");
+             node.left("?");
              modelTree.layout();
-             av.step();
            }
            if (!node.right()){
-             node.right("");
+             node.right("?");
              modelTree.layout();
-             av.step();
            }
-         else if(val <= node.value()){
+         }
+        //  av.step();
+         if(val <= node.value()){
+           if(node.left().value() == "?"){
+             node = node.left();
+             break;
+           }
            node.left().highlight();
            node = node.left();
+           if(!node.left() || !node.right()){
+             if (!node.left()){
+               node.left("?");
+               modelTree.layout();
+             }
+             if (!node.right()){
+               node.right("?");
+               modelTree.layout();
+             }
+           }
+           if(node.left()){
+             node.left().css({"background-color": "white"});
+           }
+           if(node.right()){
+             node.right().css({"background-color": "white"});
+           }
            node.edgeToParent().addClass("blueline");
-           av.step();
+           av.gradeableStep();
+
          } else {
+           if(node.right().value() == "?"){
+             node = node.right();
+             break;
+           }
            node.right().highlight();
            node = node.right();
+           if(!node.left() || !node.right()){
+             if (!node.left()){
+               node.left("?");
+               //modelTree.layout();
+             }
+             if (!node.right()){
+               node.right("?");
+               //modelTree.layout();
+             }
+           }
+           if(node.left()){
+             node.left().css({"background-color": "white"});
+           }
+           if(node.right()){
+             node.right().css({"background-color": "white"});
+           }
            node.edgeToParent().addClass("blueline");
-           av.step();
+           //av.gradeableStep();
+           modelTree.layout();
+           av.gradeableStep();
          }
        }
-
-      node.value(val);
-      removeStyle(node);
-      node.left("");
-      node.right("");
-      removeEmpty(modelTree.root());
-      modelStack.removeFirst();
-      modelStack.layout();
-      if (modelStack.first()) {
-        modelStack.first().highlight();
-      }
-      modelTree.layout();
-      av.gradeableStep();
-      av.step();
+       node.value(val);
+       removeStyle(node);
+       removeEmpty(modelTree.root());
+       removeStyle(modelTree.root());
+       grayOut(modelTree.root());
+       modelTree.root().highlight();
+       modelTree.root().left().css({"background-color": "white"});
+       modelTree.root().right().css({"background-color": "white"});
+       modelTree.layout();
+       modelStack.removeFirst();
+       modelStack.layout();
+       if (modelStack.first()) {
+         modelStack.first().highlight();
+       }
+       av.gradeableStep();
     }
 
     return modelTree;
   }
 
+  //recursive function to remove the highlighing of tree nodes and edges
+  //@param node - root node to start at
   function removeStyle(node){
-    if (node.edgeToParent()){
-      node.unhighlight();
+    node.unhighlight();
+    if(node.edgeToParent()){
       node.edgeToParent().removeClass("blueline");
-      node = node.parent();
-      removeStyle(node);
-    } else {
-      node.unhighlight();
+    }
+    if(node.left() || node.right()){
+      if(node.left()){
+        node.left().unhighlight();
+        removeStyle(node.left());
+      }
+      if(node.right()){
+        node.right().unhighlight();
+        removeStyle(node.right());
+      }
+    }else{
+      return;
     }
   }
 
   function removeEmpty(node){
-    if (node.value() == ""){
+    if (node.value() == "?"){
       node.remove();
     }
     if (node.left()){
@@ -154,7 +227,6 @@ $(document).ready(function () {
     else{
       node = node.parent();
       if(node.isHighlight()){
-        console.log("here")
         checkPath(node);
         //return true;
       }else{
@@ -166,47 +238,52 @@ $(document).ready(function () {
 
   var clickHandler = function () {
     BST.turnAnimationOff();
-    if (stack.size()) {
-      if (this.value() == jsavTree.root().value){
-        this.highlight();
-        this.addClass("thicknode");
-      }
-      if(this.left() || this.right()){
-        this.highlight();
-        this.edgeToParent().addClass("blueline");
-      }
+    if (stack.size() && this.parent().isHighlight()) {
       if(!this.left()){
         this.edgeToParent().addClass("blueline");
-        this.addChild("");
+        this.addChild("?");
         this.highlight();
       }
-      jsavTree.layout();
       if(!this.right()){
         this.edgeToParent().addClass("blueline");
-        this.addChild("");
+        this.addChild("?");
         this.highlight();
       }
-      //jsavTree.layout();
-      if(this.value() == ""){
-        console.log(checkPath(this))
-        checkPath(this);
-          if(pathcomplete == true){
-            this.value(stack.first().value());
-            removeStyle(this);
-            removeEmpty(jsavTree.root());
-            stack.removeFirst();
-            stack.layout();
-            exercise.gradeableStep();
-          }else{
-            removeStyle(this);
-            removeEmpty(jsavTree.root());
-          }
+      jsavTree.layout();
+      av.step();
+      if(this.value != "?"){
+        this.highlight();
+        //set the children of the new explored node to be 'white'
+        if(this.left()){
+          this.left().css({"background-color": "white"});
+        }
+        if(this.right()){
+          this.right().css({"background-color": "white"});
+        }
+        this.edgeToParent().addClass("blueline");
+        jsavTree.layout();
+        if(this.value() != "?"){
+          exercise.gradeableStep();
+        }
       }
-      if(stack.first()){
-        stack.first().highlight();
+      if(this.value() == "?"){
+        this.value(stack.first().value());
+        removeStyle(jsavTree.root());
+        removeEmpty(jsavTree.root());
+        grayOut(jsavTree.root());
+        jsavTree.root().highlight();
+        jsavTree.root().left().css({"background-color": "white"});
+        jsavTree.root().right().css({"background-color": "white"});
+        stack.removeFirst();
+        stack.layout();
+        jsavTree.layout();
+        if(stack.first()){
+          stack.first().highlight();
+        }
+        exercise.gradeableStep();
       }
       jsavTree.layout();
-      }
+    }
   };
 
   // helper function for creating a perfect binary tree
@@ -257,6 +334,6 @@ $(document).ready(function () {
   // }
 
   var exercise = av.exercise(modelSolution, initialize,
-                              {controls: $(".jsavexercisecontrols")});
+                              {controls: $(".jsavexercisecontrols"), compare: {class: "jsavhighlight"}});
   exercise.reset();
 });

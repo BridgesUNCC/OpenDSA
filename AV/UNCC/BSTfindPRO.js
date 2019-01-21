@@ -24,16 +24,17 @@ $(document).ready(function () {
     }
   }
 
+  // function sleep(milliseconds) {
+  //   var start = new Date().getTime();
+  //   for (var i = 0; i < 1e7; i++) {
+  //     if ((new Date().getTime() - start) > milliseconds){
+  //       break;
+  //     }
+  //   }
+  // }
 
   $(document).on('click', '#Found', function() {
-    currentNode.unhighlight();
-    if(currentNode.value() == stack.first().value()){
-       currentNode.css({"background-color": "green"});
-       exercise.gradeableStep();
-    }else{
-      currentNode.css({"background-color": "red"});
-      exercise.gradeableStep();
-    }
+    //exercise.gradeableStep();
     stack.removeFirst();
     currentNode.unhighlight();
     removeStyle(jsavTree.root());
@@ -41,8 +42,15 @@ $(document).ready(function () {
     jsavTree.root().highlight();
     jsavTree.root().left().css({"background-color": "white"});
     jsavTree.root().right().css({"background-color": "white"});
-    //av.step();
+    av.step();
   });
+  $(document).on('click', '#NotinTree', function() {
+
+  });
+
+  function isCorrect(correct){
+    return correct;
+  }
 
   //remove the styling in the tree. ie highlighing and edge highlighting
   //@param node - the root node of the tree (reursive)
@@ -207,9 +215,6 @@ $(document).ready(function () {
        }
        av.gradeableStep();
       }
-      cur.unhighlight();
-      cur.css({"background-color": "green"});
-      av.gradeableStep();
       modelStack.removeFirst();
       removeStyle(modelTree.root());
       grayOut(modelTree.root());
@@ -249,7 +254,6 @@ $(document).ready(function () {
       if(this.right()){
         this.right().css({"background-color": "white"});
       }
-
       if(!stack.first()){
         removeStyle(jsavTree.root());
         jsavTree.layout();
@@ -259,6 +263,7 @@ $(document).ready(function () {
       exercise.gradeableStep();
     }
     jsavTree.layout();
+
 
   };
 
@@ -314,12 +319,14 @@ $(document).ready(function () {
   var interpret = config.interpreter;
   var code = config.code;
 
+  var settings = config.getSettings();
+
   // Create a JSAV instance
   var av = new JSAV($(".avcontainer"), {settings: settings}, av_name, {animationMode: "none"});
 
   av.recorded(); // we are not recording an AV with an algorithm
 
   var exercise = av.exercise(modelSolution, initialize,
-                              {controls: $(".jsavexercisecontrols")}, {feedback: "continuous"}, {compare: {"css": "background-color"}});
+                              {controls: $(".jsavexercisecontrols"), compare: {class: "jsavhighlight"}});
   exercise.reset();
 });

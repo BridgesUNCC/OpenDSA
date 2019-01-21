@@ -43,7 +43,7 @@ $(document).ready(function () {
 
     return binaryTree;
   }
-
+      
   function modelSolution(jsav) {
     var i;
     jsav._undo = [];
@@ -155,6 +155,6 @@ $(document).ready(function () {
 
   var exercise = av.exercise(modelSolution, initialize,
                              {compare: {"css": "background-color"},
-                              {controls: $(".jsavexercisecontrols")});
+                              controls: $(".jsavexercisecontrols")});
   exercise.reset();
 });

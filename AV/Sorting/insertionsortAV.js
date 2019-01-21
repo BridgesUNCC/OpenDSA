@@ -91,8 +91,6 @@ $(document).ready(function () {
       code = config.code,                   // get the code object
       settings = config.getSettings();      // Settings for the AV
   console.log("Code object: " + JSON.stringify(code));
-  console.log(settings);
-  console.log(":)");
 
   // Placeholder text translation needs to be set explicitly
   $("#arrayValues").attr("placeholder", interpret("av_arrValsPlaceholder"));
