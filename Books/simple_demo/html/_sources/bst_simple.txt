@@ -2,7 +2,7 @@
 
 .. raw:: html
 
-   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 Sample Modules";ODSA.SETTINGS.MODULE_CHAPTER = "BST Modules"; ODSA.SETTINGS.BUILD_DATE = "2018-12-17 16:10:11"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
+   <script>ODSA.SETTINGS.DISP_MOD_COMP = true;ODSA.SETTINGS.MODULE_NAME = "bst_simple";ODSA.SETTINGS.MODULE_LONG_NAME = "CS1 Sample Modules";ODSA.SETTINGS.MODULE_CHAPTER = "BST Modules"; ODSA.SETTINGS.BUILD_DATE = "2019-01-21 14:58:06"; ODSA.SETTINGS.BUILD_CMAP = false;JSAV_OPTIONS['lang']='en';JSAV_EXERCISE_OPTIONS['code']='java_generic';</script>
 
 
 .. |--| unicode:: U+2013   .. en dash
@@ -30,7 +30,7 @@ Binary Search Trees
 Insertion
 ---------
 
-.. avembed:: AV/Binary/BSTinsertpathPRO.html pe
+.. avembed:: AV/Binary/BSTinsertPathPRO.html pe
    :module: bst_simple
 
 Insertion Based on Algorithm
