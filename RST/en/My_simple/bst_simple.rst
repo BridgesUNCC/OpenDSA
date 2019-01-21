@@ -18,7 +18,7 @@ Binary Search Trees
 Insertion
 ---------
 
-.. avembed:: AV/Binary/BSTinsertpathPRO.html pe
+.. avembed:: AV/Binary/BSTinsertPathPRO.html pe
 
 Insertion Based on Algorithm
 ----------------------------
