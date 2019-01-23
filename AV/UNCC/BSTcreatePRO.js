@@ -204,14 +204,20 @@ $(document).ready(function () {
   var clickHandler = function () {
     //BST.turnAnimationOff();
     currentNode = this;
-    let co = nodeValueCount(jsavTree.root());
+    if(jsavTree.root().value() != "?"){
+      console.log("here")
+      nvc = 0
+      co = nodeValueCount(jsavTree.root());
+    }else{
+      co = 0;
+    }
     console.log(co)
     if (this.value() == "?"){
       this.highlight();
-      this.value(arr.value(co - 1));
-      arr.value(arrcount, "");
-      arr.unhighlight(co - 1);
-      arr.highlight(co);
+      this.value(arr.value(co));
+      arr.value(co, "");
+      arr.unhighlight(co);
+      arr.highlight(co+1);
       this.left("?");
       this.right("?");
       jsavTree.layout();
@@ -234,6 +240,7 @@ $(document).ready(function () {
       jsavTree,
       arr,
       arrcount,
+      co = 0,
       nvc = 0,
       count = 0,
       insertSize = 5,
